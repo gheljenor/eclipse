@@ -12,6 +12,10 @@ function gen(groups: number[], max: number = 6, unique: boolean = true): number[
 }
 
 describe("generate-rolls-grouped", function () {
+    describe("empty", function () {
+        expect(() => gen([], 6, true)).not.to.throw(Error);
+    });
+
     describe("unique", function () {
         it("2", function () {
             const res = gen([2], 6, true);

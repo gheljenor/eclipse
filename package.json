@@ -8,20 +8,6 @@
   "scripts": {
     "test": "nyc mocha"
   },
-  "nyc": {
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "exclude": [
-      "**/*.d.ts",
-      "test/**"
-    ],
-    "reporter": [
-      "text"
-    ],
-    "all": true
-  },
   "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.1.7",

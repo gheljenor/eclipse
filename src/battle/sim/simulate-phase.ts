@@ -1,4 +1,4 @@
-import {IBattleScene, IBattleSceneTransition, cloneBattlescene} from "./i-battle-scene";
+import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
 import {ITurnInfo} from "./i-turn-info";
 import {Battleship} from "../battleship";
 import {shipsByOwner} from "../select/ships-by-owner";
@@ -10,6 +10,7 @@ import {rollsUngroup} from "../select/rolls-ungroup";
 import {attack} from "../attack/attack";
 import {permutationsCountGrouped} from "../../math/permutations-count-grouped";
 import {rollsCountGrouped} from "../../math/rolls-count-grouped";
+import {cloneBattlescene} from "./clone-battlescene";
 
 export function simulatePhase(battleScene: IBattleScene, turnInfo: ITurnInfo, attackers: Battleship[]): IBattleSceneTransition[] {
     const result: IBattleSceneTransition[] = [];

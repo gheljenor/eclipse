@@ -2,8 +2,9 @@ import {describe, it} from "mocha";
 import {expect} from "chai";
 
 import {Battleship, BattleShipType} from "../../../src/battle/battleship";
-import {EWeaponType, WeaponsHelper} from "../../../src/battle/i-weapon";
+import {EWeaponType} from "../../../src/battle/i-weapon";
 import {getWeapons} from "../../../src/battle/select/get-weapons";
+import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 
 const ships: Battleship[] = [];
 

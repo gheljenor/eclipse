@@ -1,10 +1,11 @@
 import {describe, it} from "mocha";
 import {expect} from "chai";
 
-import {cloneBattlescene, IBattleSceneTransition} from "../../../src/battle/sim/i-battle-scene";
+import {IBattleSceneTransition} from "../../../src/battle/sim/i-battle-scene";
 import {IBattleGraphInfo} from "../../../src/battle/select/i-battle-graph-info";
 import {collapseGraph} from "../../../src/battle/optimize/collapse-graph";
 import {createScene} from "../_tools/create-scene";
+import {cloneBattlescene} from "../../../src/battle/sim/clone-battlescene";
 
 describe("collapse-graph", function () {
     it("1 layer, missiles", function () {

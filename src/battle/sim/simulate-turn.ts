@@ -1,11 +1,12 @@
-import {IBattleScene, IBattleSceneTransition, cloneBattlescene} from "./i-battle-scene";
+import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
 import {ITurnInfo} from "./i-turn-info";
 import {shipsByPhase} from "../select/ships-by-phase";
 import {initiativePhases} from "../select/initiative-phases";
 import {simulatePhase} from "./simulate-phase";
-import {simplifyGraph} from "../select/simplify-graph";
-import {collapseGraph} from "../select/collapse-graph";
 import {IBattleGraphInfo} from "../select/i-battle-graph-info";
+import {cloneBattlescene} from "./clone-battlescene";
+import {simplifyGraph} from "../optimize/simplify-graph";
+import {collapseGraph} from "../optimize/collapse-graph";
 
 export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: number[][]): IBattleGraphInfo {
     if (!phases) {

@@ -11,11 +11,3 @@ export interface IBattleSceneTransition {
     to: IBattleScene;
     weight: number;
 }
-
-export function cloneBattlescene(battleScene: IBattleScene): IBattleScene {
-    return {
-        ships: battleScene.ships,
-        defender: battleScene.defender,
-        winner: battleScene.winner
-    };
-}
