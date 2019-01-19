@@ -10,7 +10,7 @@ export function simplifyGraph(transitions: IBattleSceneTransition[]): IBattleGra
         const fromHash: string = battleSceneHash(transition.from);
         const toHash: string = battleSceneHash(transition.to);
 
-        const transHash: string = fromHash + ":" + sceneCache;
+        const transHash: string = fromHash + ":" + toHash;
 
         if (transitionCache[transHash]) {
             transitionCache[transHash].weight += transition.weight;

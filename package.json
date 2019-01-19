@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "ts-mocha -p tsconfig.json test/*/*.ts test/*/*/*.ts test/*/*/*/*.ts"
+    "test": "find test/ -type f -name '*.ts' | xargs ts-mocha -p tsconfig.json"
   },
   "author": "",
   "license": "ISC",
