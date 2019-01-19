@@ -3,7 +3,7 @@ import {expect} from "chai";
 
 import {permutationsCountGrouped} from "../../src/math/permutations-count-grouped";
 
-describe("permutations-count", function () {
+describe("permutations-count-grouped", function () {
     it("[[1,1,1],[1,1]]", function () {
         expect(permutationsCountGrouped([[1, 1, 1], [1, 1]])).to.be.equal(1);
     });

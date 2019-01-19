@@ -32,6 +32,10 @@ describe("distribute-rolls", function () {
         expect(gen([6], 0, [0, 0])).to.be.eql([[1], [0]]);
     });
 
+    it("5, +1, 2,1,0", function () {
+        expect(gen([5], 1, [2, 1, 0])).to.be.eql([[2]]);
+    });
+
     it("6,5,4, +1, 1,1", function () {
         const res = gen([6, 5, 4], 1, [1, 1]);
         expect(res).to.be.eql([[1], [0]]);

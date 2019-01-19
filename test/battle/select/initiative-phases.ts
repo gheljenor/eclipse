@@ -31,6 +31,19 @@ describe("initiative-phases", function () {
         expect(initiativePhases(scene)).to.be.eql([[2], [0], [1]]);
     });
 
+    it("defender first", function () {
+        const scene: IBattleScene = {
+            ships: [
+                new Battleship(BattleShipType.interceptor, "atk", [], 1, 3),
+                new Battleship(BattleShipType.interceptor, "def", [], 1, 4),
+                new Battleship(BattleShipType.interceptor, "atk", [], 1, 4),
+            ],
+            defender: "def"
+        };
+
+        expect(initiativePhases(scene)).to.be.eql([[1], [2], [0]]);
+    });
+
     it("group same ships", function () {
         const scene: IBattleScene = {
             ships: [

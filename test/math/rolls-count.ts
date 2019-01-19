@@ -4,6 +4,16 @@ import {expect} from "chai";
 import {rollsCount} from "../../src/math/rolls-count";
 
 describe("rolls-count", function () {
+    describe("zero", function () {
+        it("count", function () {
+            expect(rollsCount(0, 6)).to.be.equal(0);
+        });
+
+        it("count", function () {
+            expect(rollsCount(5, 0)).to.be.equal(0);
+        });
+    });
+
     describe("non-unique", function () {
         it("6 x 1", function () {
             expect(rollsCount(1, 6, false)).to.be.equal(6);
