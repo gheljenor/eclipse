@@ -1,4 +1,4 @@
-import {generateRolls} from "../math/generate-rolls";
+import {generateRolls} from "../../math/generate-rolls";
 
 function isMissed(roll: number, bonus: number, defence: number): boolean {
     return roll !== 6 && roll + bonus < 6 + defence;
