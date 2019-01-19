@@ -1,4 +1,4 @@
-import {IWeapon} from "./IWeapon";
+import {IWeapon} from "./i-weapon";
 
 export enum BattleShipType {
     interceptor,

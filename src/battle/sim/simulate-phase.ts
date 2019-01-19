@@ -3,11 +3,11 @@ import {ITurnInfo} from "./i-turn-info";
 import {Battleship} from "../battleship";
 import {shipsByOwner} from "../select/ships-by-owner";
 import {getWeapons} from "../select/get-weapons";
-import {EWeaponType} from "../IWeapon";
+import {EWeaponType} from "../i-weapon";
 import {weaponGroups} from "../select/weapon-groups";
 import {generateRollsGrouped} from "../../math/generate-rolls-grouped";
 import {rollsUngroup} from "../select/rolls-ungroup";
-import {attack} from "./attack";
+import {attack} from "../attack/attack";
 import {permutationsCountGrouped} from "../../math/permutations-count-grouped";
 import {rollsCountGrouped} from "../../math/rolls-count-grouped";
 

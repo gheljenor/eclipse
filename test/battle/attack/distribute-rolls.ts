@@ -1,7 +1,7 @@
 import {describe, it} from "mocha";
 import {expect} from "chai";
 
-import {distributeRolls} from "../../../src/battle/generate/distribute-rolls";
+import {distributeRolls} from "../../../src/battle/attack/distribute-rolls";
 
 function gen(rolls, bonus, targets) {
     const result = [];

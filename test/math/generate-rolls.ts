@@ -1,5 +1,6 @@
 import {describe, it} from "mocha";
 import {expect} from "chai";
+
 import {generateRolls} from "../../src/math/generate-rolls";
 
 function gen(count: number, max: number = 6, unique: boolean = true): number[][] {

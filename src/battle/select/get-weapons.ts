@@ -1,5 +1,5 @@
 import {Battleship} from "../battleship";
-import {IWeapon, EWeaponType} from "../IWeapon";
+import {IWeapon, EWeaponType} from "../i-weapon";
 
 export function getWeapons(ships: Battleship[], type: EWeaponType): IWeapon[] {
     const weapons: IWeapon[] = [];
