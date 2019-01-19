@@ -3,24 +3,35 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "find test/ -type f -name '*.ts' | xargs ts-mocha -p tsconfig.json"
-  },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@types/node": "^10.12.18",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "ts-mocha": "^2.0.0",
-    "ts-node": "^7.0.1"
+  "scripts": {
+    "test": "nyc mocha"
   },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "test/**"
+    ],
+    "reporter": [
+      "text"
+    ],
+    "all": true
+  },
+  "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
-    "typings": "^2.1.1"
+    "@types/node": "^10.12.18",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "source-map-support": "^0.5.10",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.4"
   }
 }
