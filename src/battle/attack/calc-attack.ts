@@ -2,17 +2,17 @@ import {IBattleScene} from "../sim/i-battle-scene";
 import {ITurnInfo} from "../sim/i-turn-info";
 import {IWeapon} from "../i-weapon";
 import {Battleship} from "../battleship";
-import {distributeRolls} from "./distribute-rolls";
-import {ancientTactics} from "./ancient-tactics";
 import {IBattleTactics} from "./i-battle-tactics";
 import {IWeaponShot} from "./i-weapon-shot";
 import {cloneBattlescene} from "../sim/clone-battlescene";
+import {ancientTactics} from "./ancient-tactics";
+import {distributeRolls} from "./distribute-rolls";
 
 const avaliableTactics = {
     ancient: ancientTactics
 };
 
-export function attack(battleScene: IBattleScene, turnInfo: ITurnInfo, rolls: number[], weapons: IWeapon[], bonus: number, targets: Battleship[]): IBattleScene | null {
+export function calcAttack(battleScene: IBattleScene, turnInfo: ITurnInfo, rolls: number[], weapons: IWeapon[], bonus: number, targets: Battleship[]): IBattleScene | null {
     const targetsDef = targets.map(({defence}) => defence);
 
     const tactics: IBattleTactics = avaliableTactics.ancient;

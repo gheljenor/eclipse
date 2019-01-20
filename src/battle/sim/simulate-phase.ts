@@ -7,7 +7,7 @@ import {EWeaponType} from "../i-weapon";
 import {weaponGroups} from "../select/weapon-groups";
 import {generateRollsGrouped} from "../../math/generate-rolls-grouped";
 import {rollsUngroup} from "../select/rolls-ungroup";
-import {attack} from "../attack/attack";
+import {calcAttack} from "../attack/calc-attack";
 import {permutationsCountGrouped} from "../../math/permutations-count-grouped";
 import {rollsCountGrouped} from "../../math/rolls-count-grouped";
 import {cloneBattlescene} from "./clone-battlescene";
@@ -31,7 +31,7 @@ export function simulatePhase(battleScene: IBattleScene, turnInfo: ITurnInfo, at
         const {rolls, map} = rollsUngroup(rollsGrouped);
         const rollWeapons = map.map((group) => groups[group][0]);
 
-        const nextScene = attack(battleScene, turnInfo, rolls, rollWeapons, attackers[0].attack, targets);
+        const nextScene = calcAttack(battleScene, turnInfo, rolls, rollWeapons, attackers[0].attack, targets);
 
         if (!nextScene) {
             const transition: IBattleSceneTransition = {

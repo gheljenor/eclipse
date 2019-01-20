@@ -5,7 +5,7 @@ import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {ITurnInfo} from "../../../src/battle/sim/i-turn-info";
 import {ancientTactics} from "../../../src/battle/attack/ancient-tactics";
 import {IWeaponShot} from "../../../src/battle/attack/i-weapon-shot";
-import {RED_GUN} from "../../../src/battle/weapons-helper";
+import {RED_GUN, YELLOW_GUN} from "../../../src/battle/weapons-helper";
 import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {EWeaponType} from "../../../src/battle/i-weapon";
 
@@ -117,5 +117,31 @@ describe("ancient-tactics", function () {
         expect(ancientTactics(scene, turnInfo, damageDred_4)).to.be.lt(ancientTactics(scene, turnInfo, killDred));
         expect(ancientTactics(scene, turnInfo, damageStarBase_4)).to.be.lt(ancientTactics(scene, turnInfo, killStarbase));
         expect(ancientTactics(scene, turnInfo, damageDeathMoon_4)).to.be.lt(ancientTactics(scene, turnInfo, killDeathmoon));
+    });
+
+    it("damage by to shots", function () {
+        const ship: Battleship = new Battleship(EBattleShipType.interceptor, "player", [], 5);
+        const shots: IWeaponShot[] = [{
+            weapon: YELLOW_GUN,
+            target: ship
+        }, {
+            weapon: YELLOW_GUN,
+            target: ship
+        }];
+
+        expect(ancientTactics(scene, turnInfo, shots)).to.be.equal(16);
+    });
+
+    it("kill by to shots", function () {
+        const ship: Battleship = new Battleship(EBattleShipType.interceptor, "player", [], 2);
+        const shots: IWeaponShot[] = [{
+            weapon: YELLOW_GUN,
+            target: ship
+        }, {
+            weapon: YELLOW_GUN,
+            target: ship
+        }];
+
+        expect(ancientTactics(scene, turnInfo, shots)).to.be.equal(8589934592);
     });
 });
