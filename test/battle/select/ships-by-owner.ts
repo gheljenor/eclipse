@@ -1,15 +1,15 @@
 import {describe, it} from "mocha";
 import {expect} from "chai";
 
-import {Battleship, BattleShipType} from "../../../src/battle/battleship";
+import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {shipsByOwner} from "../../../src/battle/select/ships-by-owner";
 
 const ships: Battleship[] = [];
 
-const player1Int = new Battleship(BattleShipType.interceptor, "first");
-const player1Cruis = new Battleship(BattleShipType.cruiser, "first");
+const player1Int = new Battleship(EBattleShipType.interceptor, "first");
+const player1Cruis = new Battleship(EBattleShipType.cruiser, "first");
 
-const player2Int = new Battleship(BattleShipType.interceptor, "second");
+const player2Int = new Battleship(EBattleShipType.interceptor, "second");
 
 ships.push(player1Int, player1Int, player1Cruis, player2Int, player2Int);
 

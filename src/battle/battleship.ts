@@ -1,6 +1,6 @@
 import {IWeapon} from "./i-weapon";
 
-export enum BattleShipType {
+export enum EBattleShipType {
     interceptor,
     cruiser,
     dreadnought,
@@ -10,7 +10,7 @@ export enum BattleShipType {
 
 export class Battleship {
     constructor(
-        public type: BattleShipType,
+        public type: EBattleShipType,
         public owner: string = "player",
         public weapons: IWeapon[] = [],
         public hp: number = 1,

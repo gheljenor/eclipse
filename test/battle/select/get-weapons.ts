@@ -1,14 +1,14 @@
 import {describe, it} from "mocha";
 import {expect} from "chai";
 
-import {Battleship, BattleShipType} from "../../../src/battle/battleship";
+import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {EWeaponType} from "../../../src/battle/i-weapon";
 import {getWeapons} from "../../../src/battle/select/get-weapons";
 import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 
 const ships: Battleship[] = [];
 
-const interceptor = new Battleship(BattleShipType.interceptor, "player",
+const interceptor = new Battleship(EBattleShipType.interceptor, "player",
     WeaponsHelper.factory().addYellowMissile().addYellowGun().weapons
 );
 ships.push(interceptor, interceptor);
