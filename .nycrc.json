@@ -1,4 +1,7 @@
 {
+  "require": [
+    "ts-node/register"
+  ],
   "extension": [
     ".ts",
     ".tsx"
@@ -13,6 +16,7 @@
     "html",
     "text"
   ],
-  "cache": true,
+  "sourceMap": false,
+  "instrument": false,
   "all": true
 }

@@ -23,4 +23,10 @@ describe("rolls-count-grouped", function () {
             expect(rollsCountGrouped([2, 1], 6, false)).to.be.equal(216);
         });
     });
+
+    describe("default params", function () {
+        it("2, 1", function () {
+            expect(rollsCountGrouped([2, 1])).to.be.equal(126);
+        });
+    });
 });

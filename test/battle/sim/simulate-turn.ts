@@ -8,6 +8,7 @@ import {simulateTurn} from "../../../src/battle/sim/simulate-turn";
 import {IBattleGraphInfo} from "../../../src/battle/select/i-battle-graph-info";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {showTransition} from "../_tools/show-transition";
+import {initiativePhases} from "../../../src/battle/select/initiative-phases";
 
 describe("simulate-turn", function () {
     describe("rockets vs guns", function () {
@@ -238,5 +239,23 @@ describe("simulate-turn", function () {
             to: 'ancient12,player00,player01',
             weight: 0.6666666666666666
         }]);
+    });
+
+    it("precalc phases", function () {
+        const scene: IBattleScene = {
+            ships: [
+                new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 1, 0, 2),
+                new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1)
+            ],
+            defender: "ancient"
+        };
+
+        const phases = initiativePhases(scene);
+
+        const first: IBattleGraphInfo = simulateTurn(scene, 1, phases);
+        const second: IBattleGraphInfo = simulateTurn(scene, 1);
+
+        expect(first).to.be.eql(second);
     });
 });

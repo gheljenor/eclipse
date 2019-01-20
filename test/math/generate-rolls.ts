@@ -130,5 +130,13 @@ describe("generate-rolls", function () {
             expect(gen(1, 10)).to.be.eql([[10], [9], [8], [7], [6], [5], [4], [3], [2], [1]]);
         });
     });
+
+    it("default params", function () {
+        const result = [];
+        for (const comb of generateRolls(1)) {
+            result.push(comb);
+        }
+        expect(result).to.be.eql([[6], [5], [4], [3], [2], [1]]);
+    });
 });
 
