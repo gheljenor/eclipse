@@ -19,7 +19,7 @@ export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: n
     for (const phase of phases) {
         const phaseTransitions: IBattleSceneTransition[] = [];
 
-        const sampleShip = scenes[0].ships[0];
+        const sampleShip = scenes[0].ships[phase[0]];
 
         const turnInfo: ITurnInfo = {
             player: sampleShip.owner,
@@ -40,7 +40,7 @@ export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: n
                 continue;
             }
 
-            const transitions = simulatePhase(battleScene, turnInfo, ships);
+            const transitions = simulatePhase(scene, turnInfo, ships);
             phaseTransitions.push(...transitions);
         }
 
@@ -49,5 +49,5 @@ export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: n
         graph.push(simplified.transitions);
     }
 
-    return collapseGraph(graph, battleScene, turn === 0);
+    return collapseGraph(graph, battleScene, turn !== 0);
 }

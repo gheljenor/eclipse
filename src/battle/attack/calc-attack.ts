@@ -49,6 +49,7 @@ export function calcAttack(battleScene: IBattleScene, turnInfo: ITurnInfo, rolls
 
         const ship = damagedShips.get(shot.target);
         ship.hp -= shot.weapon.damage;
+        ship.hp = Math.max(0, ship.hp);
     }
 
     for (const [original, damaged] of damagedShips) {

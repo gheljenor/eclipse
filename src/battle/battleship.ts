@@ -9,6 +9,8 @@ export enum EBattleShipType {
 }
 
 export class Battleship {
+    public maxHp: number;
+
     constructor(
         public type: EBattleShipType,
         public owner: string = "player",
@@ -18,10 +20,14 @@ export class Battleship {
         public defence: number = 0,
         public attack: number = 0,
         public heal: number = 0,
-    ) {}
+    ) {
+        this.maxHp = this.hp;
+    }
 
     clone(): this {
         const Constructor = Object.getPrototypeOf(this).constructor;
-        return new Constructor(this.type, this.owner, this.weapons, this.hp, this.initiative, this.defence, this.attack, this.heal);
+        const ship = new Constructor(this.type, this.owner, this.weapons, this.hp, this.initiative, this.defence, this.attack, this.heal);
+        ship.maxHp = this.maxHp;
+        return ship;
     }
 }
