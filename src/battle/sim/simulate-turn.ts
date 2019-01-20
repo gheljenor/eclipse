@@ -4,7 +4,6 @@ import {shipsByPhase} from "../select/ships-by-phase";
 import {initiativePhases} from "../select/initiative-phases";
 import {simulatePhase} from "./simulate-phase";
 import {IBattleGraphInfo} from "../select/i-battle-graph-info";
-import {cloneBattlescene} from "./clone-battlescene";
 import {simplifyGraph} from "../optimize/simplify-graph";
 import {collapseGraph} from "../optimize/collapse-graph";
 import {getWinner} from "../select/get-winner";

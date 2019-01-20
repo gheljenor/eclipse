@@ -1,18 +1,10 @@
 import {IBattleTactics} from "./i-battle-tactics";
-import {Battleship, EBattleShipType} from "../battleship";
+import {Battleship} from "../battleship";
 import {ITurnInfo} from "../sim/i-turn-info";
 import {IWeaponShot} from "./i-weapon-shot";
 import {IBattleScene} from "../sim/i-battle-scene";
+import {BASE_SCORE, KILL_WEIGHT, shipWeights} from "./default-weights";
 
-const shipWeights: Map<EBattleShipType, number> = new Map();
-shipWeights.set(EBattleShipType.interceptor, 1);
-shipWeights.set(EBattleShipType.cruiser, 2);
-shipWeights.set(EBattleShipType.dreadnought, 3);
-shipWeights.set(EBattleShipType.starbase, 4);
-shipWeights.set(EBattleShipType.deathmoon, 5);
-
-const BASE_SCORE = 8;
-const KILL_WEIGHT = 10;
 
 export const ancientTactics: IBattleTactics = function (battleScene: IBattleScene, turnInfo: ITurnInfo, shots: IWeaponShot[]): number {
     const damageLog: Map<Battleship, number> = new Map();

@@ -12,7 +12,14 @@ const avaliableTactics = {
     ancient: ancientTactics
 };
 
-export function calcAttack(battleScene: IBattleScene, turnInfo: ITurnInfo, rolls: number[], weapons: IWeapon[], bonus: number, targets: Battleship[]): IBattleScene | null {
+export function calcAttack(
+    battleScene: IBattleScene,
+    turnInfo: ITurnInfo,
+    rolls: number[],
+    weapons: IWeapon[],
+    bonus: number,
+    targets: Battleship[]
+): IBattleScene | null {
     const targetsDef = targets.map(({defence}) => defence);
 
     const tactics: IBattleTactics = avaliableTactics.ancient;
