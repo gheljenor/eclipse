@@ -13,13 +13,22 @@ export function collapseGraph(transitions: IBattleSceneTransition[][], startScen
     }
 
     const scenes = Array.from(leaves);
+    let total = 0;
 
-    return {
+    const result: IBattleGraphInfo = {
         scenes,
-        transitions: scenes.map((scene: IBattleScene) => (<IBattleSceneTransition>{
-            from: startScene,
-            to: scene,
-            weight: getSceneWeight(transitions, scene)
-        }))
+        transitions: scenes.map((scene: IBattleScene) => {
+            const weight = getSceneWeight(transitions, scene);
+            total += weight;
+            return {from: startScene, to: scene, weight};
+        })
     };
+
+    if (Math.abs(total - 1) > 0.001) {
+        for (const transition of result.transitions) {
+            transition.weight /= total;
+        }
+    }
+
+    return result;
 }

@@ -7,6 +7,7 @@ import {IBattleGraphInfo} from "../select/i-battle-graph-info";
 import {cloneBattlescene} from "./clone-battlescene";
 import {simplifyGraph} from "../optimize/simplify-graph";
 import {collapseGraph} from "../optimize/collapse-graph";
+import {getWinner} from "../select/get-winner";
 
 export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: number[][]): IBattleGraphInfo {
     if (!phases) {
@@ -15,6 +16,7 @@ export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: n
 
     let scenes: IBattleScene[] = [battleScene];
     const graph: IBattleSceneTransition[][] = [];
+    const lashPhase = phases[phases.length - 1];
 
     for (const phase of phases) {
         const phaseTransitions: IBattleSceneTransition[] = [];
@@ -31,16 +33,12 @@ export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: n
         for (const scene of scenes) {
             const ships = shipsByPhase(scene.ships, phase);
 
-            if (!ships.length) {
-                phaseTransitions.push({
-                    from: scene,
-                    to: cloneBattlescene(scene),
-                    weight: 1
-                });
-                continue;
+            const transitions = simulatePhase(scene, turnInfo, ships);
+
+            if (phase === lashPhase) {
+                endOfTurn(transitions);
             }
 
-            const transitions = simulatePhase(scene, turnInfo, ships);
             phaseTransitions.push(...transitions);
         }
 
@@ -50,4 +48,20 @@ export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: n
     }
 
     return collapseGraph(graph, battleScene, turn !== 0);
+}
+
+function endOfTurn(transitions: IBattleSceneTransition[]) {
+    for (const transition of transitions) {
+        transition.to.winner = getWinner(transition.to.ships);
+
+        if (transition.to.winner) {
+            continue;
+        }
+
+        for (const ship of transition.to.ships) {
+            if (ship.hp > 0 && ship.heal > 0 && ship.maxHp > ship.hp) {
+                ship.hp = Math.min(ship.hp + ship.heal, ship.maxHp);
+            }
+        }
+    }
 }

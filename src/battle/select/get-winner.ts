@@ -1,6 +1,6 @@
 import {Battleship} from "../battleship";
 
-export function getWinner(ships: Battleship[]): string | null {
+export function getWinner(ships: Battleship[]): string | null | true {
     const aliveShips = Object.create(null);
 
     ships.forEach(function ({hp, owner}) {
@@ -18,6 +18,8 @@ export function getWinner(ships: Battleship[]): string | null {
         return owners[1];
     } else if (!aliveShips[owners[1]] && aliveShips[owners[0]]) {
         return owners[0];
+    } else if (!aliveShips[owners[0]] && !aliveShips[owners[1]]) {
+        return true;
     }
 
     return null;

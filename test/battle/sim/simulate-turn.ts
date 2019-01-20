@@ -29,6 +29,8 @@ describe("simulate-turn", function () {
                 'ancient12,player01,player01'
             ]);
 
+            expect(result.scenes[0].winner).to.be.equal("player");
+
             expect(result.transitions.map(showTransition)).to.be.eql([{
                 from: 'ancient12,player01,player01',
                 to: 'ancient10,player01,player01',
@@ -60,6 +62,8 @@ describe("simulate-turn", function () {
                 'ancient12,player00,player00',
                 'ancient12,player00,player01'
             ]);
+
+            expect(result.scenes[0].winner).to.be.equal("ancient");
 
             expect(result.transitions.map(showTransition)).to.be.eql([{
                 from: 'ancient12,player01,player01',
@@ -95,6 +99,10 @@ describe("simulate-turn", function () {
                 "ancient12,player00,player01",
                 "ancient12,player01,player01"
             ]);
+
+            expect(result.scenes[0].winner).to.be.equal("player");
+            expect(result.scenes[1].winner).to.be.equal("ancient");
+            expect(result.scenes[4].winner).to.be.equal("ancient");
 
             expect(result.transitions.map(showTransition)).to.be.eql([{
                 from: 'ancient12,player01,player01',
@@ -163,6 +171,9 @@ describe("simulate-turn", function () {
                 'ancient11,player01,player01',
                 'ancient12,player00,player01'
             ]);
+
+            expect(result.scenes[0].winner).to.be.equal("player");
+
             expect(result.transitions.map(showTransition)).to.be.eql([{
                 from: 'ancient12,player01,player01',
                 to: 'ancient10,player01,player01',
@@ -197,5 +208,35 @@ describe("simulate-turn", function () {
 
             expect(first).to.be.eql(second);
         });
+    });
+
+    it("healing", function () {
+        const scene: IBattleScene = {
+            ships: [
+                new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1, 1)
+            ],
+            defender: "ancient"
+        };
+
+        const result: IBattleGraphInfo = simulateTurn(scene, 1);
+
+        expect(result.scenes.map(battleSceneHash)).to.be.eql([
+            "ancient10,player01,player01",
+            "ancient12,player00,player01"
+        ]);
+
+        expect(result.scenes[0].winner).to.be.equal("player");
+
+        expect(result.transitions.map(showTransition)).to.be.eql([{
+            from: 'ancient12,player01,player01',
+            to: 'ancient10,player01,player01',
+            weight: 0.3333333333333333
+        }, {
+            from: 'ancient12,player01,player01',
+            to: 'ancient12,player00,player01',
+            weight: 0.6666666666666666
+        }]);
     });
 });

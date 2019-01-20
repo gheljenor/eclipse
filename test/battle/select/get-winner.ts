@@ -16,7 +16,7 @@ describe("get-winner", function () {
         expect(getWinner([
             new Battleship(EBattleShipType.interceptor, "first", [], 0),
             new Battleship(EBattleShipType.interceptor, "second", [], 0),
-        ])).to.be.equal(null);
+        ])).to.be.equal(true);
     });
 
     it("first", function () {

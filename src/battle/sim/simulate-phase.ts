@@ -37,6 +37,8 @@ export function simulatePhase(battleScene: IBattleScene, turnInfo: ITurnInfo, at
 
     for (const rollsGrouped of generateRollsGrouped(groupSizes)) {
         const {rolls, map} = rollsUngroup(rollsGrouped);
+
+        // TODO: recalc roll and damage for rift weapon
         const rollWeapons = map.map((group) => groups[group][0]);
 
         const nextScene = calcAttack(battleScene, turnInfo, rolls, rollWeapons, attackers[0].attack, targets);
