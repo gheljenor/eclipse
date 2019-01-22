@@ -1,15 +1,14 @@
-import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
+import {IBattleSceneTransition} from "../sim/i-battle-scene";
+import {GraphWay} from "../sim/graph-way";
 
-export type TransitionWay = Map<IBattleScene, IBattleSceneTransition[]>;
+const cache: WeakMap<IBattleSceneTransition[][], GraphWay> = new WeakMap();
 
-const cache: WeakMap<IBattleSceneTransition[][], TransitionWay> = new WeakMap();
-
-export function makeInvertWay(transitions: IBattleSceneTransition[][]): TransitionWay {
+export function makeInvertWay(transitions: IBattleSceneTransition[][]): GraphWay {
     if (cache.has(transitions)) {
         return cache.get(transitions);
     }
 
-    const invertWay: TransitionWay = new Map();
+    const invertWay: GraphWay = new Map();
 
     for (const layer of transitions) {
         for (const transition of layer) {

@@ -1,5 +1,6 @@
 import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 import {battleSceneHash} from "../select/battlescene-hash";
+import {GraphWay} from "../sim/graph-way";
 
 export function normalizeGraph(transitions: IBattleSceneTransition[][], startScene: IBattleScene, excludeStart: boolean = true): IBattleSceneTransition[][] {
     const result: IBattleSceneTransition[][] = [];
@@ -8,7 +9,7 @@ export function normalizeGraph(transitions: IBattleSceneTransition[][], startSce
     const leaves = transitions[transitions.length - 1];
 
     for (const layer of transitions) {
-        const groups: Map<IBattleScene, IBattleSceneTransition[]> = new Map();
+        const groups: GraphWay = new Map();
         const subresult = [];
         result.push(subresult);
 

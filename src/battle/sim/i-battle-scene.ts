@@ -10,4 +10,5 @@ export interface IBattleSceneTransition {
     from: IBattleScene;
     to: IBattleScene;
     weight: number;
+    posibleRing?: boolean;
 }
