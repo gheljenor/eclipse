@@ -6,7 +6,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "test": "nyc mocha"
+    "test": "mocha",
+    "test:coverage": "nyc npm test"
   },
   "dependencies": {},
   "devDependencies": {

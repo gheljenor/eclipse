@@ -1,3 +1,3 @@
 import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
 
-export type GraphWay = Map<IBattleScene, IBattleSceneTransition[]>;
+export type TGraphWay = Map<IBattleScene, IBattleSceneTransition[]>;

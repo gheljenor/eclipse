@@ -1,12 +1,14 @@
 import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
-import {GraphWay} from "../sim/graph-way";
+import {TGraphWay} from "../sim/t-graph-way";
+
+type CorrectionMap = Map<IBattleSceneTransition, number>;
 
 export function removeRing(graph: IBattleSceneTransition[], possibleRing: IBattleSceneTransition) {
     const {wayUp, wayDown} = prepareWays(graph);
 
-    const ring = findWayUp(wayUp, possibleRing.from, possibleRing.to);
+    const rings = findWaysUp(wayUp, possibleRing.from, possibleRing.to);
 
-    if (!ring) {
+    if (!rings) {
         delete possibleRing.posibleRing;
         return;
     }
@@ -16,79 +18,80 @@ export function removeRing(graph: IBattleSceneTransition[], possibleRing: IBattl
     const ringStartWays = wayDown.get(possibleRing.from);
     ringStartWays.splice(ringStartWays.indexOf(possibleRing), 1);
 
-    const side = getSideNodes(wayDown, ring);
-    const {wayDown: sideTransitions} = prepareWays(side);
+    const correctionList: CorrectionMap[] = [];
 
-    let correction = 1;
-    for (const transition of ring) {
-        correction *= transition.weight;
-    }
+    for (const ring of rings) {
+        const corrections: CorrectionMap = new Map();
 
-    correction = 1 / (1 - correction);
-
-    for (const layer of ring) {
-        for (const transition of sideTransitions.get(layer.from)) {
-            transition.weight *= correction;
+        let correction = possibleRing.weight;
+        for (const step of ring.reverse()) {
+            correction *= step.weight;
+            corrections.set(step, correction);
         }
 
-        const weight = layer.weight;
-        layer.weight = 1 - (1 - layer.weight) * correction;
-        correction *= weight / layer.weight;
+        correctionList.push(corrections);
+    }
+
+    for (const correctionMap of correctionList) {
+        for (const [transition, correction] of correctionMap) {
+            transition.weight -= correction;
+        }
+    }
+
+    for (const transitions of wayDown.values()) {
+        let total = 0;
+        for (const transition of transitions) {
+            total += transition.weight;
+        }
+        for (const transition of transitions) {
+            transition.weight /= total;
+        }
     }
 }
 
-function prepareWays(graph: IBattleSceneTransition[]): { wayUp: GraphWay, wayDown: GraphWay } {
-    const wayUp: GraphWay = new Map();
-    const wayDown: GraphWay = new Map();
+function prepareWays(graph: IBattleSceneTransition[]): { wayUp: TGraphWay, wayDown: TGraphWay } {
+    const wayDown: TGraphWay = new Map();
+    const wayUp: TGraphWay = new Map();
 
     for (const transition of graph) {
-        if (!wayDown.has(transition.to)) {
-            wayDown.set(transition.to, []);
+        if (!wayDown.has(transition.from)) {
+            wayDown.set(transition.from, []);
         }
-        wayDown.get(transition.to).push(transition);
+        wayDown.get(transition.from).push(transition);
 
         if (transition.posibleRing) {
             continue;
         }
 
-        if (!wayUp.has(transition.from)) {
-            wayUp.set(transition.from, []);
+        if (!wayUp.has(transition.to)) {
+            wayUp.set(transition.to, []);
         }
-        wayUp.get(transition.from).push(transition);
+        wayUp.get(transition.to).push(transition);
     }
 
-    return {wayUp, wayDown};
+    return {wayDown, wayUp};
 }
 
-function findWayUp(wayUp: GraphWay, from: IBattleScene, to: IBattleScene): IBattleSceneTransition[] | null {
+function findWaysUp(wayUp: TGraphWay, from: IBattleScene, to: IBattleScene): IBattleSceneTransition[][] | null {
     if (!wayUp.has(from)) {
         return null;
     }
 
-    // FIXME: колец может быть более одного. Нужно учесть этот сценарий
+    const result = [];
 
     for (const transition of wayUp.get(from)) {
         if (transition.from === to) {
-            return [transition];
+            result.push([transition]);
+            continue;
         }
 
-        const result = findWayUp(wayUp, transition.from, to);
+        const ways = findWaysUp(wayUp, transition.from, to);
 
-        if (result) {
-            result.push(transition);
-            return result;
+        if (ways) {
+            ways.forEach((way) => way.push(transition));
+            result.push(...ways);
         }
     }
 
-    return null;
-}
-
-function getSideNodes(wayDown: GraphWay, way: IBattleSceneTransition[]): IBattleSceneTransition[] {
-    const result: IBattleSceneTransition[] = [];
-
-    for (const transition of way) {
-        result.push(...wayDown.get(transition.from).filter((child) => transition !== child));
-    }
-
-    return result;
+    return result.length ? result : null;
 }

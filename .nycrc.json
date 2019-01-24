@@ -10,13 +10,18 @@
     "coverage/",
     "test/",
     "**/*.d.ts",
-    "**/i-*.ts"
+    "**/i-*.ts",
+    "**/t-*.ts"
   ],
   "reporter": [
     "html",
     "text"
   ],
-  "sourceMap": false,
-  "instrument": false,
+  "cache-dir": ".nyc/cache",
+  "temp-dir": ".nyc/temp",
+  "report-dir": "coverage",
+  "cache": true,
+  "sourceMap": true,
+  "instrument": true,
   "all": true
 }
