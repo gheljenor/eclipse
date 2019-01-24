@@ -4,6 +4,6 @@ export function cloneBattlescene(battleScene: IBattleScene): IBattleScene {
     return {
         ships: battleScene.ships,
         defender: battleScene.defender,
-        winner: battleScene.winner
+        winner: battleScene.winner,
     };
 }

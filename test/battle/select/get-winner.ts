@@ -1,5 +1,5 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
+import {describe, it} from "mocha";
 
 import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {getWinner} from "../../../src/battle/select/get-winner";

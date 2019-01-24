@@ -1,6 +1,6 @@
 import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
-import {makeInvertWay} from "./make-invert-way";
 import {TGraphWay} from "../sim/t-graph-way";
+import {makeInvertWay} from "./make-invert-way";
 
 export function getSceneWeight(transitions: IBattleSceneTransition[][], targetScene: IBattleScene): number {
     const invertWay: TGraphWay = makeInvertWay(transitions);

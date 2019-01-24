@@ -1,18 +1,18 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
+import {describe, it} from "mocha";
 
-import {ITurnInfo} from "../../../src/battle/sim/i-turn-info";
-import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
+import {calcAttack} from "../../../src/battle/attack/calc-attack";
 import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {IWeapon} from "../../../src/battle/i-weapon";
+import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
+import {ITurnInfo} from "../../../src/battle/sim/i-turn-info";
 import {RED_GUN, YELLOW_GUN} from "../../../src/battle/weapons-helper";
-import {calcAttack} from "../../../src/battle/attack/calc-attack";
 
 const turnInfo: ITurnInfo = {
     turn: 1,
     player: "player",
     defender: true,
-    initiative: 2
+    initiative: 2,
 };
 
 const scene: IBattleScene = {

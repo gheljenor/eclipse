@@ -1,8 +1,12 @@
-import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 import {battleSceneHash} from "../select/battlescene-hash";
+import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 import {TGraphWay} from "../sim/t-graph-way";
 
-export function normalizeGraph(transitions: IBattleSceneTransition[][], startScene: IBattleScene, excludeStart: boolean = true): IBattleSceneTransition[][] {
+export function normalizeGraph(
+    transitions: IBattleSceneTransition[][],
+    startScene: IBattleScene,
+    excludeStart: boolean = true,
+): IBattleSceneTransition[][] {
     const result: IBattleSceneTransition[][] = [];
     const startSceneHash: string = battleSceneHash(startScene);
 

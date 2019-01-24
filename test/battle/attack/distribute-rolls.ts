@@ -1,5 +1,5 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
+import {describe, it} from "mocha";
 
 import {distributeRolls} from "../../../src/battle/attack/distribute-rolls";
 
@@ -71,7 +71,7 @@ describe("distribute-rolls", function () {
             [0, 1, 1],
             [0, 1, 0],
             [0, 0, 1],
-            [0, 0, 0]
+            [0, 0, 0],
         ]);
     });
 

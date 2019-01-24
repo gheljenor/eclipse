@@ -3,12 +3,12 @@ export enum EWeaponDamageType {
     orange = 2,
     blue = 3,
     red = 4,
-    pink
+    pink,
 }
 
 export enum EWeaponType {
     missile = "missile",
-    gun = "gun"
+    gun = "gun",
 }
 
 export interface IWeapon {
@@ -17,9 +17,9 @@ export interface IWeapon {
 }
 
 export interface IRiftDamage {
-    roll: number,
-    damage: number,
-    selfDamage?: number
+    roll: number;
+    damage: number;
+    selfDamage?: number;
 }
 
 export const riftDamage: { [roll: number]: IRiftDamage } = {
@@ -28,5 +28,5 @@ export const riftDamage: { [roll: number]: IRiftDamage } = {
     3: {roll: 1, damage: 0, selfDamage: 1},
     4: {roll: 6, damage: 1},
     5: {roll: 6, damage: 2},
-    6: {roll: 6, damage: 3, selfDamage: 1}
+    6: {roll: 6, damage: 3, selfDamage: 1},
 };

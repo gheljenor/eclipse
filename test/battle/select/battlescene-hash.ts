@@ -1,9 +1,9 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
+import {describe, it} from "mocha";
 
-import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
+import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 
 describe("battlescene-hash", function () {
     it("hash it right", function () {
@@ -20,7 +20,7 @@ describe("battlescene-hash", function () {
                 new Battleship(EBattleShipType.deathmoon, "first", [], 2),
                 new Battleship(EBattleShipType.starbase, "first", [], 0),
             ],
-            defender: "first"
+            defender: "first",
         };
 
         expect(battleSceneHash(scene)).to.be.equal("first01,first02,first12,first13,first13,first30,first42,second24,second24,second42");

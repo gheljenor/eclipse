@@ -1,19 +1,19 @@
-import {describe, it} from "mocha";
-import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
-import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
-import {WeaponsHelper} from "../../../src/battle/weapons-helper";
-import {riftSelfDamage} from "../../../src/battle/attack/rift-self-damage";
 import {expect} from "chai";
+import {describe, it} from "mocha";
+import {riftSelfDamage} from "../../../src/battle/attack/rift-self-damage";
+import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
+import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
+import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 
 describe("rift-self-damage", function () {
     it("1 ship, 1 hp, 1 weapon, 1 damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftCannon().weapons),
-                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2)
+                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2),
             ],
-            defender: "player"
+            defender: "player",
         };
 
         const result = riftSelfDamage(scene, 1, "player");
@@ -24,9 +24,9 @@ describe("rift-self-damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
-                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2)
+                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2),
             ],
-            defender: "player"
+            defender: "player",
         };
 
         const result = riftSelfDamage(scene, 1, "player");
@@ -37,9 +37,9 @@ describe("rift-self-damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
-                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2)
+                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2),
             ],
-            defender: "player"
+            defender: "player",
         };
 
         const result = riftSelfDamage(scene, 2, "player");
@@ -51,9 +51,9 @@ describe("rift-self-damage", function () {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
-                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2)
+                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2),
             ],
-            defender: "player"
+            defender: "player",
         };
 
         const result = riftSelfDamage(scene, 2, "player");
@@ -65,9 +65,9 @@ describe("rift-self-damage", function () {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
-                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2)
+                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2),
             ],
-            defender: "player"
+            defender: "player",
         };
 
         const result = riftSelfDamage(scene, 3, "player");
@@ -79,9 +79,9 @@ describe("rift-self-damage", function () {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
-                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2)
+                new Battleship(EBattleShipType.cruiser, "player", WeaponsHelper.factory().addOrangeGun().weapons, 2),
             ],
-            defender: "player"
+            defender: "player",
         };
 
         const result = riftSelfDamage(scene, 4, "player");

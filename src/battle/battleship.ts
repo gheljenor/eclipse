@@ -5,7 +5,7 @@ export enum EBattleShipType {
     cruiser,
     dreadnought,
     starbase,
-    deathmoon
+    deathmoon,
 }
 
 export class Battleship {
@@ -24,9 +24,11 @@ export class Battleship {
         this.maxHp = this.hp;
     }
 
-    clone(): this {
+    public clone(): this {
         const Constructor = Object.getPrototypeOf(this).constructor;
-        const ship = new Constructor(this.type, this.owner, this.weapons, this.hp, this.initiative, this.defence, this.attack, this.heal);
+        const ship = new Constructor(this.type, this.owner, this.weapons, this.hp, this.initiative,
+            this.defence, this.attack, this.heal);
+
         ship.maxHp = this.maxHp;
         return ship;
     }

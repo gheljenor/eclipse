@@ -1,5 +1,5 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
+import {describe, it} from "mocha";
 
 import {permutationsCountGrouped} from "../../src/math/permutations-count-grouped";
 

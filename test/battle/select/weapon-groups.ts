@@ -1,8 +1,8 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
+import {describe, it} from "mocha";
 
-import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 import {weaponGroups} from "../../../src/battle/select/weapon-groups";
+import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 
 describe("weapon-groups", function () {
     it("1 group", function () {
@@ -14,7 +14,7 @@ describe("weapon-groups", function () {
         const weapons = WeaponsHelper.factory().addYellowMissile().addBlueGun().weapons;
         expect(weaponGroups(weapons)).to.be.eql([
             WeaponsHelper.factory().addYellowMissile().weapons,
-            WeaponsHelper.factory().addBlueGun().weapons
+            WeaponsHelper.factory().addBlueGun().weapons,
         ]);
     });
 
@@ -28,7 +28,7 @@ describe("weapon-groups", function () {
         expect(weaponGroups(weapons)).to.be.eql([
             WeaponsHelper.factory().addYellowMissile().weapons,
             WeaponsHelper.factory().addBlueGun().weapons,
-            WeaponsHelper.factory().addOrangeGun().weapons
+            WeaponsHelper.factory().addOrangeGun().weapons,
         ]);
     });
 });

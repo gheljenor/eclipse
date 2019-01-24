@@ -1,6 +1,10 @@
 import {generateRolls} from "./generate-rolls";
 
-export function* generateRollsGrouped(groups: number[], maxValue: number = 6, unique: boolean = true): IterableIterator<number[][]> {
+export function* generateRollsGrouped(
+    groups: number[],
+    maxValue: number = 6,
+    unique: boolean = true,
+): IterableIterator<number[][]> {
     if (groups.length === 0) {
         return [];
     }

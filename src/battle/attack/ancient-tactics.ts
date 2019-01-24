@@ -1,12 +1,12 @@
-import {IBattleTactics} from "./i-battle-tactics";
 import {Battleship} from "../battleship";
-import {ITurnInfo} from "../sim/i-turn-info";
-import {IWeaponShot} from "./i-weapon-shot";
 import {IBattleScene} from "../sim/i-battle-scene";
+import {ITurnInfo} from "../sim/i-turn-info";
 import {BASE_SCORE, KILL_WEIGHT, shipWeights} from "./default-weights";
+import {IBattleTactics} from "./i-battle-tactics";
+import {IWeaponShot} from "./i-weapon-shot";
 
-
-export const ancientTactics: IBattleTactics = function (battleScene: IBattleScene, turnInfo: ITurnInfo, shots: IWeaponShot[]): number {
+export const ancientTactics: IBattleTactics
+    = function (battleScene: IBattleScene, turnInfo: ITurnInfo, shots: IWeaponShot[]): number {
     const damageLog: Map<Battleship, number> = new Map();
 
     shots.forEach((shot) => {

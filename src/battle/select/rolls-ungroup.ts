@@ -1,5 +1,5 @@
 export function rollsUngroup(groupedRolls: number[][]): { rolls: number[], map: number[] } {
-    const rollsInfo: { roll: number, group: number }[] = [];
+    const rollsInfo: Array<{ roll: number, group: number }> = [];
 
     for (let group = 0, l = groupedRolls.length; group < l; group++) {
         for (const roll of groupedRolls[group]) {

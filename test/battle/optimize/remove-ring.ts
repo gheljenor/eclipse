@@ -1,10 +1,9 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
-import {createScene} from "../_tools/create-scene";
-import {IBattleSceneTransition} from "../../../src/battle/sim/i-battle-scene";
+import {describe, it} from "mocha";
 import {removeRing} from "../../../src/battle/optimize/remove-ring";
+import {IBattleSceneTransition} from "../../../src/battle/sim/i-battle-scene";
+import {createScene} from "../_tools/create-scene";
 import {showTransition} from "../_tools/show-transition";
-import {graphSandbox} from "../_tools/sandbox";
 
 const f2s2 = createScene([1, 1], [1, 1]);
 const f2s1 = createScene([1, 1], [1, 0]);
@@ -18,7 +17,6 @@ const f0s2 = createScene([0, 0], [1, 1]);
 const f0s1 = createScene([0, 0], [1, 0]);
 const f0s0 = createScene([0, 0], [0, 0]);
 
-
 describe("remove-ring", function () {
     it("diamond", function () {
         const graph: IBattleSceneTransition[] = [
@@ -29,7 +27,7 @@ describe("remove-ring", function () {
             {from: f1s2, to: f0s2, weight: 0.5},
 
             {from: f2s1, to: f1s1, weight: 0.5, posibleRing: true},
-            {from: f2s1, to: f2s0, weight: 0.5}
+            {from: f2s1, to: f2s0, weight: 0.5},
         ];
 
         const clone = graph.concat([]);
@@ -47,7 +45,7 @@ describe("remove-ring", function () {
 
             {from: f1s2, to: f2s2, weight: 0.2, posibleRing: true},
             {from: f1s2, to: f1s1, weight: 0.4},
-            {from: f1s2, to: f1s0, weight: 0.4}
+            {from: f1s2, to: f1s0, weight: 0.4},
         ];
 
         /*
@@ -60,24 +58,23 @@ describe("remove-ring", function () {
         removeRing(graph, graph[2]);
 
         expect(graph.map(showTransition)).to.be.eql([{
-                from: 'first11,first11,second11,second11',
-                to: 'first11,first11,second10,second11',
-                weight: 0.5555555555555556
+                from: "first11,first11,second11,second11",
+                to: "first11,first11,second10,second11",
+                weight: 0.5555555555555556,
             }, {
-                from: 'first11,first11,second11,second11',
-                to: 'first10,first11,second11,second11',
-                weight: 0.4444444444444445
+                from: "first11,first11,second11,second11",
+                to: "first10,first11,second11,second11",
+                weight: 0.4444444444444445,
             }, {
-                from: 'first10,first11,second11,second11',
-                to: 'first10,first11,second10,second11',
-                weight: 0.5
+                from: "first10,first11,second11,second11",
+                to: "first10,first11,second10,second11",
+                weight: 0.5,
             }, {
-                from: 'first10,first11,second11,second11',
-                to: 'first10,first11,second10,second10',
-                weight: 0.5
-            }]
+                from: "first10,first11,second11,second11",
+                to: "first10,first11,second10,second10",
+                weight: 0.5,
+            }],
         );
-
 
     });
 
@@ -94,7 +91,7 @@ describe("remove-ring", function () {
 
             {from: f2s0, to: f2s2, weight: 0.4, posibleRing: true},
             {from: f2s0, to: f1s0, weight: 0.3},
-            {from: f2s0, to: f0s0, weight: 0.3}
+            {from: f2s0, to: f0s0, weight: 0.3},
         ];
 
         /*
@@ -109,38 +106,38 @@ describe("remove-ring", function () {
         removeRing(graph, graph[6]);
 
         expect(graph.map(showTransition)).to.be.eql([{
-                from: 'first11,first11,second11,second11',
-                to: 'first11,first11,second10,second11',
-                weight: 0.4444444444444445
+                from: "first11,first11,second11,second11",
+                to: "first11,first11,second10,second11",
+                weight: 0.4444444444444445,
             }, {
-                from: 'first11,first11,second11,second11',
-                to: 'first10,first11,second11,second11',
-                weight: 0.5555555555555556
+                from: "first11,first11,second11,second11",
+                to: "first10,first11,second11,second11",
+                weight: 0.5555555555555556,
             }, {
-                from: 'first11,first11,second10,second11',
-                to: 'first10,first11,second10,second11',
-                weight: 0.625
+                from: "first11,first11,second10,second11",
+                to: "first10,first11,second10,second11",
+                weight: 0.625,
             }, {
-                from: 'first11,first11,second10,second11',
-                to: 'first11,first11,second10,second10',
-                weight: 0.37499999999999994
+                from: "first11,first11,second10,second11",
+                to: "first11,first11,second10,second10",
+                weight: 0.37499999999999994,
             }, {
-                from: 'first10,first11,second11,second11',
-                to: 'first10,first10,second11,second11',
-                weight: 0.5
+                from: "first10,first11,second11,second11",
+                to: "first10,first10,second11,second11",
+                weight: 0.5,
             }, {
-                from: 'first10,first11,second11,second11',
-                to: 'first10,first10,second10,second11',
-                weight: 0.5
+                from: "first10,first11,second11,second11",
+                to: "first10,first10,second10,second11",
+                weight: 0.5,
             }, {
-                from: 'first11,first11,second10,second10',
-                to: 'first10,first11,second10,second10',
-                weight: 0.5
+                from: "first11,first11,second10,second10",
+                to: "first10,first11,second10,second10",
+                weight: 0.5,
             }, {
-                from: 'first11,first11,second10,second10',
-                to: 'first10,first10,second10,second10',
-                weight: 0.5
-            }]
+                from: "first11,first11,second10,second10",
+                to: "first10,first10,second10,second10",
+                weight: 0.5,
+            }],
         );
     });
 
@@ -157,7 +154,7 @@ describe("remove-ring", function () {
 
             {from: f1s1, to: f1s0, weight: 0.3},
             {from: f1s1, to: f0s1, weight: 0.3},
-            {from: f1s1, to: f2s2, weight: 0.4, posibleRing: true}
+            {from: f1s1, to: f2s2, weight: 0.4, posibleRing: true},
         ];
 
         /*
@@ -173,37 +170,37 @@ describe("remove-ring", function () {
         removeRing(graph, graph[8]);
 
         expect(graph.map(showTransition)).to.be.eql([{
-            from: 'first11,first11,second11,second11',
-            to: 'first11,first11,second10,second11', // f2s1
-            weight: 0.5348837209302325
+            from: "first11,first11,second11,second11",
+            to: "first11,first11,second10,second11", // f2s1
+            weight: 0.5348837209302325,
         }, {
-            from: 'first11,first11,second11,second11',
-            to: 'first10,first11,second11,second11', // f1s2
-            weight: 0.4651162790697675
+            from: "first11,first11,second11,second11",
+            to: "first10,first11,second11,second11", // f1s2
+            weight: 0.4651162790697675,
         }, {
-            from: 'first11,first11,second10,second11',
-            to: 'first10,first11,second10,second11', // f1s1
-            weight: 0.13043478260869565
+            from: "first11,first11,second10,second11",
+            to: "first10,first11,second10,second11", // f1s1
+            weight: 0.13043478260869565,
         }, {
-            from: 'first11,first11,second10,second11',
-            to: 'first11,first11,second10,second10', // f2s0
-            weight: 0.8695652173913043
+            from: "first11,first11,second10,second11",
+            to: "first11,first11,second10,second10", // f2s0
+            weight: 0.8695652173913043,
         }, {
-            from: 'first10,first11,second11,second11',
-            to: 'first10,first11,second10,second11', // f1s1
-            weight: 0.37499999999999994
+            from: "first10,first11,second11,second11",
+            to: "first10,first11,second10,second11", // f1s1
+            weight: 0.37499999999999994,
         }, {
-            from: 'first10,first11,second11,second11',
-            to: 'first10,first10,second11,second11', // f0s2
-            weight: 0.625
+            from: "first10,first11,second11,second11",
+            to: "first10,first10,second11,second11", // f0s2
+            weight: 0.625,
         }, {
-            from: 'first10,first11,second10,second11',
-            to: 'first10,first11,second10,second10', // f1s0
-            weight: 0.5
+            from: "first10,first11,second10,second11",
+            to: "first10,first11,second10,second10", // f1s0
+            weight: 0.5,
         }, {
-            from: 'first10,first11,second10,second11',
-            to: 'first10,first10,second10,second11', // f0s1
-            weight: 0.5
+            from: "first10,first11,second10,second11",
+            to: "first10,first10,second10,second11", // f0s1
+            weight: 0.5,
         }]);
     });
 });

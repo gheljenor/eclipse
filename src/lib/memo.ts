@@ -1,4 +1,4 @@
-export function memo<Arg, Res>(fn: { (arg: Arg): Res; }) {
+export function memo<Arg, Res>(fn: (arg: Arg) => Res) {
     const cache = new Map<Arg, Res>();
 
     return function (arg: Arg): Res {
@@ -8,5 +8,5 @@ export function memo<Arg, Res>(fn: { (arg: Arg): Res; }) {
 
         }
         return cache.get(arg);
-    }
+    };
 }

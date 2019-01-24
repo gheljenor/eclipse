@@ -1,9 +1,9 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
-import {IBattleSceneTransition} from "../../../src/battle/sim/i-battle-scene";
-import {createScene} from "../_tools/create-scene";
+import {describe, it} from "mocha";
 import {makeInvertWay} from "../../../src/battle/select/make-invert-way";
 import {cloneBattlescene} from "../../../src/battle/sim/clone-battlescene";
+import {IBattleSceneTransition} from "../../../src/battle/sim/i-battle-scene";
+import {createScene} from "../_tools/create-scene";
 
 describe("make-invert-way", function () {
     it("1 layer", function () {
@@ -12,11 +12,11 @@ describe("make-invert-way", function () {
         const transitions: IBattleSceneTransition[][] = [[{
             from: startScene,
             to: createScene([1, 0], [1, 1]),
-            weight: 0.5
+            weight: 0.5,
         }, {
             from: startScene,
             to: createScene([1, 1], [1, 0]),
-            weight: 0.5
+            weight: 0.5,
         }]];
 
         const way = makeInvertWay(transitions);
@@ -34,27 +34,27 @@ describe("make-invert-way", function () {
         const transitions: IBattleSceneTransition[][] = [[{
             from: startScene,
             to: subscene1,
-            weight: 2
+            weight: 2,
         }, {
             from: startScene,
             to: subscene2,
-            weight: 1
+            weight: 1,
         }], [{
             from: subscene1,
             to: cloneBattlescene(subscene1),
-            weight: 1
+            weight: 1,
         }, {
             from: subscene1,
             to: createScene([0, 0], [1, 1]),
-            weight: 2
+            weight: 2,
         }, {
             from: subscene2,
             to: cloneBattlescene(subscene2),
-            weight: 5
+            weight: 5,
         }, {
             from: subscene2,
             to: createScene([1, 1], [0, 0]),
-            weight: 5
+            weight: 5,
         }]];
 
         const way = makeInvertWay(transitions);
@@ -76,27 +76,27 @@ describe("make-invert-way", function () {
         const transitions: IBattleSceneTransition[][] = [[{
             from: startScene,
             to: subscene1,
-            weight: 2
+            weight: 2,
         }, {
             from: startScene,
             to: subscene2,
-            weight: 1
+            weight: 1,
         }], [{
             from: subscene1,
             to: cloneBattlescene(subscene1),
-            weight: 1
+            weight: 1,
         }, {
             from: subscene1,
             to: endScene,
-            weight: 2
+            weight: 2,
         }, {
             from: subscene2,
             to: cloneBattlescene(subscene2),
-            weight: 5
+            weight: 5,
         }, {
             from: subscene2,
             to: endScene,
-            weight: 5
+            weight: 5,
         }]];
 
         const way = makeInvertWay(transitions);

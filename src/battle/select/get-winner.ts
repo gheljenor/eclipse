@@ -8,7 +8,7 @@ export function getWinner(ships: Battleship[]): string | null | true {
             aliveShips[owner] = 0;
         }
         if (hp > 0) {
-            aliveShips[owner]++
+            aliveShips[owner]++;
         }
     });
 

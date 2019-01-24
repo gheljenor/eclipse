@@ -1,0 +1,12 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "../tslint.json"
+  ],
+  "jsRules": {},
+  "rules": {
+    "max-line-length": false,
+    "no-unused-expression": false
+  },
+  "rulesDirectory": []
+}

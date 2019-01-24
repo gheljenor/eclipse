@@ -1,19 +1,23 @@
-import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
-import {ITurnInfo} from "./i-turn-info";
-import {Battleship} from "../battleship";
-import {shipsByOwner} from "../select/ships-by-owner";
-import {getWeapons} from "../select/get-weapons";
-import {EWeaponDamageType, EWeaponType, IWeapon, riftDamage} from "../i-weapon";
-import {weaponGroups} from "../select/weapon-groups";
 import {generateRollsGrouped} from "../../math/generate-rolls-grouped";
-import {rollsUngroup} from "../select/rolls-ungroup";
-import {calcAttack} from "../attack/calc-attack";
 import {permutationsCountGrouped} from "../../math/permutations-count-grouped";
 import {rollsCountGrouped} from "../../math/rolls-count-grouped";
-import {cloneBattlescene} from "./clone-battlescene";
+import {calcAttack} from "../attack/calc-attack";
 import {riftSelfDamage} from "../attack/rift-self-damage";
+import {Battleship} from "../battleship";
+import {EWeaponDamageType, EWeaponType, IWeapon, riftDamage} from "../i-weapon";
+import {getWeapons} from "../select/get-weapons";
+import {rollsUngroup} from "../select/rolls-ungroup";
+import {shipsByOwner} from "../select/ships-by-owner";
+import {weaponGroups} from "../select/weapon-groups";
+import {cloneBattlescene} from "./clone-battlescene";
+import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
+import {ITurnInfo} from "./i-turn-info";
 
-export function simulatePhase(battleScene: IBattleScene, turnInfo: ITurnInfo, attackers: Battleship[]): IBattleSceneTransition[] {
+export function simulatePhase(
+    battleScene: IBattleScene,
+    turnInfo: ITurnInfo,
+    attackers: Battleship[],
+): IBattleSceneTransition[] {
     const weapons = getWeapons(attackers, turnInfo.turn === 0 ? EWeaponType.missile : EWeaponType.gun)
         .sort((a, b) => b.damage - a.damage);
 
@@ -21,7 +25,7 @@ export function simulatePhase(battleScene: IBattleScene, turnInfo: ITurnInfo, at
         return [{
             from: battleScene,
             to: cloneBattlescene(battleScene),
-            weight: 1
+            weight: 1,
         }];
     }
 
@@ -49,7 +53,7 @@ export function simulatePhase(battleScene: IBattleScene, turnInfo: ITurnInfo, at
                 selfDamage += (rift.selfDamage || 0);
                 return {
                     type: EWeaponType.gun,
-                    damage: rift.damage
+                    damage: rift.damage,
                 };
             } else {
                 return weapon;
@@ -66,7 +70,7 @@ export function simulatePhase(battleScene: IBattleScene, turnInfo: ITurnInfo, at
                 const transition: IBattleSceneTransition = {
                     from: battleScene,
                     to: cloneBattlescene(battleScene),
-                    weight: totalCount - rollsCount
+                    weight: totalCount - rollsCount,
                 };
                 result.push(transition);
 
@@ -77,12 +81,12 @@ export function simulatePhase(battleScene: IBattleScene, turnInfo: ITurnInfo, at
         const count = permutationsCountGrouped(rollsGrouped);
         rollsCount += count;
 
-        const transition: IBattleSceneTransition = {
+        const finalTransition: IBattleSceneTransition = {
             from: battleScene,
             to: nextScene,
-            weight: count
+            weight: count,
         };
-        result.push(transition);
+        result.push(finalTransition);
     }
 
     return result;

@@ -6,8 +6,10 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "test": "mocha",
-    "test:coverage": "nyc npm test"
+    "test": "npm run lint && npm run test:coverage",
+    "test:unit": "mocha",
+    "test:coverage": "nyc npm run test:unit",
+    "lint": "tslint 'src/**/*.ts' 'test/**/*.ts' --fix"
   },
   "dependencies": {},
   "devDependencies": {
@@ -19,6 +21,7 @@
     "nyc": "^13.1.0",
     "source-map-support": "^0.5.10",
     "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
     "typescript": "^3.2.4"
   }
 }

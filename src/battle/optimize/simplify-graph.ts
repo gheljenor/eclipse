@@ -1,6 +1,6 @@
-import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 import {battleSceneHash} from "../select/battlescene-hash";
 import {IBattleGraphInfo} from "../select/i-battle-graph-info";
+import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 
 export function simplifyGraph(transitions: IBattleSceneTransition[]): IBattleGraphInfo {
     const sceneCache: { [hash: string]: IBattleScene } = Object.create(null);
@@ -28,13 +28,13 @@ export function simplifyGraph(transitions: IBattleSceneTransition[]): IBattleGra
             transitionCache[transHash] = {
                 from: transition.from,
                 to,
-                weight: transition.weight
+                weight: transition.weight,
             };
         }
     }
 
     return {
         transitions: Object.values(transitionCache),
-        scenes: Object.values(sceneCache)
+        scenes: Object.values(sceneCache),
     };
 }

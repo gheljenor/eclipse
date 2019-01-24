@@ -2,100 +2,100 @@ import {EWeaponDamageType, EWeaponType, IWeapon} from "./i-weapon";
 
 export const YELLOW_GUN: IWeapon = {
     type: EWeaponType.gun,
-    damage: EWeaponDamageType.yellow
+    damage: EWeaponDamageType.yellow,
 };
 export const YELLOW_MISSILE: IWeapon = {
     type: EWeaponType.missile,
-    damage: EWeaponDamageType.yellow
+    damage: EWeaponDamageType.yellow,
 };
 export const ORANGE_GUN: IWeapon = {
     type: EWeaponType.gun,
-    damage: EWeaponDamageType.orange
+    damage: EWeaponDamageType.orange,
 };
 export const ORANGE_MISSILE: IWeapon = {
     type: EWeaponType.missile,
-    damage: EWeaponDamageType.orange
+    damage: EWeaponDamageType.orange,
 };
 export const BLUE_GUN: IWeapon = {
     type: EWeaponType.gun,
-    damage: EWeaponDamageType.blue
+    damage: EWeaponDamageType.blue,
 };
 export const RED_GUN: IWeapon = {
     type: EWeaponType.gun,
-    damage: EWeaponDamageType.red
+    damage: EWeaponDamageType.red,
 };
 export const RED_MISSILE: IWeapon = {
     type: EWeaponType.missile,
-    damage: EWeaponDamageType.red
+    damage: EWeaponDamageType.red,
 };
 export const PINK_GUN: IWeapon = {
     type: EWeaponType.gun,
-    damage: EWeaponDamageType.pink
+    damage: EWeaponDamageType.pink,
 };
 
 export class WeaponsHelper {
-    weapons: IWeapon[] = [];
+    public weapons: IWeapon[] = [];
 
-    static factory(): WeaponsHelper {
+    public static factory(): WeaponsHelper {
         return new WeaponsHelper();
     }
 
-    addYellowGun(): this {
+    public addYellowGun(): this {
         this.weapons.push(YELLOW_GUN);
         return this;
     }
 
-    addYellowGunTurrel(): this {
+    public addYellowGunTurrel(): this {
         this.weapons.push(YELLOW_GUN, YELLOW_GUN);
         return this;
     }
 
-    addYellowMissile(): this {
+    public addYellowMissile(): this {
         this.weapons.push(YELLOW_MISSILE, YELLOW_MISSILE);
         return this;
     }
 
-    addYellowMissileTurrel(): this {
+    public addYellowMissileTurrel(): this {
         this.weapons.push(YELLOW_MISSILE, YELLOW_MISSILE, YELLOW_MISSILE);
         return this;
     }
 
-    addOrangeGun(): this {
+    public addOrangeGun(): this {
         this.weapons.push(ORANGE_GUN);
         return this;
     }
 
-    addOrangeMissile(): this {
+    public addOrangeMissile(): this {
         this.weapons.push(ORANGE_MISSILE, ORANGE_MISSILE);
         return this;
     }
 
-    addBlueGun(): this {
+    public addBlueGun(): this {
         this.weapons.push(BLUE_GUN);
         return this;
     }
 
-    addBlueGunTurrel(): this {
+    public addBlueGunTurrel(): this {
         this.weapons.push(BLUE_GUN, BLUE_GUN);
         return this;
     }
 
-    addRedGun(): this {
+    public addRedGun(): this {
         this.weapons.push(RED_GUN);
         return this;
     }
 
-    addRedMissile(): this {
+    public addRedMissile(): this {
         this.weapons.push(RED_MISSILE);
         return this;
     }
 
-    addRiftCannon(): this {
+    public addRiftCannon(): this {
         this.weapons.push(PINK_GUN);
         return this;
     }
 
-    addRiftTurrel(): this {
+    public addRiftTurrel(): this {
         this.weapons.push(PINK_GUN, PINK_GUN);
         return this;
     }

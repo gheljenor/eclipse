@@ -1,9 +1,13 @@
-import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
-import {IBattleGraphInfo} from "../select/i-battle-graph-info";
-import {normalizeGraph} from "./normalize-graph";
 import {getSceneWeight} from "../select/get-scene-weight";
+import {IBattleGraphInfo} from "../select/i-battle-graph-info";
+import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
+import {normalizeGraph} from "./normalize-graph";
 
-export function collapseGraph(transitions: IBattleSceneTransition[][], startScene: IBattleScene, excludeStart: boolean = true): IBattleGraphInfo {
+export function collapseGraph(
+    transitions: IBattleSceneTransition[][],
+    startScene: IBattleScene,
+    excludeStart: boolean = true,
+): IBattleGraphInfo {
     const leaves: Set<IBattleScene> = new Set();
 
     transitions = normalizeGraph(transitions, startScene, excludeStart);
@@ -21,7 +25,7 @@ export function collapseGraph(transitions: IBattleSceneTransition[][], startScen
             const weight = getSceneWeight(transitions, scene);
             total += weight;
             return {from: startScene, to: scene, weight};
-        })
+        }),
     };
 
     if (Math.abs(total - 1) > 0.001) {

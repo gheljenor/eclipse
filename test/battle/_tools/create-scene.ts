@@ -1,5 +1,5 @@
-import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
+import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 
 export function createScene(first: number[], second: number[], defender: string = "first"): IBattleScene {
     const ships: Battleship[] = [];
@@ -14,6 +14,6 @@ export function createScene(first: number[], second: number[], defender: string 
 
     return {
         ships,
-        defender
+        defender,
     };
 }

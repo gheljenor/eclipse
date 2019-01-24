@@ -1,12 +1,12 @@
+import {collapseGraph} from "../optimize/collapse-graph";
+import {simplifyGraph} from "../optimize/simplify-graph";
+import {getWinner} from "../select/get-winner";
+import {IBattleGraphInfo} from "../select/i-battle-graph-info";
+import {initiativePhases} from "../select/initiative-phases";
+import {shipsByPhase} from "../select/ships-by-phase";
 import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
 import {ITurnInfo} from "./i-turn-info";
-import {shipsByPhase} from "../select/ships-by-phase";
-import {initiativePhases} from "../select/initiative-phases";
 import {simulatePhase} from "./simulate-phase";
-import {IBattleGraphInfo} from "../select/i-battle-graph-info";
-import {simplifyGraph} from "../optimize/simplify-graph";
-import {collapseGraph} from "../optimize/collapse-graph";
-import {getWinner} from "../select/get-winner";
 
 export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: number[][]): IBattleGraphInfo {
     if (!phases) {
@@ -24,7 +24,7 @@ export function simulateTurn(battleScene: IBattleScene, turn: number, phases?: n
 
         const turnInfo: ITurnInfo = {
             player: sampleShip.owner,
-            defender: battleScene.defender == sampleShip.owner,
+            defender: battleScene.defender === sampleShip.owner,
             initiative: sampleShip.initiative,
             turn,
         };

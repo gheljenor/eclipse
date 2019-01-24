@@ -1,10 +1,10 @@
-import {IBattleScene} from "../sim/i-battle-scene";
 import {Battleship} from "../battleship";
-import {getWeapons} from "../select/get-weapons";
 import {EWeaponDamageType, EWeaponType} from "../i-weapon";
+import {getWeapons} from "../select/get-weapons";
 import {cloneBattlescene} from "../sim/clone-battlescene";
-import {distributeRolls} from "./distribute-rolls";
+import {IBattleScene} from "../sim/i-battle-scene";
 import {BASE_SCORE, KILL_WEIGHT, shipWeights} from "./default-weights";
+import {distributeRolls} from "./distribute-rolls";
 
 export function riftSelfDamage(battlescene: IBattleScene, damage: number, attacker: string): IBattleScene {
     const result = cloneBattlescene(battlescene);
@@ -79,7 +79,7 @@ function getScore(dist: number[], ships: Battleship[], riftShips: Map<Battleship
         const ship = ships[idx];
 
         if (!damages.has(ship)) {
-            damages.set(ship, 0)
+            damages.set(ship, 0);
         }
 
         const damage = damages.get(ship) + 1;
@@ -108,11 +108,11 @@ function getScore(dist: number[], ships: Battleship[], riftShips: Map<Battleship
             return 0;
         }
 
-        const killed = ship.hp <= damage;
+        const isKilled = ship.hp <= damage;
         const baseWeight = shipWeights.get(ship.type);
         const realDamage = Math.min(ship.hp, damage);
 
-        score += Math.pow(BASE_SCORE, baseWeight + (killed ? KILL_WEIGHT : 0)) * (killed ? 1 : realDamage);
+        score += Math.pow(BASE_SCORE, baseWeight + (isKilled ? KILL_WEIGHT : 0)) * (isKilled ? 1 : realDamage);
     }
 
     return score;

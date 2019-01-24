@@ -1,15 +1,15 @@
+import {Battleship} from "../battleship";
+import {IWeapon} from "../i-weapon";
+import {cloneBattlescene} from "../sim/clone-battlescene";
 import {IBattleScene} from "../sim/i-battle-scene";
 import {ITurnInfo} from "../sim/i-turn-info";
-import {IWeapon} from "../i-weapon";
-import {Battleship} from "../battleship";
-import {IBattleTactics} from "./i-battle-tactics";
-import {IWeaponShot} from "./i-weapon-shot";
-import {cloneBattlescene} from "../sim/clone-battlescene";
 import {ancientTactics} from "./ancient-tactics";
 import {distributeRolls} from "./distribute-rolls";
+import {IBattleTactics} from "./i-battle-tactics";
+import {IWeaponShot} from "./i-weapon-shot";
 
 const avaliableTactics = {
-    ancient: ancientTactics
+    ancient: ancientTactics,
 };
 
 export function calcAttack(
@@ -18,7 +18,7 @@ export function calcAttack(
     rolls: number[],
     weapons: IWeapon[],
     bonus: number,
-    targets: Battleship[]
+    targets: Battleship[],
 ): IBattleScene | null {
     const targetsDef = targets.map(({defence}) => defence);
 
@@ -32,10 +32,10 @@ export function calcAttack(
             return null;
         }
 
-        const shots: IWeaponShot[] = dist.map((targetIdx, weaponIdx) => (<IWeaponShot>{
+        const shots: IWeaponShot[] = dist.map((targetIdx, weaponIdx) => ({
             target: targets[targetIdx],
-            weapon: weapons[weaponIdx]
-        }));
+            weapon: weapons[weaponIdx],
+        } as IWeaponShot));
 
         const score = tactics(battleScene, turnInfo, shots);
         if (maxScore < score) {

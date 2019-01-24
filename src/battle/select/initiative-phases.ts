@@ -1,5 +1,5 @@
-import {IBattleScene} from "../sim/i-battle-scene";
 import {Battleship} from "../battleship";
+import {IBattleScene} from "../sim/i-battle-scene";
 
 export function initiativePhases(scene: IBattleScene): number[][] {
     const initiative: { [phase: string]: number[] } = Object.create(null);

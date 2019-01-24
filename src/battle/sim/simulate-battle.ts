@@ -1,10 +1,10 @@
-import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
 import {IBattleGraphInfo} from "../select/i-battle-graph-info";
+import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
 
+import {removeRing} from "../optimize/remove-ring";
+import {battleSceneHash} from "../select/battlescene-hash";
 import {initiativePhases} from "../select/initiative-phases";
 import {simulateTurn} from "./simulate-turn";
-import {battleSceneHash} from "../select/battlescene-hash";
-import {removeRing} from "../optimize/remove-ring";
 
 export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
     const phases = initiativePhases(battleScene);
@@ -26,18 +26,18 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
             graph.push(...result.transitions);
             leaves.push(...result.scenes.filter(({winner}) => winner));
 
-            nextScenes.push(...result.scenes.filter((scene) => {
-                const hash = battleSceneHash(scene);
+            nextScenes.push(...result.scenes.filter((nextScene) => {
+                const hash = battleSceneHash(nextScene);
 
                 if (scenesCache[hash]) {
                     return false;
                 }
 
                 if (turn > 0) {
-                    scenesCache[hash] = scene;
+                    scenesCache[hash] = nextScene;
                 }
 
-                return !scene.winner;
+                return !nextScene.winner;
             }));
 
             if (turn > 0) {
@@ -62,6 +62,6 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
 
     return {
         scenes: leaves,
-        transitions: graph
+        transitions: graph,
     };
 }

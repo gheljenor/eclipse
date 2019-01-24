@@ -21,6 +21,7 @@ export function graphSandbox(graph, start, exclude, iterations = 1000000) {
         let nodeName = start;
         let node;
 
+        // tslint:disable-next-line no-conditional-assignment
         while (node = graph[nodeName]) {
             let rand = Math.random();
 
@@ -44,6 +45,7 @@ export function graphSandbox(graph, start, exclude, iterations = 1000000) {
         let node = run;
         do {
             result[node]++;
+        // tslint:disable-next-line no-conditional-assignment
         } while (node = invertWays[node]);
     }
 

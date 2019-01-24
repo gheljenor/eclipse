@@ -1,10 +1,10 @@
-import {describe, it} from "mocha";
 import {expect} from "chai";
+import {describe, it} from "mocha";
 
-import {simulatePhase} from "../../../src/battle/sim/simulate-phase";
 import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
-import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
+import {simulatePhase} from "../../../src/battle/sim/simulate-phase";
+import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 
 describe("simulate-phase", function () {
     it("gun attack", function () {
@@ -22,19 +22,19 @@ describe("simulate-phase", function () {
                 new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
                 new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
-            defender: "player"
+            defender: "player",
         }, {
             initiative: 1,
             defender: true,
             player: "player",
-            turn: 1
+            turn: 1,
         }, [attacker]);
 
         expect(result.map((transition) => battleSceneHash(transition.to))).to.be.eql([
-            'npc01,npc12,npc20,player01',
-            'npc01,npc12,npc20,player01',
-            'npc01,npc11,npc21,player01',
-            'npc01,npc12,npc21,player01'
+            "npc01,npc12,npc20,player01",
+            "npc01,npc12,npc20,player01",
+            "npc01,npc11,npc21,player01",
+            "npc01,npc12,npc21,player01",
         ]);
     });
 
@@ -44,7 +44,7 @@ describe("simulate-phase", function () {
             "player",
             WeaponsHelper.factory().addRiftTurrel().weapons,
             2,
-            1, 0, 2
+            1, 0, 2,
         );
 
         const result = simulatePhase({
@@ -54,12 +54,12 @@ describe("simulate-phase", function () {
                 new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
                 new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
-            defender: "player"
+            defender: "player",
         }, {
             initiative: 1,
             defender: true,
             player: "player",
-            turn: 1
+            turn: 1,
         }, [attacker]);
 
         expect(result.map((transition) => battleSceneHash(transition.to))).to.be.eql([
@@ -81,7 +81,7 @@ describe("simulate-phase", function () {
             "npc01,npc12,npc21,player00",
             "npc01,npc12,npc21,player01",
             "npc01,npc12,npc21,player01",
-            "npc01,npc12,npc21,player02"
+            "npc01,npc12,npc21,player02",
         ]);
     });
 
@@ -91,7 +91,7 @@ describe("simulate-phase", function () {
             "player",
             WeaponsHelper.factory().addRiftCannon().weapons,
             2,
-            2, 0, 2
+            2, 0, 2,
         );
 
         const gunAttacker = new Battleship(
@@ -99,7 +99,7 @@ describe("simulate-phase", function () {
             "player",
             WeaponsHelper.factory().addOrangeGun().weapons,
             2,
-            1, 1, 1
+            1, 1, 1,
         );
 
         const result = simulatePhase({
@@ -110,12 +110,12 @@ describe("simulate-phase", function () {
                 new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
                 new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
-            defender: "player"
+            defender: "player",
         }, {
             initiative: 1,
             defender: true,
             player: "player",
-            turn: 1
+            turn: 1,
         }, [riftAttacker, gunAttacker]);
 
         expect(result.map((transition) => battleSceneHash(transition.to))).to.be.eql([
@@ -146,7 +146,7 @@ describe("simulate-phase", function () {
             "npc01,npc12,npc20,player02,player12",
             "npc01,npc12,npc20,player02,player12",
             "npc01,npc10,npc21,player02,player12",
-            "npc01,npc12,npc21,player02,player12"
+            "npc01,npc12,npc21,player02,player12",
         ]);
     });
 
@@ -165,31 +165,31 @@ describe("simulate-phase", function () {
                 new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
                 new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
-            defender: "player"
+            defender: "player",
         }, {
             initiative: 1,
             defender: true,
             player: "player",
-            turn: 0
+            turn: 0,
         }, [attacker]);
 
         expect(result.map((transition) => battleSceneHash(transition.to))).to.be.eql([
-            'npc00,npc12,npc20,player01',
-            'npc00,npc12,npc20,player01',
-            'npc01,npc11,npc20,player01',
-            'npc01,npc12,npc20,player01',
-            'npc01,npc12,npc20,player01',
-            'npc01,npc12,npc20,player01',
-            'npc01,npc11,npc20,player01',
-            'npc01,npc11,npc20,player01',
-            'npc01,npc12,npc20,player01',
-            'npc01,npc12,npc20,player01',
-            'npc01,npc12,npc20,player01',
-            'npc01,npc10,npc21,player01',
-            'npc01,npc11,npc21,player01',
-            'npc01,npc11,npc21,player01',
-            'npc01,npc11,npc21,player01',
-            'npc01,npc12,npc21,player01'
+            "npc00,npc12,npc20,player01",
+            "npc00,npc12,npc20,player01",
+            "npc01,npc11,npc20,player01",
+            "npc01,npc12,npc20,player01",
+            "npc01,npc12,npc20,player01",
+            "npc01,npc12,npc20,player01",
+            "npc01,npc11,npc20,player01",
+            "npc01,npc11,npc20,player01",
+            "npc01,npc12,npc20,player01",
+            "npc01,npc12,npc20,player01",
+            "npc01,npc12,npc20,player01",
+            "npc01,npc10,npc21,player01",
+            "npc01,npc11,npc21,player01",
+            "npc01,npc11,npc21,player01",
+            "npc01,npc11,npc21,player01",
+            "npc01,npc12,npc21,player01",
         ]);
     });
 
@@ -208,16 +208,16 @@ describe("simulate-phase", function () {
                 new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
                 new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
-            defender: "player"
+            defender: "player",
         }, {
             initiative: 1,
             defender: true,
             player: "player",
-            turn: 0
+            turn: 0,
         }, [attacker]);
 
         expect(result.map((transition) => battleSceneHash(transition.to))).to.be.eql([
-            'npc01,npc12,npc21,player01'
+            "npc01,npc12,npc21,player01",
         ]);
     });
 });

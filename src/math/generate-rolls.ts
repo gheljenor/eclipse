@@ -1,4 +1,8 @@
-export function* generateRolls(count: number, maxValue: number = 6, unique: boolean = true): IterableIterator<number[]> {
+export function* generateRolls(
+    count: number,
+    maxValue: number = 6,
+    unique: boolean = true,
+): IterableIterator<number[]> {
     if (count < 1) {
         yield [];
         return;
