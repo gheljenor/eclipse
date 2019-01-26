@@ -17,8 +17,9 @@ export default class Spinner extends React.Component<ISpinnerProps, ISpinnerStat
     private readonly min: number;
     private readonly max: number;
 
-    constructor({value = 0, min = -Infinity, max = Infinity}: ISpinnerProps = {}) {
-        super({value, min, max});
+    constructor(props) {
+        super(props);
+        const {value = 0, min = -Infinity, max = Infinity} = props;
 
         this.min = min;
         this.max = max;
@@ -48,6 +49,7 @@ export default class Spinner extends React.Component<ISpinnerProps, ISpinnerStat
     };
 
     private onWheel = (event: WheelEvent<HTMLDivElement>) => {
+        event.preventDefault();
         this.setValue(this.state.value + (event.deltaY > 0 ? 1 : -1));
     };
 
