@@ -1,5 +1,9 @@
 .nyc/
 node_modules/
 coverage/
-*.js
-*.js.map
+dist/
+
+src/**/*.js
+test/**/*.js
+src/**/*.js.map
+test/**/*.js.map

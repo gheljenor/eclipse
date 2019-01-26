@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "stylelint-config-recommended",
+    "stylelint-config-css-modules"
+  ],
+  "plugins": [
+    "stylelint-declaration-use-variable"
+  ],
+  "rules": {
+    "sh-waqar/declaration-use-variable": "color"
+  }
+}
