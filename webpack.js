@@ -33,7 +33,7 @@ module.exports = (mode = "development") => {
     const plugins = [
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            title: "Output Management",
+            title: "Interface example",
             template: "./src/ui/index.html",
             xhtml: true
         }),
