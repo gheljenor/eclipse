@@ -1,5 +1,7 @@
+import {showTransition} from "../../../test/battle/_tools/show-transition";
 import {collapseGraph} from "../optimize/collapse-graph";
 import {simplifyGraph} from "../optimize/simplify-graph";
+import {battleSceneHash} from "../select/battlescene-hash";
 import {getWinner} from "../select/get-winner";
 import {IBattleGraphInfo} from "../select/i-battle-graph-info";
 import {initiativePhases} from "../select/initiative-phases";
@@ -57,8 +59,12 @@ function endOfTurn(transitions: IBattleSceneTransition[]) {
             continue;
         }
 
-        for (const ship of transition.to.ships) {
+        let ships = transition.to.ships;
+        ships = transition.to.ships = [].concat(ships);
+        for (let i = 0, l = ships.length; i < l; i++) {
+            let ship = ships[i];
             if (ship.hp > 0 && ship.heal > 0 && ship.maxHp > ship.hp) {
+                ships[i] = ship = ship.clone();
                 ship.hp = Math.min(ship.hp + ship.heal, ship.maxHp);
             }
         }

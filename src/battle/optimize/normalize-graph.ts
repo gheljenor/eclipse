@@ -1,18 +1,27 @@
 import {battleSceneHash} from "../select/battlescene-hash";
 import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 import {TGraphWay} from "../sim/t-graph-way";
+import {removeRing} from "./remove-ring";
 
+/**
+ * Нормализация ветвей графа
+ * @param layers
+ * @param startScene
+ * @param excludeStart
+ */
 export function normalizeGraph(
-    transitions: IBattleSceneTransition[][],
+    layers: IBattleSceneTransition[][],
     startScene: IBattleScene,
     excludeStart: boolean = true,
 ): IBattleSceneTransition[][] {
     const result: IBattleSceneTransition[][] = [];
     const startSceneHash: string = battleSceneHash(startScene);
+    const transitions: IBattleSceneTransition[] = [];
+    const rings: IBattleSceneTransition[] = [];
 
-    const leaves = transitions[transitions.length - 1];
+    const leaves = layers[layers.length - 1];
 
-    for (const layer of transitions) {
+    for (const layer of layers) {
         const groups: TGraphWay = new Map();
         const subresult = [];
         result.push(subresult);
@@ -22,16 +31,21 @@ export function normalizeGraph(
                 groups.set(transition.from, []);
             }
 
+            groups.get(transition.from).push(transition);
+            transitions.push(transition);
+
             if (leaves === layer && excludeStart) {
                 const hash = battleSceneHash(transition.to);
 
                 if (hash === startSceneHash) {
+                    transition.to = startScene;
+                    transition.posibleRing = true;
+                    rings.push(transition);
                     continue;
                 }
             }
 
             subresult.push(transition);
-            groups.get(transition.from).push(transition);
         }
 
         for (const [, group] of groups) {
@@ -44,6 +58,8 @@ export function normalizeGraph(
             }
         }
     }
+
+    rings.forEach((ring) => removeRing(transitions, ring));
 
     return result;
 }

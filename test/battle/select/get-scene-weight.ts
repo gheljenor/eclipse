@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
 
-import {getSceneWeight} from "../../../src/battle/select/get-scene-weight";
+import {getSceneWeightByLayers} from "../../../src/battle/select/get-scene-weight";
 import {createScene} from "../_tools/create-scene";
 
 describe("get-scene-weight", function () {
@@ -18,7 +18,7 @@ describe("get-scene-weight", function () {
             weight: 0.6,
         }]];
 
-        expect(getSceneWeight(transitions, transitions[0][1].to)).to.be.equal(0.6);
+        expect(getSceneWeightByLayers(transitions, transitions[0][1].to)).to.be.equal(0.6);
     });
 
     it("2 layers", function () {
@@ -45,7 +45,7 @@ describe("get-scene-weight", function () {
             weight: 0.5,
         }]];
 
-        expect(getSceneWeight(transitions, transitions[1][1].to)).to.be.equal(0.2);
+        expect(getSceneWeightByLayers(transitions, transitions[1][1].to)).to.be.equal(0.2);
     });
 
     it("3 layers with diamond", function () {
@@ -90,6 +90,6 @@ describe("get-scene-weight", function () {
             weight: 0.5,
         }]];
 
-        expect(getSceneWeight(transitions, transitions[2][1].to)).to.be.equal(0.31);
+        expect(getSceneWeightByLayers(transitions, transitions[2][1].to)).to.be.equal(0.31);
     });
 });

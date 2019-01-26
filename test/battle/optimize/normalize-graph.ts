@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
+
 import {normalizeGraph} from "../../../src/battle/optimize/normalize-graph";
 import {IBattleSceneTransition} from "../../../src/battle/sim/i-battle-scene";
 import {createScene} from "../_tools/create-scene";

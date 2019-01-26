@@ -32,19 +32,11 @@ describe("simulate-turn", function () {
 
             expect(result.scenes[0].winner).to.be.equal("player");
 
-            expect(result.transitions.map(showTransition)).to.be.eql([{
-                from: "ancient12,player01,player01",
-                to: "ancient10,player01,player01",
-                weight: 0.6875,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient11,player01,player01",
-                weight: 0.25,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient12,player01,player01",
-                weight: 0.0625,
-            }]);
+            expect(result.transitions.map(showTransition)).to.be.eql([
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient10,player01,player01\",\"weight\":0.6875}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient11,player01,player01\",\"weight\":0.25}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient12,player01,player01\",\"weight\":0.0625}",
+            ]);
         });
 
         it("1 turn", function () {
@@ -66,15 +58,10 @@ describe("simulate-turn", function () {
 
             expect(result.scenes[0].winner).to.be.equal("ancient");
 
-            expect(result.transitions.map(showTransition)).to.be.eql([{
-                from: "ancient12,player01,player01",
-                to: "ancient12,player00,player00",
-                weight: 0.2,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient12,player00,player01",
-                weight: 0.8,
-            }]);
+            expect(result.transitions.map(showTransition)).to.be.eql([
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient12,player00,player00\",\"weight\":0.19999999999999998}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient12,player00,player01\",\"weight\":0.7999999999999999}",
+            ]);
         });
     });
 
@@ -105,35 +92,15 @@ describe("simulate-turn", function () {
             expect(result.scenes[1].winner).to.be.equal("ancient");
             expect(result.scenes[4].winner).to.be.equal("ancient");
 
-            expect(result.transitions.map(showTransition)).to.be.eql([{
-                from: "ancient12,player01,player01",
-                to: "ancient10,player01,player01",
-                weight: 0.6875,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient11,player00,player00",
-                weight: 0.027777777777777776,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient11,player00,player01",
-                weight: 0.1111111111111111,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient11,player01,player01",
-                weight: 0.1111111111111111,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient12,player00,player00",
-                weight: 0.006944444444444444,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient12,player00,player01",
-                weight: 0.027777777777777776,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient12,player01,player01",
-                weight: 0.027777777777777776,
-            }]);
+            expect(result.transitions.map(showTransition)).to.be.eql([
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient10,player01,player01\",\"weight\":0.6875}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient11,player00,player00\",\"weight\":0.027777777777777776}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient11,player00,player01\",\"weight\":0.1111111111111111}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient11,player01,player01\",\"weight\":0.1111111111111111}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient12,player00,player00\",\"weight\":0.006944444444444444}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient12,player00,player01\",\"weight\":0.027777777777777776}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient12,player01,player01\",\"weight\":0.027777777777777776}",
+            ]);
         });
 
         it("1 turn", function () {
@@ -175,23 +142,12 @@ describe("simulate-turn", function () {
 
             expect(result.scenes[0].winner).to.be.equal("player");
 
-            expect(result.transitions.map(showTransition)).to.be.eql([{
-                from: "ancient12,player01,player01",
-                to: "ancient10,player01,player01",
-                weight: 0.25,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient11,player00,player01",
-                weight: 0.16666666666666666,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient11,player01,player01",
-                weight: 0.3333333333333333,
-            }, {
-                from: "ancient12,player01,player01",
-                to: "ancient12,player00,player01",
-                weight: 0.25,
-            }]);
+            expect(result.transitions.map(showTransition)).to.be.eql([
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient10,player01,player01\",\"weight\":0.3}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient11,player00,player01\",\"weight\":0.19999999999999998}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient11,player01,player01\",\"weight\":0.39999999999999997}",
+                "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient12,player00,player01\",\"weight\":0.1}",
+            ]);
         });
 
         it("2 turn same as 1 turn", function () {
@@ -230,15 +186,10 @@ describe("simulate-turn", function () {
 
         expect(result.scenes[0].winner).to.be.equal("player");
 
-        expect(result.transitions.map(showTransition)).to.be.eql([{
-            from: "ancient12,player01,player01",
-            to: "ancient10,player01,player01",
-            weight: 0.3333333333333333,
-        }, {
-            from: "ancient12,player01,player01",
-            to: "ancient12,player00,player01",
-            weight: 0.6666666666666666,
-        }]);
+        expect(result.transitions.map(showTransition)).to.be.eql([
+            "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient10,player01,player01\",\"weight\":0.49999999999999994}",
+            "{\"from\":\"ancient12,player01,player01\",\"to\":\"ancient12,player00,player01\",\"weight\":0.5}",
+        ]);
     });
 
     it("precalc phases", function () {
@@ -257,5 +208,24 @@ describe("simulate-turn", function () {
         const second: IBattleGraphInfo = simulateTurn(scene, 1);
 
         expect(first).to.be.eql(second);
+    });
+
+    it("damaged", function () {
+        const scene: IBattleScene = {
+            ships: [
+                new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 0, 3),
+                new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 0, 3),
+            ],
+            defender: "a",
+        };
+
+        const result = simulateTurn(scene, 1, [[2, 3], [0, 1]]);
+
+        expect(result.transitions.map(showTransition)).to.be.eql([
+            "{\"from\":\"a00,a01,p00,p01\",\"to\":\"a00,a01,p00,p00\",\"weight\":0.5454545454545455}",
+            "{\"from\":\"a00,a01,p00,p01\",\"to\":\"a00,a00,p00,p01\",\"weight\":0.45454545454545453}",
+        ]);
     });
 });

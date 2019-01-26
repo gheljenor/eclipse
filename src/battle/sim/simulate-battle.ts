@@ -10,7 +10,7 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
     const phases = initiativePhases(battleScene);
 
     const graph: IBattleSceneTransition[] = [];
-    const leaves: IBattleScene[] = [];
+    const leaves: Set<IBattleScene> = new Set();
 
     const scenesCache: Map<string, IBattleScene> = new Map();
 
@@ -23,32 +23,47 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
 
         for (const scene of scenes) {
             const result = simulateTurn(scene, turn, phases);
+
             graph.push(...result.transitions);
-            leaves.push(...result.scenes.filter(({winner}) => winner));
 
             nextScenes.push(...result.scenes.filter((nextScene) => {
                 const hash = battleSceneHash(nextScene);
 
-                if (scenesCache[hash]) {
+                if (scenesCache.has(hash)) {
                     return false;
                 }
 
                 if (turn > 0) {
-                    scenesCache[hash] = nextScene;
+                    scenesCache.set(hash, nextScene);
                 }
 
                 return !nextScene.winner;
             }));
 
+            result.scenes.filter(({winner}) => winner).forEach((nextScene) => {
+                const hash = battleSceneHash(nextScene);
+                const fromCache = scenesCache.get(hash);
+                leaves.add(fromCache);
+            });
+
             if (turn > 0) {
                 for (const transition of result.transitions) {
                     const hash = battleSceneHash(transition.to);
-                    const fromCache = scenesCache[hash];
+                    const fromCache = scenesCache.get(hash);
 
                     if (fromCache !== transition.to) {
                         transition.to = fromCache;
                         possibleRing.push(transition);
                         transition.posibleRing = true;
+                    }
+                }
+            } else {
+                for (const transition of result.transitions) {
+                    const hash = battleSceneHash(transition.to);
+                    const fromCache = scenesCache.get(hash);
+
+                    if (fromCache !== transition.to && transition.to.winner) {
+                        transition.to = fromCache;
                     }
                 }
             }
@@ -61,7 +76,7 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
     }
 
     return {
-        scenes: leaves,
+        scenes: Array.from(leaves),
         transitions: graph,
     };
 }

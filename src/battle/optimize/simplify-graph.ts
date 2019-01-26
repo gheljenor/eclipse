@@ -2,6 +2,10 @@ import {battleSceneHash} from "../select/battlescene-hash";
 import {IBattleGraphInfo} from "../select/i-battle-graph-info";
 import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 
+/**
+ * Объединяем одинаковые переходы в один
+ * @param transitions
+ */
 export function simplifyGraph(transitions: IBattleSceneTransition[]): IBattleGraphInfo {
     const sceneCache: { [hash: string]: IBattleScene } = Object.create(null);
     const transitionCache: { [hash: string]: IBattleSceneTransition } = Object.create(null);

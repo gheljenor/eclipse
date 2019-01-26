@@ -1,4 +1,4 @@
-import {getSceneWeight} from "../select/get-scene-weight";
+import {getSceneWeightByLayers} from "../select/get-scene-weight";
 import {IBattleGraphInfo} from "../select/i-battle-graph-info";
 import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 import {normalizeGraph} from "./normalize-graph";
@@ -22,7 +22,7 @@ export function collapseGraph(
     const result: IBattleGraphInfo = {
         scenes,
         transitions: scenes.map((scene: IBattleScene) => {
-            const weight = getSceneWeight(transitions, scene);
+            const weight = getSceneWeightByLayers(transitions, scene);
             total += weight;
             return {from: startScene, to: scene, weight};
         }),

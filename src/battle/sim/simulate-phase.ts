@@ -32,6 +32,7 @@ export function simulatePhase(
     const result: IBattleSceneTransition[] = [];
 
     const targets: Battleship[] = shipsByOwner(battleScene.ships, attackers[0].owner, true)
+        .filter((ship) => ship.hp > 0)
         .sort((a, b) => b.defence - a.defence);
 
     const groups = weaponGroups(weapons);
