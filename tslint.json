@@ -1,7 +1,8 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint:recommended"
+    "tslint:recommended",
+    "tslint-react"
   ],
   "jsRules": {},
   "rules": {
@@ -34,7 +35,8 @@
       }
     ],
     "only-arrow-functions": false,
-    "forin": false
+    "forin": false,
+    "jsx-curly-spacing": true
   },
   "rulesDirectory": []
 }

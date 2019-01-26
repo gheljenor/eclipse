@@ -11,7 +11,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = (mode = "development") => {
     const production = mode === "production";
 
-    const entry = ["./src/ui/index.jsx"];
+    const entry = ["./src/ui/index.tsx"];
     !production && entry.push("webpack-hot-middleware/client");
 
     const extractCSS = production ? new ExtractTextPlugin("styles.css") : null;
@@ -48,10 +48,12 @@ module.exports = (mode = "development") => {
         module: {
             rules: [
                 {
-                    test: /\.(jsx?)$/,
-                    exclude: /node_modules/,
-                    use: ["babel-loader"]
-
+                    test: /\.(tsx?)$/,
+                    loader: "babel-loader",
+                }, {
+                    test: /\.js$/,
+                    use: ["source-map-loader"],
+                    enforce: "pre"
                 }, {
                     test: /\.(png|svg|jpg|jpeg|gif)$/,
                     use: [
@@ -69,7 +71,7 @@ module.exports = (mode = "development") => {
             ]
         },
         resolve: {
-            extensions: ["*", ".js", ".jsx"]
+            extensions: ["*", ".js", ".jsx", ".ts", ".tsx"]
         },
         output: {
             path: __dirname + "/dist",
