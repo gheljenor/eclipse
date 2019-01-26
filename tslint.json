@@ -36,7 +36,8 @@
     ],
     "only-arrow-functions": false,
     "forin": false,
-    "jsx-curly-spacing": true
+    "jsx-curly-spacing": true,
+    "no-var-requires": false
   },
   "rulesDirectory": []
 }

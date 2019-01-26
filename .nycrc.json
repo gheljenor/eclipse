@@ -21,6 +21,8 @@
   "exclude": [
     "coverage/",
     "test/",
+    "stories/",
+    "*.js",
     "**/*.d.ts",
     "**/i-*.ts",
     "**/t-*.ts"
