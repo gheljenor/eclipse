@@ -7,7 +7,7 @@ import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 
 describe("rift-self-damage", function () {
-    it("1 ship, 1 hp, 1 weapon, 1 damage", function () {
+    it("1 ship, 1 hp, 1 weapon-group, 1 damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftCannon().weapons),
@@ -20,7 +20,7 @@ describe("rift-self-damage", function () {
         expect(battleSceneHash(result)).to.be.equal("player00,player12");
     });
 
-    it("1 ship, 1 hp, 2 weapon, 1 damage", function () {
+    it("1 ship, 1 hp, 2 weapon-group, 1 damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
@@ -33,7 +33,7 @@ describe("rift-self-damage", function () {
         expect(battleSceneHash(result)).to.be.equal("player00,player12");
     });
 
-    it("1 ship, 1 hp, 2 weapon, 2 damage", function () {
+    it("1 ship, 1 hp, 2 weapon-group, 2 damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
@@ -46,7 +46,7 @@ describe("rift-self-damage", function () {
         expect(battleSceneHash(result)).to.be.equal("player00,player12");
     });
 
-    it("2 ship, 1 hp, 2 weapon, 2 damage", function () {
+    it("2 ship, 1 hp, 2 weapon-group, 2 damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
@@ -60,7 +60,7 @@ describe("rift-self-damage", function () {
         expect(battleSceneHash(result)).to.be.equal("player00,player00,player12");
     });
 
-    it("2 ship, 1 hp, 2 weapon, 3 damage", function () {
+    it("2 ship, 1 hp, 2 weapon-group, 3 damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),
@@ -74,7 +74,7 @@ describe("rift-self-damage", function () {
         expect(battleSceneHash(result)).to.be.equal("player00,player00,player12");
     });
 
-    it("2 ship, 1 hp, 2 weapon, 4 damage", function () {
+    it("2 ship, 1 hp, 2 weapon-group, 4 damage", function () {
         const scene: IBattleScene = {
             ships: [
                 new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addRiftTurrel().weapons),

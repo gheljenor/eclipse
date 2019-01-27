@@ -4,7 +4,7 @@ import {describe, it} from "mocha";
 import {weaponGroups} from "../../../src/battle/select/weapon-groups";
 import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 
-describe("weapon-groups", function () {
+describe("weapon-group-groups", function () {
     it("1 group", function () {
         const weapons = WeaponsHelper.factory().addYellowMissile().weapons;
         expect(weaponGroups(weapons)).to.be.eql([weapons]);

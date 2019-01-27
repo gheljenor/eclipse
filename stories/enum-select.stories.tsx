@@ -29,40 +29,34 @@ const weaponClassTitles: { [key in EWeaponType]: string } = {
 storiesOf("EnumTypeSelect", module)
     .add("ship types, not selected", () => (
         <EnumTypeSelect
-            types={EBattleShipType}
-            titles={shipTypeTitles}
+            values={shipTypeTitles}
         />
     ))
     .add("ship types, cruiser selected", () => (
         <EnumTypeSelect
-            types={EBattleShipType}
-            titles={shipTypeTitles}
+            values={shipTypeTitles}
             value={EBattleShipType.cruiser}
         />
     ))
-    .add("weapon types, not selected", () => (
+    .add("weapon-group types, not selected", () => (
         <EnumTypeSelect
-            types={EWeaponDamageType}
-            titles={weaponTypeTitles}
+            values={weaponTypeTitles}
         />
     ))
-    .add("weapon types, blue selected", () => (
+    .add("weapon-group types, blue selected", () => (
         <EnumTypeSelect
-            types={EWeaponDamageType}
-            titles={weaponTypeTitles}
+            values={weaponTypeTitles}
             value={EWeaponDamageType.blue}
         />
     ))
-    .add("weapon classes, not selected", () => (
+    .add("weapon-group classes, not selected", () => (
         <EnumTypeSelect
-            types={EWeaponType}
-            titles={weaponClassTitles}
+            values={weaponClassTitles}
         />
     ))
-    .add("weapon types, gun selected", () => (
+    .add("weapon-group types, missile selected", () => (
         <EnumTypeSelect
-            types={EWeaponType}
-            titles={weaponClassTitles}
-            value={EWeaponType.gun}
+            values={weaponClassTitles}
+            value={EWeaponType.missile}
         />
     ));

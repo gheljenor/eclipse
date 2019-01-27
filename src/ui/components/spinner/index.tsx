@@ -7,6 +7,7 @@ interface ISpinnerProps extends React.Props<Spinner> {
     value?: number;
     min?: number;
     max?: number;
+    onChange?: (value: number) => void;
 }
 
 interface ISpinnerState {
@@ -14,24 +15,22 @@ interface ISpinnerState {
 }
 
 export default class Spinner extends React.Component<ISpinnerProps, ISpinnerState> {
-    private readonly min: number;
-    private readonly max: number;
-
     constructor(props) {
         super(props);
-        const {value = 0, min = -Infinity, max = Infinity} = props;
-
-        this.min = min;
-        this.max = max;
-
+        const {min = -Infinity, max = Infinity, value = 0} = props;
         this.state = {value};
+    }
+
+    public static getDerivedStateFromProps(props, state) {
+        const {min = -Infinity, max = Infinity} = props;
+        const {value = 0} = state;
+        return {value: Math.max(min, Math.min(max, value))};
     }
 
     public render() {
         return (
             <div className={styles.wrapper} onWheel={this.onWheel}>
                 <input className={styles.input} type="text" value={this.state.value} onChange={this.onChange} />
-
                 <div className={styles.spinner}>
                     <button className={styles.buttonUp} onClick={this.onButtonUp}>+</button>
                     <button className={styles.buttonDown} onClick={this.onButtonDown}>-</button>
@@ -41,10 +40,13 @@ export default class Spinner extends React.Component<ISpinnerProps, ISpinnerStat
     }
 
     private setValue = (value) => {
-        value = Math.max(this.min, Math.min(this.max, value));
+        const {min = -Infinity, max = Infinity} = this.props;
+        value = Math.max(min, Math.min(max, value));
 
-        if (this.state.value !== value) {
-            this.setState({value});
+        this.setState({value});
+
+        if (this.props.onChange) {
+            this.props.onChange(value);
         }
     };
 
