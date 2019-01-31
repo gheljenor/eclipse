@@ -1,11 +1,15 @@
 import * as React from "react";
+
 import {EWeaponDamageType, EWeaponType} from "../../../battle/i-weapon";
 import EnumTypeSelect from "../enum-select";
 import Spinner from "../spinner";
 
 const styles = require("./index.pcss");
 
-const weaponTypeTitles: { [key in EWeaponDamageType]: string } = {
+type IWeaponClass = { [key in EWeaponType]: string };
+type IWeaponType = { [key in EWeaponDamageType]: string };
+
+const weaponTypeTitles: IWeaponType = {
     [EWeaponDamageType.yellow]: "Yellow",
     [EWeaponDamageType.orange]: "Orange",
     [EWeaponDamageType.blue]: "Blue",
@@ -13,12 +17,12 @@ const weaponTypeTitles: { [key in EWeaponDamageType]: string } = {
     [EWeaponDamageType.pink]: "Pink",
 };
 
-const weaponClassTitles: { [key in EWeaponType]: string } = {
+const weaponClassTitles: IWeaponClass = {
     [EWeaponType.gun]: "Gun",
     [EWeaponType.missile]: "Missile",
 };
 
-interface IWeaponGroupState {
+export interface IWeaponGroupState {
     weaponClass?: EWeaponType;
     type?: EWeaponDamageType;
     count?: number;
@@ -28,43 +32,68 @@ interface IWeaponGroupProps extends React.Props<WeaponGroup>, IWeaponGroupState 
     onChange?: (value: IWeaponGroupState) => void;
 }
 
-export default class WeaponGroup extends React.Component<IWeaponGroupProps, IWeaponGroupState> {
+export default class WeaponGroup extends React.Component<IWeaponGroupProps, null> {
+    private classRef: React.RefObject<EnumTypeSelect<IWeaponClass, keyof IWeaponClass>>;
+    private typeRef: React.RefObject<EnumTypeSelect<IWeaponType, keyof IWeaponType>>;
+    private countRef: React.RefObject<Spinner>;
+
     constructor(props) {
         super(props);
 
-        this.state = {
-            weaponClass: props.weaponClass,
-            type: props.type,
-            count: props.count,
-        };
+        this.classRef = React.createRef();
+        this.typeRef = React.createRef();
+        this.countRef = React.createRef();
     }
 
     public render() {
         return (
             <div className={styles.wrapper}>
-                <EnumTypeSelect onChange={this.setClass} values={weaponClassTitles} value={this.state.weaponClass} />
-                <EnumTypeSelect onChange={this.setType} values={weaponTypeTitles} value={this.state.type} />
-                <Spinner onChange={this.setCount} min={0} max={24} value={this.state.count} />
+                <EnumTypeSelect
+                    ref={this.classRef}
+                    onChange={this.handleClassChange}
+                    values={weaponClassTitles}
+                    value={this.props.weaponClass}
+                />
+
+                <EnumTypeSelect
+                    ref={this.typeRef}
+                    onChange={this.handleTypeChange}
+                    values={weaponTypeTitles}
+                    value={this.props.type}
+                />
+
+                <Spinner
+                    ref={this.countRef}
+                    onChange={this.handleCoundChange}
+                    min={1}
+                    max={24}
+                    value={this.props.count}
+                />
             </div>
         );
     }
 
-    public setClass = (value: EWeaponType) => {
+    private handleClassChange = (value: EWeaponType) => {
         this.update({weaponClass: value});
     };
 
-    public setType = (value: EWeaponDamageType) => {
+    private handleTypeChange = (value: EWeaponDamageType) => {
         this.update({type: value});
     };
 
-    public setCount = (value: number) => {
+    private handleCoundChange = (value: number) => {
         this.update({count: value});
     };
 
-    private update(state) {
-        this.setState(state);
+    private update(partialState) {
+        const state: IWeaponGroupState = Object.assign({
+            type: this.typeRef.current.state.value,
+            weaponClass: this.classRef.current.state.value,
+            count: this.countRef.current.state.value,
+        }, partialState);
+
         if (this.props.onChange) {
-            this.props.onChange(this.state);
+            this.props.onChange(state);
         }
     }
 }

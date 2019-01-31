@@ -17,31 +17,42 @@ interface ISpinnerState {
 export default class Spinner extends React.Component<ISpinnerProps, ISpinnerState> {
     constructor(props) {
         super(props);
-        const {min = -Infinity, max = Infinity, value = 0} = props;
+        const {value = 0} = props;
         this.state = {value};
     }
 
     public static getDerivedStateFromProps(props, state) {
         const {min = -Infinity, max = Infinity} = props;
-        const {value = 0} = state;
-        return {value: Math.max(min, Math.min(max, value))};
+        const {value: _value = 0} = state;
+
+        const value = Math.max(min, Math.min(max, _value));
+
+        if (state.value === value) {
+            return state;
+        }
+
+        return {value};
     }
 
     public render() {
         return (
-            <div className={styles.wrapper} onWheel={this.onWheel}>
-                <input className={styles.input} type="text" value={this.state.value} onChange={this.onChange} />
+            <div className={styles.wrapper} onWheel={this.handleWheel}>
+                <input className={styles.input} type="text" value={this.state.value} onChange={this.handleChange} />
                 <div className={styles.spinner}>
-                    <button className={styles.buttonUp} onClick={this.onButtonUp}>+</button>
-                    <button className={styles.buttonDown} onClick={this.onButtonDown}>-</button>
+                    <button className={styles.buttonPlus} onClick={this.handleButtonPlusClick}>+</button>
+                    <button className={styles.buttonMinus} onClick={this.handleButtonMinusClick}>-</button>
                 </div>
             </div>
         );
     }
 
-    private setValue = (value) => {
+    private update = (value: number) => {
         const {min = -Infinity, max = Infinity} = this.props;
         value = Math.max(min, Math.min(max, value));
+
+        if (this.state.value === value) {
+            return;
+        }
 
         this.setState({value});
 
@@ -50,20 +61,20 @@ export default class Spinner extends React.Component<ISpinnerProps, ISpinnerStat
         }
     };
 
-    private onWheel = (event: WheelEvent<HTMLDivElement>) => {
+    private handleWheel = (event: WheelEvent<HTMLDivElement>) => {
         event.preventDefault();
-        this.setValue(this.state.value + (event.deltaY > 0 ? 1 : -1));
+        this.update(this.state.value + (event.deltaY > 0 ? 1 : -1));
     };
 
-    private onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setValue(event.target.value);
+    private handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        this.update(+event.target.value);
     };
 
-    private onButtonUp = () => {
-        this.setValue(this.state.value + 1);
+    private handleButtonPlusClick = () => {
+        this.update(this.state.value + 1);
     };
 
-    private onButtonDown = () => {
-        this.setValue(this.state.value - 1);
+    private handleButtonMinusClick = () => {
+        this.update(this.state.value - 1);
     };
 }

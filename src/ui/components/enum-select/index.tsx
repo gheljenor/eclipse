@@ -3,33 +3,43 @@ import * as React from "react";
 
 const styles = require("./index.pcss");
 
-export default class EnumTypeSelect<List, Keys extends keyof List> extends React.Component<{
+export default class EnumTypeSelect<List, ListKey extends keyof List> extends React.Component<{
     values: List;
-    value?: Keys;
-    onChange?: (value: Keys) => void
+    value?: ListKey;
+    onChange?: (value: ListKey) => void
 }, {
-    value?: Keys;
+    value?: ListKey;
 }> {
     constructor(props) {
         super(props);
-        this.state = {value: props.value};
+        const {value = Object.keys(props.values)[0]} = props;
+        this.state = {value};
     }
 
     public render() {
-        const options = [];
-        for (const key in this.props.values) {
-            options.push(<option value={key} key={key}>{this.props.values[key]}</option>);
-        }
-
         return (
-            <select className={styles.wrapper} value={this.state.value as string} onChange={this.onChange}>
-                {options}
+            <select
+                className={styles.wrapper}
+                value={this.state.value as string}
+                onChange={this.handleChange}
+            >
+                {this.renderOptions()}
             </select>
         );
     }
 
-    private onChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const value: Keys = event.target.value as Keys;
+    private renderOptions() {
+        return Object.entries(this.props.values).map(([value, title]) => (
+            <option value={value} key={value}>{title}</option>
+        ));
+    }
+
+    private handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        const value: ListKey = event.target.value as ListKey;
+
+        if (this.state.value === value) {
+            return;
+        }
 
         this.setState({value});
 

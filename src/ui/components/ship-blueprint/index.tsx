@@ -4,7 +4,7 @@ import {EBattleShipType} from "../../../battle/battleship";
 import {IWeapon} from "../../../battle/i-weapon";
 import EnumTypeSelect from "../enum-select";
 import Spinner from "../spinner";
-import WeaponGroup from "../weapon-group";
+import WeaponList from "../weapon-list";
 
 const styles = require("./index.pcss");
 
@@ -61,21 +61,15 @@ export default class ShipBlueprint extends React.Component<IShipBlueprintProps, 
     }
 
     public saveState = (field: keyof IShipBlueprintState) => (value) => {
-        this.setState({[field]: value});
+        const state = Object.assign({}, this.state, {[field]: value});
+        this.setState(state);
+
+        if (this.props.onChange) {
+            this.props.onChange(state);
+        }
     };
 
     public render() {
-        const weapons = this.state.weapons.map((weapon) => (
-            <li key={weapon.type + weapon.damage}>
-                <WeaponGroup
-                    weaponClass={weapon.type}
-                    type={weapon.damage}
-                    count={weapon.count}
-                />
-                <div className={styles.remove}>-</div>
-            </li>
-        ));
-
         return (
             <div className={styles.wrapper}>
                 <div className={styles.head}>
@@ -111,10 +105,7 @@ export default class ShipBlueprint extends React.Component<IShipBlueprintProps, 
                     </div>
                 </div>
 
-                <ul className={styles.weapons}>
-                    {weapons}
-                    <li className={styles.add}>Add weapon</li>
-                </ul>
+                <WeaponList weapons={this.state.weapons}/>
             </div>
         );
     }
