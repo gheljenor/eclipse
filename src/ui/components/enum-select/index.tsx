@@ -3,16 +3,22 @@ import * as React from "react";
 
 const styles = require("./index.pcss");
 
-export default class EnumTypeSelect<List, ListKey extends keyof List> extends React.Component<{
-    values: List;
+interface IEnumSelectProps<List, ListKey extends keyof List>
+    extends React.Props<EnumSelect<List, ListKey>> {
+    options: List;
     value?: ListKey;
-    onChange?: (value: ListKey) => void
-}, {
+    onChange?: (value: ListKey) => void;
+}
+
+interface IEnumSelectState<List, ListKey extends keyof List> {
     value?: ListKey;
-}> {
+}
+
+export default class EnumSelect<List, ListKey extends keyof List>
+    extends React.Component<IEnumSelectProps<List, ListKey>, IEnumSelectState<List, ListKey>> {
     constructor(props) {
         super(props);
-        const {value = Object.keys(props.values)[0]} = props;
+        const {value = Object.keys(props.options)[0]} = props;
         this.state = {value};
     }
 
@@ -29,13 +35,13 @@ export default class EnumTypeSelect<List, ListKey extends keyof List> extends Re
     }
 
     private renderOptions() {
-        return Object.entries(this.props.values).map(([value, title]) => (
+        return Object.entries(this.props.options).map(([value, title]) => (
             <option value={value} key={value}>{title}</option>
         ));
     }
 
     private handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const value: ListKey = event.target.value as ListKey;
+        const value: ListKey = parseInt(event.target.value, 10) as ListKey;
 
         if (this.state.value === value) {
             return;

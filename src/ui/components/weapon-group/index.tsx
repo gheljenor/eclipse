@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import {EWeaponDamageType, EWeaponType} from "../../../battle/i-weapon";
-import EnumTypeSelect from "../enum-select";
+import EnumSelect from "../enum-select";
 import Spinner from "../spinner";
 
 const styles = require("./index.pcss");
@@ -33,8 +33,8 @@ interface IWeaponGroupProps extends React.Props<WeaponGroup>, IWeaponGroupState 
 }
 
 export default class WeaponGroup extends React.Component<IWeaponGroupProps, null> {
-    private classRef: React.RefObject<EnumTypeSelect<IWeaponClass, keyof IWeaponClass>>;
-    private typeRef: React.RefObject<EnumTypeSelect<IWeaponType, keyof IWeaponType>>;
+    private classRef: React.RefObject<EnumSelect<IWeaponClass, keyof IWeaponClass>>;
+    private typeRef: React.RefObject<EnumSelect<IWeaponType, keyof IWeaponType>>;
     private countRef: React.RefObject<Spinner>;
 
     constructor(props) {
@@ -48,17 +48,17 @@ export default class WeaponGroup extends React.Component<IWeaponGroupProps, null
     public render() {
         return (
             <div className={styles.wrapper}>
-                <EnumTypeSelect
+                <EnumSelect
                     ref={this.classRef}
                     onChange={this.handleClassChange}
-                    values={weaponClassTitles}
+                    options={weaponClassTitles}
                     value={this.props.weaponClass}
                 />
 
-                <EnumTypeSelect
+                <EnumSelect
                     ref={this.typeRef}
                     onChange={this.handleTypeChange}
-                    values={weaponTypeTitles}
+                    options={weaponTypeTitles}
                     value={this.props.type}
                 />
 

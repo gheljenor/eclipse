@@ -7,8 +7,8 @@ export enum EWeaponDamageType {
 }
 
 export enum EWeaponType {
-    missile = "missile",
-    gun = "gun",
+    missile,
+    gun,
 }
 
 export interface IWeapon {

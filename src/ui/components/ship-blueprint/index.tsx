@@ -1,10 +1,9 @@
 import * as React from "react";
 
 import {EBattleShipType} from "../../../battle/battleship";
-import {IWeapon} from "../../../battle/i-weapon";
-import EnumTypeSelect from "../enum-select";
+import EnumSelect from "../enum-select";
 import Spinner from "../spinner";
-import WeaponList from "../weapon-list";
+import WeaponList, {IWeaponListItem} from "../weapon-list";
 
 const styles = require("./index.pcss");
 
@@ -24,10 +23,6 @@ const shipsCount: { [key in EBattleShipType]: number } = {
     [EBattleShipType.starbase]: 4,
 };
 
-interface IBlueprintWeapon extends IWeapon {
-    count: number;
-}
-
 interface IShipBlueprintState {
     count?: number;
     type?: EBattleShipType;
@@ -36,7 +31,7 @@ interface IShipBlueprintState {
     defence?: number;
     attack?: number;
     heal?: number;
-    weapons?: IBlueprintWeapon[];
+    weapons?: IWeaponListItem[];
 }
 
 interface IShipBlueprintProps extends React.Props<ShipBlueprint>, IShipBlueprintState {
@@ -75,37 +70,70 @@ export default class ShipBlueprint extends React.Component<IShipBlueprintProps, 
                 <div className={styles.head}>
                     <Spinner
                         onChange={this.saveState("count")}
+                        value={this.state.count}
                         min={0}
                         max={shipsCount[this.state.type]}
-                        value={this.state.count}
                     />
-                    <EnumTypeSelect onChange={this.saveState("type")} values={shipTypeTitles} value={this.state.type} />
+
+                    <EnumSelect
+                        onChange={this.saveState("type")}
+                        value={this.state.type}
+                        options={shipTypeTitles}
+                    />
                 </div>
 
                 <div className={styles.stats}>
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Hp:</div>
-                        <Spinner onChange={this.saveState("hp")} min={0} value={this.state.hp} />
+                        <Spinner
+                            onChange={this.saveState("hp")}
+                            value={this.state.hp}
+                            min={0}
+                        />
                     </div>
+
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Initiative:</div>
-                        <Spinner onChange={this.saveState("initiative")} min={0} value={this.state.initiative} />
+                        <Spinner
+                            onChange={this.saveState("initiative")}
+                            value={this.state.initiative}
+                            min={0}
+                        />
                     </div>
+
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Defence:</div>
-                        <Spinner onChange={this.saveState("defence")} min={0} value={this.state.defence} />
+                        <Spinner
+                            onChange={this.saveState("defence")}
+                            value={this.state.defence}
+                            min={0}
+                        />
                     </div>
+
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Attack:</div>
-                        <Spinner onChange={this.saveState("attack")} min={0} value={this.state.attack} />
+                        <Spinner
+                            onChange={this.saveState("attack")}
+                            value={this.state.attack}
+                            min={0}
+                        />
                     </div>
+
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Heal:</div>
-                        <Spinner onChange={this.saveState("heal")} min={0} max={6} value={this.state.heal} />
+                        <Spinner
+                            onChange={this.saveState("heal")}
+                            value={this.state.heal}
+                            min={0}
+                            max={6}
+                        />
                     </div>
                 </div>
 
-                <WeaponList weapons={this.state.weapons}/>
+                <WeaponList
+                    onChange={this.saveState("weapons")}
+                    weapons={this.state.weapons}
+                />
             </div>
         );
     }

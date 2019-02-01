@@ -10,7 +10,7 @@ interface IBlueprintWeapon extends IWeapon {
     count: number;
 }
 
-interface IWeaponListItem extends IBlueprintWeapon {
+export interface IWeaponListItem extends IBlueprintWeapon {
     id: number;
 }
 
@@ -20,7 +20,7 @@ interface IWeaponListState {
 
 interface IWeaponListProps extends React.Props<WeaponList> {
     weapons?: IBlueprintWeapon[];
-    onChange: (state: IWeaponListState) => void;
+    onChange?: (weapons: IWeaponListItem[]) => void;
 }
 
 export default class WeaponList extends React.Component<IWeaponListProps, IWeaponListState> {
@@ -106,7 +106,7 @@ export default class WeaponList extends React.Component<IWeaponListProps, IWeapo
         this.setState(state);
 
         if (this.props.onChange) {
-            this.props.onChange(state);
+            this.props.onChange(state.weapons);
         }
     }
 }
