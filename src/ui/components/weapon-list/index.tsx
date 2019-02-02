@@ -4,10 +4,11 @@ import StateHolder, {IStateHolderAction} from "../../lib/state-holder";
 import WeaponGroup, {IWeaponGroupState} from "../weapon-group";
 
 const styles = require("./index.pcss");
+import "../../lib/index.pcss";
 
 interface IWeaponListProps extends React.Props<WeaponList> {
-    weapons?: IWeaponGroupState[];
-    onChange?: IStateHolderAction<IWeaponGroupState[]>;
+    weapons?: Array<Partial<IWeaponGroupState>>;
+    onChange: IStateHolderAction<IWeaponGroupState[]>;
 }
 
 export default class WeaponList extends React.Component<IWeaponListProps, null> {
@@ -24,17 +25,14 @@ export default class WeaponList extends React.Component<IWeaponListProps, null> 
 
     private renderWeapons() {
         const {weapons = []} = this.props;
-
-        const holder = new StateHolder(weapons, (state) => {
-            this.actionUpdate(state);
-        });
+        const holder = new StateHolder(weapons, (state) => this.actionUpdate(state));
 
         return weapons.map((weapon, id) => {
             return (
                 <li className={styles.weapon} key={id}>
                     <WeaponGroup onChange={holder.onChange(id)} {...weapon} />
                     <button onClick={this.handleRemoveClick(id)} className={styles.remove}>
-                        -
+                        remove
                     </button>
                 </li>
             );
@@ -44,7 +42,7 @@ export default class WeaponList extends React.Component<IWeaponListProps, null> 
     private actionAdd() {
         let {weapons = []} = this.props;
         weapons = weapons.slice();
-        weapons.push({});
+        weapons.push(WeaponGroup.defaultState);
         this.actionUpdate(weapons);
     }
 

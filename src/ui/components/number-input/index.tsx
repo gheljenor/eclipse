@@ -4,8 +4,9 @@ import * as React from "react";
 import {IStateHolderAction} from "../../lib/state-holder";
 
 const styles = require("./index.pcss");
+import "../../lib/index.pcss";
 
-interface ISpinnerProps extends React.Props<Spinner> {
+interface ISpinnerProps extends React.Props<NumberInput> {
     state?: number;
     min?: number;
     max?: number;
@@ -14,10 +15,14 @@ interface ISpinnerProps extends React.Props<Spinner> {
 
 const DEFAULT_VALUE = 0;
 
-export default class Spinner extends React.Component<ISpinnerProps, null> {
+export default class NumberInput extends React.Component<ISpinnerProps, null> {
     public render() {
         const {min = -Infinity, max = Infinity, state = DEFAULT_VALUE} = this.props;
         const value = Math.min(max, Math.max(min, state));
+
+        if (value !== state) {
+            this.actionChange(value);
+        }
 
         return (
             <div className={styles.wrapper} onWheel={this.handleWheel}>

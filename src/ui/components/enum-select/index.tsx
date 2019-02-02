@@ -4,12 +4,13 @@ import * as React from "react";
 import {IStateHolderAction} from "../../lib/state-holder";
 
 const styles = require("./index.pcss");
+import "../../lib/index.pcss";
 
 interface IEnumSelectProps<List, ListKey extends keyof List>
     extends React.Props<EnumSelect<List, ListKey>> {
     options: List;
     state?: ListKey;
-    onChange?: IStateHolderAction<ListKey>;
+    onChange: IStateHolderAction<ListKey>;
 }
 
 export default class EnumSelect<List, ListKey extends keyof List>

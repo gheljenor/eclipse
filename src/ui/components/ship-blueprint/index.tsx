@@ -1,9 +1,13 @@
 import * as React from "react";
 
 import {EBattleShipType} from "../../../battle/battleship";
+
 import EnumSelect from "../enum-select";
-import Spinner from "../spinner";
-import WeaponList, {IWeaponListItem} from "../weapon-list";
+import NumberInput from "../number-input";
+import {IWeaponGroupState} from "../weapon-group";
+import WeaponList from "../weapon-list";
+
+import StateHolder, {IStateHolderAction} from "../../lib/state-holder";
 
 const styles = require("./index.pcss");
 
@@ -23,61 +27,58 @@ const shipsCount: { [key in EBattleShipType]: number } = {
     [EBattleShipType.starbase]: 4,
 };
 
-interface IShipBlueprintState {
-    count?: number;
-    type?: EBattleShipType;
-    hp?: number;
-    initiative?: number;
-    defence?: number;
-    attack?: number;
-    heal?: number;
-    weapons?: IWeaponListItem[];
+export interface IShipBlueprintState {
+    count: number;
+    type: EBattleShipType;
+    hp: number;
+    initiative: number;
+    defence: number;
+    attack: number;
+    heal: number;
+    weapons: IWeaponGroupState[];
 }
 
-interface IShipBlueprintProps extends React.Props<ShipBlueprint>, IShipBlueprintState {
-    onChange?: (value: IShipBlueprintState) => void;
+interface IShipBlueprintProps extends React.Props<ShipBlueprint>, Partial<IShipBlueprintState> {
+    onChange: IStateHolderAction<IShipBlueprintState>;
 }
 
-export default class ShipBlueprint extends React.Component<IShipBlueprintProps, IShipBlueprintState> {
-    constructor(props) {
-        super(props);
-        const {
-            count = 0,
-            type = EBattleShipType.interceptor,
-            hp = 1,
-            initiative = 0,
-            defence = 0,
-            attack = 0,
-            heal = 0,
-            weapons = [],
-        }: IShipBlueprintState = props;
+const DEFAULT_COUNT = 1;
+const DEFAULT_TYPE = EBattleShipType.interceptor;
+const DEFAULT_HP = 1;
+const DEFAULT_INITIATIVE = 0;
+const DEFAULT_DEFENCE = 0;
+const DEFAULT_ATTACK = 0;
+const DEFAULT_HEAL = 0;
 
-        this.state = {count, type, hp, initiative, defence, attack, heal, weapons};
-    }
-
-    public saveState = (field: keyof IShipBlueprintState) => (value) => {
-        const state = Object.assign({}, this.state, {[field]: value});
-        this.setState(state);
-
-        if (this.props.onChange) {
-            this.props.onChange(state);
-        }
-    };
-
+export default class ShipBlueprint extends React.Component<IShipBlueprintProps, null> {
     public render() {
+        const {
+            count = DEFAULT_COUNT,
+            type = DEFAULT_TYPE,
+            hp = DEFAULT_HP,
+            initiative = DEFAULT_INITIATIVE,
+            defence = DEFAULT_DEFENCE,
+            attack = DEFAULT_ATTACK,
+            heal = DEFAULT_HEAL,
+            weapons = [],
+        } = this.props;
+
+        const props = {count, type, hp, initiative, defence, attack, heal, weapons};
+        const holder = new StateHolder(props, (newState) => this.props.onChange(newState));
+
         return (
             <div className={styles.wrapper}>
                 <div className={styles.head}>
-                    <Spinner
-                        onChange={this.saveState("count")}
-                        value={this.state.count}
-                        min={0}
-                        max={shipsCount[this.state.type]}
+                    <NumberInput
+                        onChange={holder.onChange("count")}
+                        state={count}
+                        min={1}
+                        max={shipsCount[type]}
                     />
 
                     <EnumSelect
-                        onChange={this.saveState("type")}
-                        value={this.state.type}
+                        onChange={holder.onChange("type")}
+                        state={type}
                         options={shipTypeTitles}
                     />
                 </div>
@@ -85,45 +86,44 @@ export default class ShipBlueprint extends React.Component<IShipBlueprintProps, 
                 <div className={styles.stats}>
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Hp:</div>
-                        <Spinner
-                            onChange={this.saveState("hp")}
-                            value={this.state.hp}
-                            min={0}
+                        <NumberInput
+                            onChange={holder.onChange("hp")}
+                            state={hp}
+                            min={1}
                         />
                     </div>
 
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Initiative:</div>
-                        <Spinner
-                            onChange={this.saveState("initiative")}
-                            value={this.state.initiative}
-                            min={0}
+                        <NumberInput
+                            onChange={holder.onChange("initiative")}
+                            state={initiative}
                         />
                     </div>
 
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Defence:</div>
-                        <Spinner
-                            onChange={this.saveState("defence")}
-                            value={this.state.defence}
+                        <NumberInput
+                            onChange={holder.onChange("defence")}
+                            state={defence}
                             min={0}
                         />
                     </div>
 
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Attack:</div>
-                        <Spinner
-                            onChange={this.saveState("attack")}
-                            value={this.state.attack}
+                        <NumberInput
+                            onChange={holder.onChange("attack")}
+                            state={attack}
                             min={0}
                         />
                     </div>
 
                     <div className={styles.stat}>
                         <div className={styles.statLabel}>Heal:</div>
-                        <Spinner
-                            onChange={this.saveState("heal")}
-                            value={this.state.heal}
+                        <NumberInput
+                            onChange={holder.onChange("heal")}
+                            state={heal}
                             min={0}
                             max={6}
                         />
@@ -131,10 +131,23 @@ export default class ShipBlueprint extends React.Component<IShipBlueprintProps, 
                 </div>
 
                 <WeaponList
-                    onChange={this.saveState("weapons")}
-                    weapons={this.state.weapons}
+                    onChange={holder.onChange("weapons")}
+                    weapons={weapons}
                 />
             </div>
         );
+    }
+
+    public static get defaultState(): IShipBlueprintState {
+        return {
+            count: DEFAULT_COUNT,
+            type: DEFAULT_TYPE,
+            hp: DEFAULT_HP,
+            initiative: DEFAULT_INITIATIVE,
+            defence: DEFAULT_DEFENCE,
+            attack: DEFAULT_ATTACK,
+            heal: DEFAULT_HEAL,
+            weapons: [],
+        };
     }
 }

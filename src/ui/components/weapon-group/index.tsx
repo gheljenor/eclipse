@@ -1,16 +1,21 @@
 import * as React from "react";
 
-import {EWeaponDamageType, EWeaponType} from "../../../battle/i-weapon";
+import {EWeaponDamageType, EWeaponType, IWeapon} from "../../../battle/i-weapon";
 import StateHolder, {IStateHolderAction} from "../../lib/state-holder";
 import EnumSelect from "../enum-select";
-import Spinner from "../spinner";
+import NumberInput from "../number-input";
 
 const styles = require("./index.pcss");
 
-type IWeaponClass = { [key in EWeaponType]: string };
-type IWeaponType = { [key in EWeaponDamageType]: string };
+type IWeaponType = { [key in EWeaponType]: string };
+type IWeaponDamageType = { [key in EWeaponDamageType]: string };
 
-const weaponTypeTitles: IWeaponType = {
+const weaponClassTitles: IWeaponType = {
+    [EWeaponType.gun]: "Gun",
+    [EWeaponType.missile]: "Missile",
+};
+
+const weaponTypeTitles: IWeaponDamageType = {
     [EWeaponDamageType.yellow]: "Yellow",
     [EWeaponDamageType.orange]: "Orange",
     [EWeaponDamageType.blue]: "Blue",
@@ -18,46 +23,39 @@ const weaponTypeTitles: IWeaponType = {
     [EWeaponDamageType.pink]: "Pink",
 };
 
-const weaponClassTitles: IWeaponClass = {
-    [EWeaponType.gun]: "Gun",
-    [EWeaponType.missile]: "Missile",
-};
-
-export interface IWeaponGroupState {
-    weaponClass?: EWeaponType;
-    type?: EWeaponDamageType;
-    count?: number;
+export interface IWeaponGroupState extends IWeapon {
+    count: number;
 }
 
-interface IWeaponGroupProps extends React.Props<WeaponGroup>, IWeaponGroupState {
-    onChange?: IStateHolderAction<IWeaponGroupState>;
+interface IWeaponGroupProps extends React.Props<WeaponGroup>, Partial<IWeaponGroupState> {
+    onChange: IStateHolderAction<IWeaponGroupState>;
 }
 
-const DEFAULT_CLASS = EWeaponType.gun;
-const DEFAULT_TYPE = EWeaponDamageType.yellow;
+const DEFAULT_TYPE = EWeaponType.gun;
+const DEFAULT_DAMAGE_TYPE = EWeaponDamageType.yellow;
 const DEFAULT_COUNT = 1;
 
 export default class WeaponGroup extends React.Component<IWeaponGroupProps, null> {
     public render() {
-        const {weaponClass = DEFAULT_CLASS, type = DEFAULT_TYPE, count = DEFAULT_COUNT} = this.props;
-        const state = {weaponClass, type, count};
+        const {damage = DEFAULT_DAMAGE_TYPE, type = DEFAULT_TYPE, count = DEFAULT_COUNT} = this.props;
+        const state = {damage, type, count};
         const holder = new StateHolder(state, this.props.onChange);
 
         return (
             <div className={styles.wrapper}>
                 <EnumSelect
-                    onChange={holder.onChange("weaponClass")}
-                    options={weaponClassTitles}
-                    state={weaponClass}
-                />
-
-                <EnumSelect
                     onChange={holder.onChange("type")}
-                    options={weaponTypeTitles}
+                    options={weaponClassTitles}
                     state={type}
                 />
 
-                <Spinner
+                <EnumSelect
+                    onChange={holder.onChange("damage")}
+                    options={weaponTypeTitles}
+                    state={damage}
+                />
+
+                <NumberInput
                     onChange={holder.onChange("count")}
                     min={1}
                     max={24}
@@ -65,5 +63,13 @@ export default class WeaponGroup extends React.Component<IWeaponGroupProps, null
                 />
             </div>
         );
+    }
+
+    public static get defaultState(): IWeaponGroupState {
+        return {
+            damage: DEFAULT_DAMAGE_TYPE,
+            type: DEFAULT_TYPE,
+            count: DEFAULT_COUNT,
+        };
     }
 }

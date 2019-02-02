@@ -9,21 +9,23 @@ import stateHolderWrapper from "../src/ui/lib/state-holder-wrapper";
 
 const WrappedWeaponGroup = stateHolderWrapper(WeaponGroup);
 
+const onChange = action("onChange");
+
 storiesOf("WeaponGroup", module)
-    .add("unselected", () => <WrappedWeaponGroup onChange={action("onChange")} />)
+    .add("unselected", () => <WrappedWeaponGroup onChange={onChange} />)
     .add("2 yellow missile", () => (
         <WrappedWeaponGroup
-            weaponClass={EWeaponType.missile}
-            type={EWeaponDamageType.yellow}
+            type={EWeaponType.missile}
+            damage={EWeaponDamageType.yellow}
             count={2}
-            onChange={action("onChange")}
+            onChange={onChange}
         />
     ))
     .add("3 blue gun", () => (
         <WrappedWeaponGroup
-            weaponClass={EWeaponType.gun}
-            type={EWeaponDamageType.blue}
+            type={EWeaponType.gun}
+            damage={EWeaponDamageType.blue}
             count={3}
-            onChange={action("onChange")}
+            onChange={onChange}
         />
     ));
