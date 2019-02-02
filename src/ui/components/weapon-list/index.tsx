@@ -1,50 +1,21 @@
 import * as React from "react";
 
-import {EWeaponDamageType, EWeaponType, IWeapon} from "../../../battle/i-weapon";
-
+import StateHolder, {IStateHolderAction} from "../../lib/state-holder";
 import WeaponGroup, {IWeaponGroupState} from "../weapon-group";
 
 const styles = require("./index.pcss");
 
-interface IBlueprintWeapon extends IWeapon {
-    count: number;
-}
-
-export interface IWeaponListItem extends IBlueprintWeapon {
-    id: number;
-}
-
-interface IWeaponListState {
-    weapons: IWeaponListItem[];
-}
-
 interface IWeaponListProps extends React.Props<WeaponList> {
-    weapons?: IBlueprintWeapon[];
-    onChange?: (weapons: IWeaponListItem[]) => void;
+    weapons?: IWeaponGroupState[];
+    onChange?: IStateHolderAction<IWeaponGroupState[]>;
 }
 
-export default class WeaponList extends React.Component<IWeaponListProps, IWeaponListState> {
-    private counter: number = 1;
-
-    constructor(props) {
-        super(props);
-        const {weapons = []} = props;
-
-        weapons.forEach((weapon) => {
-            weapon.id = this.counter++;
-        });
-
-        this.state = {weapons};
-    }
-
+export default class WeaponList extends React.Component<IWeaponListProps, null> {
     public render() {
         return (
             <ul className={styles.wrapper}>
                 {this.renderWeapons()}
-                <button
-                    onClick={this.handleAddClick}
-                    className={styles.add}
-                >
+                <button onClick={this.handleAddClick} className={styles.add}>
                     Add weapon group
                 </button>
             </ul>
@@ -52,61 +23,42 @@ export default class WeaponList extends React.Component<IWeaponListProps, IWeapo
     }
 
     private renderWeapons() {
-        return this.state.weapons.map((weapon) => (
-            <li className={styles.weapon} key={weapon.id}>
-                <WeaponGroup
-                    onChange={this.handleWeaponChange(weapon.id)}
-                    weaponClass={weapon.type}
-                    type={weapon.damage}
-                    count={weapon.count}
-                />
+        const {weapons = []} = this.props;
 
-                <button
-                    onClick={this.handleRemoveClick(weapon.id)}
-                    className={styles.remove}
-                >
-                    -
-                </button>
-            </li>
-        ));
-    }
-
-    private handleAddClick = () => {
-        const weapons = this.state.weapons.slice();
-
-        weapons.push({
-            id: this.counter++,
-            type: EWeaponType.gun,
-            damage: EWeaponDamageType.yellow,
-            count: 1,
+        const holder = new StateHolder(weapons, (state) => {
+            this.actionUpdate(state);
         });
 
-        this.update({weapons});
-    };
-
-    private handleRemoveClick = (id) => () => {
-        const weapons = this.state.weapons.filter((weapon) => weapon.id !== id);
-        this.update({weapons});
-    };
-
-    private handleWeaponChange = (id) => (weaponState: IWeaponGroupState) => {
-        const weapons = this.state.weapons.map((weapon) => {
-            return weapon.id === id ? {
-                id: weapon.id,
-                type: weaponState.type,
-                damage: weaponState.weaponClass,
-                count: weaponState.count,
-            } : weapon;
+        return weapons.map((weapon, id) => {
+            return (
+                <li className={styles.weapon} key={id}>
+                    <WeaponGroup onChange={holder.onChange(id)} {...weapon} />
+                    <button onClick={this.handleRemoveClick(id)} className={styles.remove}>
+                        -
+                    </button>
+                </li>
+            );
         });
-
-        this.update({weapons});
-    };
-
-    private update(state) {
-        this.setState(state);
-
-        if (this.props.onChange) {
-            this.props.onChange(state.weapons);
-        }
     }
+
+    private actionAdd() {
+        let {weapons = []} = this.props;
+        weapons = weapons.slice();
+        weapons.push({});
+        this.actionUpdate(weapons);
+    }
+
+    private actionRemove(id) {
+        let {weapons = []} = this.props;
+        weapons = weapons.slice();
+        weapons.splice(id, 1);
+        this.actionUpdate(weapons);
+    }
+
+    private actionUpdate(weapons) {
+        this.props.onChange(weapons);
+    }
+
+    private handleAddClick = () => this.actionAdd();
+    private handleRemoveClick = (id) => () => this.actionRemove(id);
 }

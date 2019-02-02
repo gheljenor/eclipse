@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import {EWeaponDamageType, EWeaponType} from "../../../battle/i-weapon";
+import StateHolder, {IStateHolderAction} from "../../lib/state-holder";
 import EnumSelect from "../enum-select";
 import Spinner from "../spinner";
 
@@ -29,71 +30,40 @@ export interface IWeaponGroupState {
 }
 
 interface IWeaponGroupProps extends React.Props<WeaponGroup>, IWeaponGroupState {
-    onChange?: (value: IWeaponGroupState) => void;
+    onChange?: IStateHolderAction<IWeaponGroupState>;
 }
 
+const DEFAULT_CLASS = EWeaponType.gun;
+const DEFAULT_TYPE = EWeaponDamageType.yellow;
+const DEFAULT_COUNT = 1;
+
 export default class WeaponGroup extends React.Component<IWeaponGroupProps, null> {
-    private classRef: React.RefObject<EnumSelect<IWeaponClass, keyof IWeaponClass>>;
-    private typeRef: React.RefObject<EnumSelect<IWeaponType, keyof IWeaponType>>;
-    private countRef: React.RefObject<Spinner>;
-
-    constructor(props) {
-        super(props);
-
-        this.classRef = React.createRef();
-        this.typeRef = React.createRef();
-        this.countRef = React.createRef();
-    }
-
     public render() {
+        const {weaponClass = DEFAULT_CLASS, type = DEFAULT_TYPE, count = DEFAULT_COUNT} = this.props;
+        const state = {weaponClass, type, count};
+        const holder = new StateHolder(state, this.props.onChange);
+
         return (
             <div className={styles.wrapper}>
                 <EnumSelect
-                    ref={this.classRef}
-                    onChange={this.handleClassChange}
+                    onChange={holder.onChange("weaponClass")}
                     options={weaponClassTitles}
-                    value={this.props.weaponClass}
+                    state={weaponClass}
                 />
 
                 <EnumSelect
-                    ref={this.typeRef}
-                    onChange={this.handleTypeChange}
+                    onChange={holder.onChange("type")}
                     options={weaponTypeTitles}
-                    value={this.props.type}
+                    state={type}
                 />
 
                 <Spinner
-                    ref={this.countRef}
-                    onChange={this.handleCoundChange}
+                    onChange={holder.onChange("count")}
                     min={1}
                     max={24}
-                    value={this.props.count}
+                    state={count}
                 />
             </div>
         );
-    }
-
-    private handleClassChange = (value: EWeaponType) => {
-        this.update({weaponClass: value});
-    };
-
-    private handleTypeChange = (value: EWeaponDamageType) => {
-        this.update({type: value});
-    };
-
-    private handleCoundChange = (value: number) => {
-        this.update({count: value});
-    };
-
-    private update(partialState) {
-        const state: IWeaponGroupState = Object.assign({
-            type: this.typeRef.current.state.value,
-            weaponClass: this.classRef.current.state.value,
-            count: this.countRef.current.state.value,
-        }, partialState);
-
-        if (this.props.onChange) {
-            this.props.onChange(state);
-        }
     }
 }

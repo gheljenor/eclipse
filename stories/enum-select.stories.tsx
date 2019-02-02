@@ -6,6 +6,10 @@ import {EBattleShipType} from "../src/battle/battleship";
 import {EWeaponDamageType, EWeaponType} from "../src/battle/i-weapon";
 import EnumSelect from "../src/ui/components/enum-select";
 
+import stateHolderWrapper from "../src/ui/lib/state-holder-wrapper";
+
+const WrappedEnumSelect = stateHolderWrapper(EnumSelect);
+
 const onChange = action("onChange");
 
 const shipTypeTitles: { [key in EBattleShipType]: string } = {
@@ -31,41 +35,47 @@ const weaponClassTitles: { [key in EWeaponType]: string } = {
 
 storiesOf("EnumSelect", module)
     .add("ship types, not selected", () => (
-        <EnumSelect
+        <WrappedEnumSelect
             options={shipTypeTitles}
+            _change={"state"}
             onChange={onChange}
         />
     ))
     .add("ship types, cruiser selected", () => (
-        <EnumSelect
+        <WrappedEnumSelect
             options={shipTypeTitles}
-            value={EBattleShipType.cruiser}
+            state={EBattleShipType.cruiser}
+            _change={"state"}
             onChange={onChange}
         />
     ))
     .add("weapon-group types, not selected", () => (
-        <EnumSelect
+        <WrappedEnumSelect
             options={weaponTypeTitles}
+            _change={"state"}
             onChange={onChange}
         />
     ))
     .add("weapon-group types, blue selected", () => (
-        <EnumSelect
+        <WrappedEnumSelect
             options={weaponTypeTitles}
-            value={EWeaponDamageType.blue}
+            state={EWeaponDamageType.blue}
+            _change={"state"}
             onChange={onChange}
         />
     ))
     .add("weapon-group classes, not selected", () => (
-        <EnumSelect
+        <WrappedEnumSelect
             options={weaponClassTitles}
+            _change={"state"}
             onChange={onChange}
         />
     ))
-    .add("weapon-group types, missile selected", () => (
-        <EnumSelect
+    .add("weapon-group types, gun selected", () => (
+        <WrappedEnumSelect
             options={weaponClassTitles}
-            value={EWeaponType.missile}
+            state={EWeaponType.gun}
+            _change={"state"}
             onChange={onChange}
         />
     ));

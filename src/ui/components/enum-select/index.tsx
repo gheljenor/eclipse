@@ -1,37 +1,36 @@
 import {ChangeEvent} from "react";
 import * as React from "react";
 
+import {IStateHolderAction} from "../../lib/state-holder";
+
 const styles = require("./index.pcss");
 
 interface IEnumSelectProps<List, ListKey extends keyof List>
     extends React.Props<EnumSelect<List, ListKey>> {
     options: List;
-    value?: ListKey;
-    onChange?: (value: ListKey) => void;
-}
-
-interface IEnumSelectState<List, ListKey extends keyof List> {
-    value?: ListKey;
+    state?: ListKey;
+    onChange?: IStateHolderAction<ListKey>;
 }
 
 export default class EnumSelect<List, ListKey extends keyof List>
-    extends React.Component<IEnumSelectProps<List, ListKey>, IEnumSelectState<List, ListKey>> {
-    constructor(props) {
-        super(props);
-        const {value = Object.keys(props.options)[0]} = props;
-        this.state = {value};
-    }
+    extends React.Component<IEnumSelectProps<List, ListKey>, null> {
 
     public render() {
+        const {state = this.defaultValue} = this.props;
+
         return (
             <select
                 className={styles.wrapper}
-                value={this.state.value as string}
+                value={state as string}
                 onChange={this.handleChange}
             >
                 {this.renderOptions()}
             </select>
         );
+    }
+
+    private get defaultValue() {
+        return Object.keys(this.props.options)[0];
     }
 
     private renderOptions() {
@@ -40,17 +39,15 @@ export default class EnumSelect<List, ListKey extends keyof List>
         ));
     }
 
-    private handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const value: ListKey = parseInt(event.target.value, 10) as ListKey;
-
-        if (this.state.value === value) {
-            return;
-        }
-
-        this.setState({value});
-
-        if (this.props.onChange) {
+    private actionChange(value) {
+        const {state = this.defaultValue} = this.props;
+        if (state !== value) {
             this.props.onChange(value);
         }
+    }
+
+    private handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        const value: ListKey = parseInt(event.target.value, 10) as ListKey;
+        this.actionChange(value);
     };
 }
