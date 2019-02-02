@@ -1,12 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import HelloWorld from "./components/hello-world/index";
-
-const title = "This is a title!";
-const text = "This is a text";
+import Setup from "./components/setup";
 
 ReactDOM.render(
-    <HelloWorld title={title} text={text} />,
+    <Setup />,
     document.getElementById("app"),
 );
 

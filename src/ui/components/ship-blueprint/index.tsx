@@ -4,7 +4,7 @@ import {EBattleShipType} from "../../../battle/battleship";
 
 import EnumSelect from "../enum-select";
 import NumberInput from "../number-input";
-import {IWeaponGroupState} from "../weapon-group";
+import WeaponGroup, {IWeaponGroupState} from "../weapon-group";
 import WeaponList from "../weapon-list";
 
 import StateHolder, {IStateHolderAction} from "../../lib/state-holder";
@@ -60,7 +60,7 @@ export default class ShipBlueprint extends React.Component<IShipBlueprintProps, 
             defence = DEFAULT_DEFENCE,
             attack = DEFAULT_ATTACK,
             heal = DEFAULT_HEAL,
-            weapons = [],
+            weapons = [WeaponGroup.defaultState],
         } = this.props;
 
         const props = {count, type, hp, initiative, defence, attack, heal, weapons};
@@ -147,7 +147,7 @@ export default class ShipBlueprint extends React.Component<IShipBlueprintProps, 
             defence: DEFAULT_DEFENCE,
             attack: DEFAULT_ATTACK,
             heal: DEFAULT_HEAL,
-            weapons: [],
+            weapons: [WeaponGroup.defaultState],
         };
     }
 }

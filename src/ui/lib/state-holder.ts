@@ -1,4 +1,7 @@
+import {ChangeEvent} from "react";
+
 export type IStateHolderAction<Field> = (state: Field) => void;
+export type IStateHolderEvent = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 
 export default class StateHolder<State> {
     constructor(
@@ -23,5 +26,11 @@ export default class StateHolder<State> {
                 }
                 this.onUpdate(this.state);
             }
+        };
+
+    public onChangeEvent = <FieldName extends keyof State>(field: FieldName): IStateHolderEvent =>
+        (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+            const value = event.target.value;
+            this.onChange(field)(value as unknown as State[FieldName]);
         };
 }

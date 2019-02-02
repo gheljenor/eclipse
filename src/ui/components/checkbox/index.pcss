@@ -1,0 +1,35 @@
+:local {
+    .wrapper {
+        display: inline-flex;
+        flex: 1 0 auto;
+        vertical-align: middle;
+    }
+
+    .input {
+        display: none;
+    }
+
+    .label {
+        position: relative;
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background: #fff;
+        border: 3px #000 solid;
+
+        &:after {
+            content: "";
+            display: none;
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            background: #090;
+        }
+    }
+
+    .input:checked + .label:after {
+        display: block;
+    }
+}
