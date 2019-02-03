@@ -23,6 +23,7 @@
     "test/",
     "stories/",
     "src/ui/",
+    "docs/",
     "*.js",
     "**/*.d.ts",
     "**/i-*.ts",
