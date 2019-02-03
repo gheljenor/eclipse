@@ -1,3 +1,4 @@
+import {ELogLevel, log, logDuration} from "../../lib/logger";
 import {generateRollsGrouped} from "../../math/generate-rolls-grouped";
 import {permutationsCountGrouped} from "../../math/permutations-count-grouped";
 import {rollsCountGrouped} from "../../math/rolls-count-grouped";
@@ -5,31 +6,47 @@ import {calcAttack} from "../attack/calc-attack";
 import {riftSelfDamage} from "../attack/rift-self-damage";
 import {Battleship} from "../battleship";
 import {EWeaponDamageType, EWeaponType, IWeapon, riftDamage} from "../i-weapon";
+import {battleSceneHash} from "../select/battlescene-hash";
 import {getWeapons} from "../select/get-weapons";
 import {rollsUngroup} from "../select/rolls-ungroup";
 import {shipsByOwner} from "../select/ships-by-owner";
 import {weaponGroups} from "../select/weapon-groups";
 import {cloneBattlescene} from "./clone-battlescene";
 import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
+import {IPhaseCache} from "./i-phase-cache";
 import {ITurnInfo} from "./i-turn-info";
 
 export function simulatePhase(
     battleScene: IBattleScene,
     turnInfo: ITurnInfo,
     attackers: Battleship[],
+    phaseCache: IPhaseCache = {},
 ): IBattleSceneTransition[] {
+    const phaseId = (turnInfo.turn > 0 ? "g" : "m") + ":" + battleSceneHash(battleScene) + ":" + battleSceneHash({
+        ships: attackers,
+        defender: "",
+    });
+
+    if (phaseCache[phaseId]) {
+        return fromCache(phaseId, phaseCache, battleScene);
+    }
+
+    logDuration("SimulatePhase:" + phaseId, "SimulatePhase");
+
+    const result: IBattleSceneTransition[] = [];
+
     const weapons = getWeapons(attackers, turnInfo.turn === 0 ? EWeaponType.missile : EWeaponType.gun)
         .sort((a, b) => b.damage - a.damage);
 
     if (!weapons.length) {
-        return [{
+        logDuration("SimulatePhase:" + phaseId, "SimulatePhase");
+
+        return storeCache(phaseId, phaseCache, [{
             from: battleScene,
             to: cloneBattlescene(battleScene),
             weight: 1,
-        }];
+        }]);
     }
-
-    const result: IBattleSceneTransition[] = [];
 
     const targets: Battleship[] = shipsByOwner(battleScene.ships, attackers[0].owner, true)
         .filter((ship) => ship.hp > 0)
@@ -90,5 +107,20 @@ export function simulatePhase(
         result.push(finalTransition);
     }
 
-    return result;
+    logDuration("SimulatePhase:" + phaseId, "SimulatePhase");
+
+    return storeCache(phaseId, phaseCache, result);
+}
+
+function storeCache(id: string, phaseCache: IPhaseCache, result: IBattleSceneTransition[]) {
+    phaseCache[id] = result;
+    return result.map((transition) => Object.assign({}, transition));
+}
+
+function fromCache(id: string, phaseCache: IPhaseCache, battleScene: IBattleScene): IBattleSceneTransition[] {
+    log(ELogLevel.debug, "SimulatePhase", "from cache", id);
+
+    return phaseCache[id].map((transition: IBattleSceneTransition) => {
+        return Object.assign({}, transition, {from: battleScene});
+    });
 }

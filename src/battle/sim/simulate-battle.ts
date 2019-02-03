@@ -1,12 +1,18 @@
+import {logDuration, showSummary} from "../../lib/logger";
 import {IBattleGraphInfo} from "../select/i-battle-graph-info";
 import {IBattleScene, IBattleSceneTransition} from "./i-battle-scene";
 
 import {removeRing} from "../optimize/remove-ring";
 import {battleSceneHash} from "../select/battlescene-hash";
 import {initiativePhases} from "../select/initiative-phases";
+import {IPhaseCache} from "./i-phase-cache";
 import {simulateTurn} from "./simulate-turn";
 
 export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
+    logDuration("SimulateBattle");
+
+    const phaseCache: IPhaseCache = {};
+
     const phases = initiativePhases(battleScene);
 
     const graph: IBattleSceneTransition[] = [];
@@ -18,11 +24,13 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
     let turn = 0;
 
     while (scenes.length) {
+        logDuration("SimulateBattleLayer:" + turn, "SimulateBattleLayer");
+
         const nextScenes: IBattleScene[] = [];
         const possibleRing: IBattleSceneTransition[] = [];
 
         for (const scene of scenes) {
-            const result = simulateTurn(scene, turn, phases);
+            const result = simulateTurn(scene, turn, phases, phaseCache);
 
             graph.push(...result.transitions);
 
@@ -68,11 +76,19 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
             }
         }
 
+        logDuration("SimulateBattleRings:" + turn, "SimulateBattleRings");
         possibleRing.forEach((transition) => removeRing(graph, transition));
+        logDuration("SimulateBattleRings:" + turn, "SimulateBattleRings");
+
+        logDuration("SimulateBattleLayer:" + turn, "SimulateBattleLayer");
 
         scenes = nextScenes;
         turn++;
     }
+
+    logDuration("SimulateBattle");
+
+    showSummary();
 
     return {
         scenes: Array.from(leaves),
