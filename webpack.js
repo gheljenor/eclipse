@@ -6,29 +6,13 @@
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (mode = "development") => {
     const production = mode === "production";
 
     const entry = ["./src/ui/index.tsx"];
     !production && entry.push("webpack-hot-middleware/client");
-
-    const extractCSS = production ? new ExtractTextPlugin("styles.css") : null;
-
-    const buildCss = [
-        {
-            loader: "css-loader",
-            options: {
-                url: true,
-                modules: true,
-                camelCase: true,
-                importLoaders: 1,
-                sourceMap: true
-            }
-        },
-        "postcss-loader"
-    ];
 
     const plugins = [
         new webpack.HotModuleReplacementPlugin(),
@@ -40,11 +24,12 @@ module.exports = (mode = "development") => {
         new ManifestPlugin(),
     ];
 
-    extractCSS && plugins.unshift(extractCSS);
+    if (production) {
+        plugins.push(new MiniCssExtractPlugin());
+    }
 
     return {
         mode,
-        devtool: "cheap-module-eval-source-map",
         entry,
         module: {
             rules: [
@@ -71,7 +56,20 @@ module.exports = (mode = "development") => {
                     ]
                 }, {
                     test: /\.p?css$/,
-                    use: production ? extractCSS.extract(buildCss) : ["style-loader", ...buildCss]
+                    use: [
+                        production ? MiniCssExtractPlugin.loader : "style-loader",
+                        {
+                            loader: "css-loader",
+                            options: {
+                                url: true,
+                                modules: true,
+                                camelCase: true,
+                                importLoaders: 1,
+                                sourceMap: true
+                            }
+                        },
+                        "postcss-loader"
+                    ]
                 }
             ]
         },
@@ -79,15 +77,11 @@ module.exports = (mode = "development") => {
             extensions: ["*", ".js", ".jsx", ".ts", ".tsx"]
         },
         output: {
-            path: __dirname + "/dist",
-            publicPath: "/",
+            path: __dirname + "/docs",
+            publicPath: "/docs",
             filename: "index.js"
         },
-        plugins,
-        devServer: {
-            contentBase: "./dist",
-            hot: true
-        }
+        plugins
     };
 
 };
