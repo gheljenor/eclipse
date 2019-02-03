@@ -59,7 +59,6 @@ export default class App extends React.Component<Partial<IAppState>, IAppState> 
     };
 
     private handleAutosimChange = (autosim) => {
-        console.log(autosim);
         this.setState({autosim});
 
         if (autosim) {
