@@ -78,7 +78,7 @@ module.exports = (mode = "development") => {
         },
         output: {
             path: __dirname + "/docs",
-            publicPath: "/docs",
+            publicPath: "/eclipse",
             filename: "index.js"
         },
         plugins
