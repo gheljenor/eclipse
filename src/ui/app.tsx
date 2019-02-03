@@ -14,6 +14,7 @@ interface IAppState {
     setup: ISetupState;
     autosim?: boolean;
     summary?: IBattleSummary;
+    duration?: number;
 }
 
 const TROTTLE = 500;
@@ -33,6 +34,8 @@ export default class App extends React.Component<Partial<IAppState>, IAppState> 
                 <div className={styles.controls}>
                     <button className={styles.simulate} onClick={this.showSummary}>Simulate</button>
 
+                    {this.renderDuration()}
+
                     <div className={styles.autosim}>
                         <div className={styles.autosimTitle}>Auto-simulate:</div>
                         <Checkbox state={this.state.autosim} onChange={this.handleAutosimChange} />
@@ -40,13 +43,33 @@ export default class App extends React.Component<Partial<IAppState>, IAppState> 
                 </div>
 
                 <div className={styles.summary}>
-                    {this.state.summary && <Summary {...this.state.summary} />}
+                    {this.state.summary && this.renderSummary()}
                 </div>
 
                 <div className={styles.setup}>
                     <Setup {...this.state.setup} onChange={this.handleSetupChange} />
                 </div>
             </div>
+        );
+    }
+
+    private renderDuration() {
+        if (!this.state.duration) {
+            return;
+        }
+        return (
+            <div className={styles.duration}>
+                Simulated in: {(this.state.duration / 1000).toFixed(1)}sec.
+            </div>
+        );
+    }
+
+    private renderSummary() {
+        return (
+            <Summary
+                players={[this.state.setup.player1.player, this.state.setup.player2.player]}
+                {...this.state.summary}
+            />
         );
     }
 
@@ -80,9 +103,11 @@ export default class App extends React.Component<Partial<IAppState>, IAppState> 
     }
 
     private showSummary = () => {
+        const start = Date.now();
         const battleScene = setupToBattlescene(this.state.setup);
         const simulation = simulateBattle(battleScene);
         const summary = battleSummary(simulation);
-        this.setState({summary});
+        const duration = Date.now() - start;
+        this.setState({summary, duration});
     };
 }

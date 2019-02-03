@@ -1,43 +1,38 @@
 import * as React from "react";
-
-import {IBattleSummary} from "../../../battle/select/battle-summary";
-import {IBattleScene} from "../../../battle/sim/i-battle-scene";
 import {shipTypeTitles} from "../ship-blueprint";
+import {ISummayProps} from "./i-summary-props";
+import {IOutcome, prepareSummary} from "./prepare-summary";
 
 const styles = require("./index.pcss");
 
-export default class Summary extends React.Component<IBattleSummary> {
-    private static renderDetail(scene: IBattleScene, probability: number) {
-        const player = scene.winner as string;
-        const ships = scene.ships.filter((ship) => ship.hp > 0 && ship.owner === player);
+export default class Summary extends React.Component<ISummayProps> {
+    private static renderDetails(outcomes: IOutcome[]) {
+        return outcomes.map(Summary.renderDetail);
+    }
 
-        const shipsByType = {};
-
-        ships.forEach((ship) => {
-            shipsByType[ship.type] = shipsByType[ship.type] || 0;
-            shipsByType[ship.type]++;
-        });
+    private static renderDetail(outcome: IOutcome) {
+        const {probability, ships} = outcome;
 
         return (
-            <li key={player + probability} className={styles.result}>
+            <li key={probability} className={styles.result}>
                 <div className={styles.resultLine} style={{width: (probability * 100).toFixed(2) + "%"}} />
                 <div className={styles.resultText}>{(probability * 100).toFixed(1)}%</div>
-                <ul className={styles.resultShips}>{Object.entries(shipsByType).map(Summary.renderShip)}</ul>
+                <ul className={styles.resultShips}>{ships.map(Summary.renderShip)}</ul>
             </li>
         );
     }
 
-    private static renderShip([shipType, count]) {
-        return <li key={shipType + count} className={styles.ship}>{shipTypeTitles[shipType]} x{count}</li>;
+    private static renderShip({type, count}) {
+        return <li key={type + ":" + count} className={styles.ship}>{shipTypeTitles[type]} x{count}</li>;
     }
 
     public render() {
-        const {results} = this.props;
-
-        const players = Object.keys(results);
+        const {players, results} = this.props;
 
         const player1 = players[0];
         const player2 = players[1];
+
+        const outcomes = prepareSummary(this.props);
 
         return (
             <div className={styles.wrapper}>
@@ -50,16 +45,10 @@ export default class Summary extends React.Component<IBattleSummary> {
                 </div>
 
                 <div className={styles.details}>
-                    <ul className={styles.detailsLeft}>{this.renderDetails(player1)}</ul>
-                    <ul className={styles.detailsRight}>{this.renderDetails(player2)}</ul>
+                    <ul className={styles.detailsLeft}>{Summary.renderDetails(outcomes[player1])}</ul>
+                    <ul className={styles.detailsRight}>{Summary.renderDetails(outcomes[player2])}</ul>
                 </div>
             </div>
         );
-    }
-
-    private renderDetails(player) {
-        return Array.from(this.props.scenes)
-            .filter(([scene]) => scene.winner === player)
-            .map(([scene, probability]) => Summary.renderDetail(scene, probability));
     }
 }

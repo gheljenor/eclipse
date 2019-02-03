@@ -25,8 +25,8 @@ export default class Checkbox extends React.Component<ICheckboxProps> {
                     className={styles.input}
                     type="checkbox"
                     id={"checkbox-" + this.id}
-                    checked={this.props.state}
-                    onClick={this.handleChange}
+                    checked={this.props.state || false}
+                    onChange={this.handleChange}
                 />
                 <label htmlFor={"checkbox-" + this.id} className={styles.label} />
             </div>

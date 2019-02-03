@@ -94,4 +94,57 @@ describe("simulate-battle", function () {
             p: 0.43931478357707865,
         });
     });
+
+    it("2x(1xYG+1xYM) vs 1xAncient Cruiser", function () {
+        const scene: IBattleScene = {
+            ships: [
+                new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().addYellowMissile().weapons, 1, 4),
+                new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().addYellowMissile().weapons, 1, 4),
+                new Battleship(EBattleShipType.cruiser, "a", WeaponsHelper.factory().addYellowGun().addYellowGun().weapons, 2, 2, 0, 1),
+            ],
+            defender: "a",
+        };
+
+        const result = simulateBattle(scene);
+
+        expect(result.transitions.map(showTransition)).to.be.eql([
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a10,p01,p01\",\"weight\":0.13194444444444445}",
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a11,p01,p01\",\"weight\":0.38580246913580246}",
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a12,p01,p01\",\"weight\":0.48225308641975306}",
+            "{\"from\":\"a11,p01,p01\",\"to\":\"a10,p01,p01\",\"weight\":0.44196428571428575}",
+            "{\"from\":\"a11,p01,p01\",\"to\":\"a11,p00,p00\",\"weight\":0.11160714285714285}",
+            "{\"from\":\"a11,p01,p01\",\"to\":\"a11,p00,p01\",\"weight\":0.4464285714285714}",
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a10,p01,p01\",\"weight\":0.04017857142857143}",
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a11,p00,p00\",\"weight\":0.044642857142857144}",
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a11,p00,p01\",\"weight\":0.17857142857142858}",
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a11,p01,p01\",\"weight\":0.17857142857142858}",
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a12,p00,p00\",\"weight\":0.11160714285714285}",
+            "{\"from\":\"a12,p01,p01\",\"to\":\"a12,p00,p01\",\"weight\":0.4464285714285714}",
+            "{\"from\":\"a11,p00,p01\",\"to\":\"a10,p00,p01\",\"weight\":0.2647058823529412}",
+            "{\"from\":\"a11,p00,p01\",\"to\":\"a11,p00,p00\",\"weight\":0.7352941176470589}",
+            "{\"from\":\"a12,p00,p01\",\"to\":\"a11,p00,p00\",\"weight\":0.14705882352941177}",
+            "{\"from\":\"a12,p00,p01\",\"to\":\"a11,p00,p01\",\"weight\":0.11764705882352941}",
+            "{\"from\":\"a12,p00,p01\",\"to\":\"a12,p00,p00\",\"weight\":0.7352941176470589}",
+        ]);
+
+        expect(result.scenes.map(battleSceneHash)).to.be.eql([
+            "a10,p01,p01",
+            "a11,p00,p00",
+            "a12,p00,p00",
+            "a10,p00,p01",
+        ]);
+
+        const summary = battleSummary(result);
+        expect(Array.from(summary.scenes).map(([s, v]) => [battleSceneHash(s), v])).to.be.eql([
+            ["a10,p01,p01", 0.35989206880668934],
+            ["a11,p00,p00", 0.3427145193419143],
+            ["a12,p00,p00", 0.21212550413683992],
+            ["a10,p00,p01", 0.0852679077145564],
+        ]);
+
+        expect(summary.results).to.be.eql({
+            a: 0.5548400234787543,
+            p: 0.4451599765212457,
+        });
+    });
 });

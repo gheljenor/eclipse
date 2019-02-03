@@ -51,4 +51,4 @@ const example1: IBattleSummary = {
 };
 
 storiesOf("Summary", module)
-    .add("example 1", () => <Summary {...example1} />);
+    .add("example 1", () => <Summary players={[player, enemy]} {...example1} />);

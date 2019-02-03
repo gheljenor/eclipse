@@ -49,16 +49,10 @@ module.exports = (mode = "development") => {
         module: {
             rules: [
                 {
-                    test: /\.tsx$/,
+                    test: /\.tsx?$/,
                     exclude: /node_modules/,
                     use: [
                         {loader: "babel-loader"},
-                        {loader: "ts-loader"}
-                    ],
-                }, {
-                    test: /\.ts$/,
-                    exclude: /node_modules/,
-                    use: [
                         {loader: "ts-loader"}
                     ],
                 }, {

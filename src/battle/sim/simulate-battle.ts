@@ -33,9 +33,7 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
                     return false;
                 }
 
-                if (turn > 0) {
-                    scenesCache.set(hash, nextScene);
-                }
+                scenesCache.set(hash, nextScene);
 
                 return !nextScene.winner;
             }));
@@ -43,6 +41,7 @@ export function simulateBattle(battleScene: IBattleScene): IBattleGraphInfo {
             result.scenes.filter(({winner}) => winner).forEach((nextScene) => {
                 const hash = battleSceneHash(nextScene);
                 const fromCache = scenesCache.get(hash);
+
                 leaves.add(fromCache);
             });
 
