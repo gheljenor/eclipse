@@ -19,7 +19,6 @@
     ".tsx"
   ],
   "exclude": [
-    "coverage/",
     "test/",
     "stories/",
     "src/ui/",
@@ -36,7 +35,7 @@
   ],
   "cache-dir": ".nyc/cache",
   "temp-dir": ".nyc/temp",
-  "report-dir": "coverage",
+  "report-dir": "docs/coverage",
   "cache": true,
   "sourceMap": true,
   "instrument": true,
