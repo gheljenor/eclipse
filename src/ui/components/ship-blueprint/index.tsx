@@ -11,7 +11,7 @@ import StateHolder, {IStateHolderAction} from "../../lib/state-holder";
 
 const styles = require("./index.pcss");
 
-const shipTypeTitles: { [key in EBattleShipType]: string } = {
+export const shipTypeTitles: { [key in EBattleShipType]: string } = {
     [EBattleShipType.interceptor]: "Interceptor",
     [EBattleShipType.cruiser]: "Cruiser",
     [EBattleShipType.dreadnought]: "Dreadnought",

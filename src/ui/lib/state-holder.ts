@@ -8,8 +8,6 @@ export default class StateHolder<State> {
         public state: State,
         private readonly onUpdate: (state: State) => void,
     ) {
-        this.state = state;
-        this.onUpdate = onUpdate;
     }
 
     public onChange = <FieldName extends keyof State>(field: FieldName): IStateHolderAction<State[FieldName]> =>

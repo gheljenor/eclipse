@@ -1,0 +1,95 @@
+:local {
+    .wrapper {
+
+    }
+
+    .results {
+        height: 50px;
+        width: 100%;
+        position: relative;
+
+        &Left, &Right {
+            position: absolute;
+            height: 100%;
+        }
+
+        &Left {
+            left: 0;
+            background: rgba(0, 255, 0, 0.3);
+        }
+
+        &Right {
+            right: 0;
+            background: rgba(255, 0, 0, 0.3);
+        }
+
+        &Text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+    }
+
+    .details {
+        display: flex;
+        flex-flow: row wrap;
+
+        &Left, &Right {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex: 1 1 150px;
+        }
+
+        &Left .resultLine {
+            background: rgba(0, 255, 0, 0.2);
+        }
+
+        &Right {
+            .result {
+                text-align: right;
+            }
+
+            .resultLine {
+                background: rgba(255, 0, 0, 0.2);
+                right: 0;
+            }
+        }
+    }
+
+    .result {
+        display: block;
+        position: relative;
+        width: 100%;
+        margin: 10px 0;
+        padding: 0;
+
+        &Line {
+            position: absolute;
+            height: 25px;
+        }
+
+        &Text {
+            height: 25px;
+            line-height: 25px;
+            padding: 0 10px;
+        }
+
+        &Ships {
+            display: block;
+            list-style: none;
+            margin: 5px -5px 0;
+            padding: 0;
+        }
+    }
+
+    .ship {
+        display: inline-block;
+        border: 1px #ccc solid;
+        margin: 0 5px;
+        padding: 2px 5px;
+        font-size: 10px;
+    }
+}

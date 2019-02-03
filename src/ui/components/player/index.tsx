@@ -37,7 +37,7 @@ export default class Player extends React.Component<IPlayerProps, null> {
             <div className={styles.wrapper}>
                 <div className={styles.head}>
                     <div className={styles.headLeft}>
-                        <div className={styles.title}>Player name:</div>
+                        <div className={styles.title}>Name:</div>
                         <TextInput state={player} onChange={holder.onChange("player")} />
                     </div>
 

@@ -28,7 +28,7 @@ export default class Checkbox extends React.Component<ICheckboxProps> {
                     checked={this.props.state}
                     onClick={this.handleChange}
                 />
-                <label for={"checkbox-" + this.id} className={styles.label} />
+                <label htmlFor={"checkbox-" + this.id} className={styles.label} />
             </div>
         );
     }

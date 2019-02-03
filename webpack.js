@@ -44,12 +44,23 @@ module.exports = (mode = "development") => {
 
     return {
         mode,
+        devtool: "cheap-module-eval-source-map",
         entry,
         module: {
             rules: [
                 {
-                    test: /\.(tsx?)$/,
-                    loader: "babel-loader",
+                    test: /\.tsx$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {loader: "babel-loader"},
+                        {loader: "ts-loader"}
+                    ],
+                }, {
+                    test: /\.ts$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {loader: "ts-loader"}
+                    ],
                 }, {
                     test: /\.js$/,
                     use: ["source-map-loader"],
