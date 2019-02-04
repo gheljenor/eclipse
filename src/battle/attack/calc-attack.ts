@@ -18,6 +18,9 @@ const avaliableTactics = {
 // With alliances it's possible to have rolls count about 360, and possible targets count about 54...
 // I have not found similar NP problem, so i hope to found some O(rolls * targets) solution...
 
+// UPD: It seems to be similar to Bin Packing Problem: https://en.wikipedia.org/wiki/Bin_packing_problem
+// But we must maximize some score, not bins count...
+
 export function calcAttack(
     battleScene: IBattleScene,
     turnInfo: ITurnInfo,
