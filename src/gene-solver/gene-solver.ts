@@ -1,68 +1,87 @@
-import {memo} from "../lib/memo";
 import {randomInt} from "../math/random-int";
 
-interface IGeneSolverOptions {
-    firstGeneration: number;
-    iterations: number;
-    initial: number;
-
-    best: number;
-    worst: number;
-    random: number;
-
-    breeders: number;
-    minChildren: number;
-    maxChildren: number;
-
-    mutations: number;
-}
-
-interface IGeneSolverCore<Solution> {
+export interface IGeneSolverCore<Solution> {
     generator: (data: any) => IterableIterator<Solution>;
     breed: (a: Solution, b: Solution) => Solution;
     mutate: (solution: Solution) => Solution;
     appraise: (solution: Solution) => number | null;
 }
 
+export interface IGeneSolverOptions {
+    firstGeneration: number;
+    iterations: number;
+    initial: number;
+
+    freshBlood: number;
+
+    breeders: number;
+    minChildren: number;
+    maxChildren: number;
+
+    mutations: number;
+
+    best: number;
+    worst: number;
+    random: number;
+}
+
 export class GeneSolver<Solution> {
-    private generation: Solution[];
-    private readonly appraise: (solution: Solution) => number | null;
+    public generation: Solution[];
+
+    private generator: IterableIterator<Solution>;
+
+    private readonly breedRandom: number;
 
     constructor(
         private readonly core: IGeneSolverCore<Solution>,
         private readonly options: IGeneSolverOptions,
     ) {
-        this.appraise = memo(this.core.appraise);
+        this.breedRandom = this.options.maxChildren - this.options.minChildren;
     }
 
     public calculate(data: any): Solution {
+        this.generator = this.core.generator(data);
+
         const best: Solution[] = [];
 
-        const generator = this.core.generator(data);
-
         for (let i = 0; i < this.options.firstGeneration; i++) {
-            console.log("generation", i);
-            const candidates: Solution[] = [];
+            const candidates = this.spawnCandidates(this.options.initial);
 
-            for (const candidate of this.core.generator(data)) {
-                candidates.push(candidate);
-
-                if (candidates.length >= this.options.initial) {
-                    break;
-                }
+            if (candidates.length) {
+                best.push(this.generateOneBest(candidates));
+            } else {
+                break;
             }
-
-            best.push(this.generateOneBest(candidates));
         }
 
         return this.generateOneBest(best);
+    }
+
+    private spawnCandidates(count: number): Solution[] {
+        if (!this.generator) {
+            return [];
+        }
+
+        const result = [];
+
+        for (let i = 0; i < count; i++) {
+            const generated = this.generator.next();
+
+            if (generated.done) {
+                delete this.generator;
+                break;
+            }
+
+            result.push(generated.value);
+        }
+
+        return result;
     }
 
     private generateOneBest(candidates: Solution[]): Solution {
         this.generation = candidates;
 
         for (let i = 0; i < this.options.iterations; i++) {
-            console.log("iteration", i, this.generation.length);
             this.iteration();
         }
 
@@ -70,14 +89,15 @@ export class GeneSolver<Solution> {
     }
 
     private iteration() {
-        let generationNext = [...this.generation];
+        let generationNext = this.generation
+            .concat(this.spawnCandidates(this.options.freshBlood));
 
         this.breeding(generationNext);
         this.mutating(generationNext);
 
         generationNext = generationNext
-            .filter((a) => this.appraise(a) != null)
-            .sort((a, b) => this.appraise(b) - this.appraise(a));
+            .filter((a) => this.core.appraise(a) != null)
+            .sort((a, b) => this.core.appraise(b) - this.core.appraise(a));
 
         this.generation = [
             ...generationNext.slice(0, this.options.best),
@@ -94,18 +114,15 @@ export class GeneSolver<Solution> {
     }
 
     private breeding(generationNext) {
-        for (let i = 0; i < this.options.breeders; i++) {
+        for (let i = 0, l = this.options.breeders; i < l; i++) {
             const a = randomInt(this.generation.length - 1);
-            const b = randomInt(this.generation.length - 1);
+            let b = randomInt(this.generation.length - 2);
 
-            // regenerate if parents are the same
-            if (a === b) {
-                i--;
-                continue;
+            if (b >= a) {
+                b++;
             }
 
-            const count = this.options.minChildren
-                + randomInt(this.options.maxChildren - this.options.minChildren);
+            const count = this.options.minChildren + (this.breedRandom && randomInt(this.breedRandom));
 
             for (let k = 0; k < count; k++) {
                 const child = this.core.breed(this.generation[a], this.generation[b]);
@@ -115,7 +132,7 @@ export class GeneSolver<Solution> {
     }
 
     private mutating(generationNext) {
-        for (let i = 0; i < this.options.mutations; i++) {
+        for (let i = 0, l = this.options.mutations; i < l; i++) {
             const idx = randomInt(this.generation.length - 1);
             const mutant = this.core.mutate(this.generation[idx]);
             generationNext.push(mutant);
