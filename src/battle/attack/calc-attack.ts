@@ -1,3 +1,4 @@
+import {root} from "postcss";
 import {ELogLevel, log, logDuration} from "../../lib/logger";
 import {Battleship} from "../battleship";
 import {IWeapon} from "../i-weapon";
@@ -54,7 +55,8 @@ export function calcAttack(
         const shots: IWeaponShot[] = dist.map((targetIdx, weaponIdx) => ({
             target: targets[targetIdx],
             weapon: weapons[weaponIdx],
-        } as IWeaponShot));
+            roll: rolls[weaponIdx],
+        }));
 
         const score = tactics(battleScene, turnInfo, shots);
 

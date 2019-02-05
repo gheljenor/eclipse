@@ -1,7 +1,7 @@
 import {randomInt} from "../math/random-int";
 
-export interface IGeneSolverCore<Solution> {
-    generator: (data: any) => IterableIterator<Solution>;
+export interface IGeneSolverCore<Solution, Data> {
+    generator: (data: Data) => IterableIterator<Solution>;
     breed: (a: Solution, b: Solution) => Solution;
     mutate: (solution: Solution) => Solution;
     appraise: (solution: Solution) => number | null;
@@ -25,22 +25,21 @@ export interface IGeneSolverOptions {
     random: number;
 }
 
-export class GeneSolver<Solution> {
-    public generation: Solution[];
-
-    private generator: IterableIterator<Solution>;
+export class GeneSolver<Solution, Data> {
+    private generation: Solution[];
+    private generatorInstance: IterableIterator<Solution>;
 
     private readonly breedRandom: number;
 
     constructor(
-        private readonly core: IGeneSolverCore<Solution>,
-        private readonly options: IGeneSolverOptions,
+        private readonly core: IGeneSolverCore<Solution, Data>,
+        protected readonly options: IGeneSolverOptions,
     ) {
         this.breedRandom = this.options.maxChildren - this.options.minChildren;
     }
 
-    public calculate(data: any): Solution {
-        this.generator = this.core.generator(data);
+    public calculate(data: Data): Solution {
+        this.generatorInstance = this.core.generator(data);
 
         const best: Solution[] = [];
 
@@ -58,17 +57,17 @@ export class GeneSolver<Solution> {
     }
 
     private spawnCandidates(count: number): Solution[] {
-        if (!this.generator) {
+        if (!this.generatorInstance) {
             return [];
         }
 
         const result = [];
 
         for (let i = 0; i < count; i++) {
-            const generated = this.generator.next();
+            const generated = this.generatorInstance.next();
 
             if (generated.done) {
-                delete this.generator;
+                delete this.generatorInstance;
                 break;
             }
 

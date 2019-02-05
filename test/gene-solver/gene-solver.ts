@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
 
-import {GeneSolver} from "../../src/gene-solver/gene-solver";
+import {GeneSolver} from "../../src/gene-solver";
 import {randomInt} from "../../src/math/random-int";
 
 describe("gene-solver", function () {
