@@ -158,11 +158,23 @@ describe("simulate-battle", function () {
                     new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
                     new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
                     new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+
                     new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
                     new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
 
+                    // new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                    // new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                    // new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                    // new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                    //
+                    // new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                    // new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                    // new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                    // new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+
                     new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
                     new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+
                     new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
                     new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
                     new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
