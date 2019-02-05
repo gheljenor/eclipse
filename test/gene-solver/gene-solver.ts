@@ -1,10 +1,10 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
 
-import {GeneSolver} from "../../src/gene/gene-solver";
 import {randomInt} from "../../src/math/random-int";
+import {GeneSolver} from "../../src/solvers/gene-solver";
 
-describe("gene-solver", function () {
+describe.only("solvers-solver", function () {
     it("sort", function () {
         this.timeout(500);
 

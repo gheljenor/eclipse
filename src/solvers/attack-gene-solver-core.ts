@@ -3,11 +3,11 @@ import {IBattleTactics} from "../battle/attack/i-battle-tactics";
 import {IWeaponShot} from "../battle/attack/i-weapon-shot";
 import {Battleship} from "../battle/battleship";
 import {IWeapon} from "../battle/i-weapon";
+import {isMissed} from "../battle/select/is-missed";
 import {IBattleScene} from "../battle/sim/i-battle-scene";
 import {ITurnInfo} from "../battle/sim/i-turn-info";
 import {randomInt} from "../math/random-int";
 import {IGeneSolverCore, IGeneSolverOptions} from "./gene-solver";
-import {isMissed} from "../battle/select/is-missed";
 
 export interface IAttackSolverData {
     battleScene: IBattleScene;
@@ -18,7 +18,7 @@ export interface IAttackSolverData {
     targets: Battleship[];
 }
 
-const defaultOptions = {
+const defaultOptions: IGeneSolverOptions = {
     firstGeneration: 5,
     initial: 5,
     iterations: 5,
@@ -36,7 +36,7 @@ const defaultOptions = {
     random: 4,
 };
 
-export class AttackSolverCore implements IGeneSolverCore<IWeaponShot[], IAttackSolverData> {
+export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAttackSolverData> {
     private data: IAttackSolverData;
 
     constructor(private tactics: IBattleTactics) {
@@ -91,8 +91,7 @@ export class AttackSolverCore implements IGeneSolverCore<IWeaponShot[], IAttackS
         return this.tactics(this.data.battleScene, this.data.turnInfo, shots);
     }
 
-    public options(): IGeneSolverOptions {
-        // TODO: dynamic options
+    public options(data): IGeneSolverOptions {
         return defaultOptions;
     }
 }

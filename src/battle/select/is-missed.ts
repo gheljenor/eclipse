@@ -1,3 +1,3 @@
 export function isMissed(roll: number, bonus: number, defence: number): boolean {
-    return roll === 1 || roll !== 6 && roll + bonus < 6 + defence;
+    return roll !== 6 && (roll === 1 || roll + bonus < 6 + defence);
 }

@@ -10,7 +10,7 @@ import {simulateTurn} from "../../../src/battle/sim/simulate-turn";
 import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 import {showTransition} from "../_tools/show-transition";
 
-describe("simulate-turn", function () {
+describe.only("simulate-turn", function () {
     describe("rockets vs guns", function () {
         it("0 turn", function () {
             const scene: IBattleScene = {

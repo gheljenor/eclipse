@@ -148,8 +148,8 @@ describe("simulate-battle", function () {
         });
     });
 
-    describe.skip("bechmark", function () {
-        it("6 vs 6", function () {
+    describe("bechmark", function () {
+        it.only("6 vs 6", function () {
             const ts = Date.now();
 
             const scene: IBattleScene = {
@@ -174,7 +174,7 @@ describe("simulate-battle", function () {
             simulateBattle(scene);
 
             const duration = Date.now() - ts;
-            expect(duration).to.be.lte(500);
+            expect(duration).to.be.lte(1000);
         });
     });
 });

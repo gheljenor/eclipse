@@ -4,6 +4,7 @@ import {describe, it} from "mocha";
 import {calcAttack} from "../../../src/battle/attack/calc-attack";
 import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {IWeapon} from "../../../src/battle/i-weapon";
+import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {ITurnInfo} from "../../../src/battle/sim/i-turn-info";
 import {RED_GUN, YELLOW_GUN} from "../../../src/battle/weapons-helper";

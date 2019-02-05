@@ -52,7 +52,9 @@ export class GeneSolver<Solution, Data> {
 
             if (candidates.length) {
                 best.push(this.generateOneBest(candidates));
-            } else {
+            }
+
+            if (!candidates.length || !this.generatorInstance) {
                 break;
             }
         }
@@ -86,6 +88,10 @@ export class GeneSolver<Solution, Data> {
 
         for (let i = 0; i < this.options.iterations; i++) {
             this.iteration();
+
+            if (!this.generatorInstance) {
+                break;
+            }
         }
 
         return this.generation[0];
@@ -104,8 +110,12 @@ export class GeneSolver<Solution, Data> {
 
         this.generation = [
             ...generationNext.slice(0, this.options.best),
-            ...generationNext.slice(-this.options.worst),
+            ...(this.options.worst ? generationNext.slice(-this.options.worst) : []),
         ];
+
+        if (!this.generatorInstance) {
+            return;
+        }
 
         generationNext = generationNext.slice(this.options.best, -this.options.worst);
 
@@ -117,11 +127,7 @@ export class GeneSolver<Solution, Data> {
     }
 
     private breeding(generationNext) {
-        if (!this.generatorInstance) {
-            return;
-        }
-
-        if (this.generation.length < 2) {
+        if (!this.generatorInstance || this.generation.length < 2) {
             return;
         }
 
