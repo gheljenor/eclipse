@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/battle/battleship.ts</title>
+    <title>Code coverage report for solvers/attack-brute-force-solver.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../prettify.css" />
-    <link rel="stylesheet" href="../../base.css" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../sort-arrow-sprite.png);
+            background-image: url(../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">src/battle</a> battleship.ts
+      <a href="../index.html">All files</a> / <a href="index.html">solvers</a> attack-brute-force-solver.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>20/20</span>
+        <span class='fraction'>17/17</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>9/9</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>20/20</span>
+        <span class='fraction'>15/15</span>
       </div>
     </div>
     <p class="quiet">
@@ -81,74 +81,74 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1164x</span>
-<span class="cline-any cline-yes">1164x</span>
-<span class="cline-any cline-yes">1164x</span>
-<span class="cline-any cline-yes">1164x</span>
-<span class="cline-any cline-yes">1164x</span>
-<span class="cline-any cline-yes">1164x</span>
-<span class="cline-any cline-yes">1164x</span>
-<span class="cline-any cline-yes">1164x</span>
+<span class="cline-any cline-yes">6240x</span>
+<span class="cline-any cline-yes">6240x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1164x</span>
+<span class="cline-any cline-yes">20508x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6240x</span>
+<span class="cline-any cline-yes">234221x</span>
+<span class="cline-any cline-yes">133x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">653x</span>
-<span class="cline-any cline-yes">653x</span>
+<span class="cline-any cline-yes">863392x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">653x</span>
-<span class="cline-any cline-yes">653x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {IWeapon} from "./i-weapon";
+<span class="cline-any cline-yes">234088x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">234088x</span>
+<span class="cline-any cline-yes">9105x</span>
+<span class="cline-any cline-yes">9105x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6107x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {distributeRolls} from "../battle/attack/distribute-rolls";
+import {IBattleTactics} from "../battle/attack/i-battle-tactics";
+import {IWeaponShot} from "../battle/attack/i-weapon-shot";
 &nbsp;
-export enum EBattleShipType {
-    interceptor,
-    cruiser,
-    dreadnought,
-    starbase,
-    deathmoon,
-}
-&nbsp;
-export class Battleship {
-    public maxHp: number;
-&nbsp;
-    constructor(
-        public type: EBattleShipType,
-        public owner: string = "player",
-        public weapons: IWeapon[] = [],
-        public hp: number = 1,
-        public initiative: number = 0,
-        public defence: number = 0,
-        public attack: number = 0,
-        public heal: number = 0,
-    ) {
-        this.maxHp = this.hp;
+export class AttackBruteForceSolver {
+    constructor(private tactics: IBattleTactics) {
     }
 &nbsp;
-    public clone(): this {
-        const Constructor = Object.getPrototypeOf(this).constructor;
-        const ship = new Constructor(this.type, this.owner, this.weapons, this.hp, this.initiative,
-            this.defence, this.attack, this.heal);
+    public calculate({battleScene, turnInfo, rolls, weapons, bonus, targets}) {
+        let maxScore: number = 0;
+        let bestShots: IWeaponShot[] = null;
 &nbsp;
-        ship.maxHp = this.maxHp;
-        return ship;
+        const targetsDef = targets.map(({defence}) =&gt; defence);
+&nbsp;
+        for (const dist of distributeRolls(rolls, bonus, targetsDef)) {
+            if (dist.length === 0) {
+                return null;
+            }
+&nbsp;
+            const shots: IWeaponShot[] = dist.map((targetIdx, weaponIdx) =&gt; ({
+                target: targets[targetIdx],
+                weapon: weapons[weaponIdx],
+            } as IWeaponShot));
+&nbsp;
+            const score = this.tactics(battleScene, turnInfo, shots);
+&nbsp;
+            if (maxScore &lt; score) {
+                maxScore = score;
+                bestShots = shots;
+            }
+        }
+&nbsp;
+        return bestShots;
     }
 }
 &nbsp;</pre></td></tr>
@@ -157,10 +157,10 @@ export class Battleship {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Feb 04 2019 01:46:48 GMT+0300 (MSK)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Feb 05 2019 23:24:58 GMT+0300 (MSK)
 </div>
 </div>
-<script src="../../prettify.js"></script>
+<script src="../prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -168,7 +168,7 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../../sorter.js"></script>
-<script src="../../block-navigation.js"></script>
+<script src="../sorter.js"></script>
+<script src="../block-navigation.js"></script>
 </body>
 </html>

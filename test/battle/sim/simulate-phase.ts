@@ -6,7 +6,7 @@ import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {simulatePhase} from "../../../src/battle/sim/simulate-phase";
 import {WeaponsHelper} from "../../../src/battle/weapons-helper";
 
-describe.only("simulate-phase", function () {
+describe("simulate-phase", function () {
     it("gun attack", function () {
         const attacker = new Battleship(
             EBattleShipType.interceptor,

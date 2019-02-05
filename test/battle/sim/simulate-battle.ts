@@ -149,7 +149,7 @@ describe("simulate-battle", function () {
     });
 
     describe("bechmark", function () {
-        it.only("6 vs 6", function () {
+        it("6 vs 6", function () {
             const ts = Date.now();
 
             const scene: IBattleScene = {

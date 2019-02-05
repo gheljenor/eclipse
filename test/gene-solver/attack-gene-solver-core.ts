@@ -10,7 +10,7 @@ import {GeneSolver} from "../../src/solvers/gene-solver";
 const solverCore = new AttackGeneSolverCore(ancientTactics);
 const solver = new GeneSolver(solverCore);
 
-describe.only("attack-gene-solver-core", function () {
+describe("attack-gene-solver-core", function () {
     it("4x1, 1x4", function () {
         const targets = [
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1),

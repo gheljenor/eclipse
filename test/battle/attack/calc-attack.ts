@@ -31,7 +31,7 @@ const weaponsRed: IWeapon[] = [RED_GUN];
 const weaponsYellowSingle: IWeapon[] = [YELLOW_GUN];
 const weaponsYellowDouble: IWeapon[] = [YELLOW_GUN, YELLOW_GUN];
 
-describe.only("calc-attack", function () {
+describe("calc-attack", function () {
     it("miss all", function () {
         const result = calcAttack(scene, turnInfo, [5], weaponsRed, 0, scene.ships);
         expect(result).to.be.null;

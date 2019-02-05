@@ -4,7 +4,7 @@ import {describe, it} from "mocha";
 import {randomInt} from "../../src/math/random-int";
 import {GeneSolver} from "../../src/solvers/gene-solver";
 
-describe.only("solvers-solver", function () {
+describe("solvers-solver", function () {
     it("sort", function () {
         this.timeout(500);
 
