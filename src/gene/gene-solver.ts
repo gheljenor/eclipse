@@ -5,6 +5,7 @@ export interface IGeneSolverCore<Solution, Data> {
     breed: (a: Solution, b: Solution) => Solution;
     mutate: (solution: Solution) => Solution;
     appraise: (solution: Solution) => number | null;
+    options: (data: Data) => IGeneSolverOptions;
 }
 
 export interface IGeneSolverOptions {
@@ -29,16 +30,19 @@ export class GeneSolver<Solution, Data> {
     private generation: Solution[];
     private generatorInstance: IterableIterator<Solution>;
 
-    private readonly breedRandom: number;
+    private options;
+    private breedRandom: number;
 
     constructor(
         private readonly core: IGeneSolverCore<Solution, Data>,
-        protected readonly options: IGeneSolverOptions,
     ) {
-        this.breedRandom = this.options.maxChildren - this.options.minChildren;
+
     }
 
     public calculate(data: Data): Solution {
+        this.options = this.core.options(data);
+        this.breedRandom = this.options.maxChildren - this.options.minChildren;
+
         this.generatorInstance = this.core.generator(data);
 
         const best: Solution[] = [];
@@ -113,7 +117,17 @@ export class GeneSolver<Solution, Data> {
     }
 
     private breeding(generationNext) {
-        for (let i = 0, l = this.options.breeders; i < l; i++) {
+        if (!this.generatorInstance) {
+            return;
+        }
+
+        if (this.generation.length < 2) {
+            return;
+        }
+
+        const breeders = Math.min(Math.pow(this.generation.length, 2), this.options.breeders);
+
+        for (let i = 0; i < breeders; i++) {
             const a = randomInt(this.generation.length - 1);
             let b = randomInt(this.generation.length - 2);
 
@@ -131,6 +145,10 @@ export class GeneSolver<Solution, Data> {
     }
 
     private mutating(generationNext) {
+        if (!this.generatorInstance) {
+            return;
+        }
+
         for (let i = 0, l = this.options.mutations; i < l; i++) {
             const idx = randomInt(this.generation.length - 1);
             const mutant = this.core.mutate(this.generation[idx]);

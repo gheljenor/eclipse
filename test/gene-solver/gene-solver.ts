@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
 
-import {GeneSolver} from "../../src/gene-solver";
+import {GeneSolver} from "../../src/gene/gene-solver";
 import {randomInt} from "../../src/math/random-int";
 
 describe("gene-solver", function () {
@@ -67,23 +67,27 @@ describe("gene-solver", function () {
             return score;
         }
 
-        const geneSolver = new GeneSolver({generator, appraise, breed, mutate}, {
-            firstGeneration: 5,
-            initial: 5,
-            iterations: 5,
+        function options() {
+            return {
+                firstGeneration: 5,
+                initial: 5,
+                iterations: 5,
 
-            freshBlood: 5,
+                freshBlood: 5,
 
-            breeders: 20,
-            minChildren: 2,
-            maxChildren: 2,
+                breeders: 20,
+                minChildren: 2,
+                maxChildren: 2,
 
-            mutations: 20,
+                mutations: 20,
 
-            best: 5,
-            worst: 1,
-            random: 4,
-        });
+                best: 5,
+                worst: 1,
+                random: 4,
+            };
+        }
+
+        const geneSolver = new GeneSolver({generator, appraise, breed, mutate, options});
 
         const test = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         let success = 0;
