@@ -6,7 +6,7 @@ import {GeneSolver} from "../../src/solvers/gene-solver";
 
 describe("solvers-solver", function () {
     it("sort", function () {
-        this.timeout(500);
+        this.timeout(1000);
 
         function shuffle(array: any[]) {
             array = array.slice();
