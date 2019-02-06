@@ -1,33 +1,7 @@
 import {generateRolls} from "../../math/generate-rolls";
-
-function isMissed(roll: number, bonus: number, defence: number): boolean {
-    return roll === 1 || roll !== 6 && roll + bonus < 6 + defence;
-}
-
-function countMaxTargets(bestRoll: number, bonus: number, targets: number[]): number {
-    const count: number = targets.length;
-
-    if (bestRoll === 6) {
-        return count;
-    }
-
-    for (let i = count - 1; i >= 0; i--) {
-        if (isMissed(bestRoll, bonus, targets[i])) {
-            return count - i - 1;
-        }
-    }
-
-    return count;
-}
-
-function countMaxHits(rolls: number[], bonus: number, weakestTarget: number): number {
-    for (let i = 0; i < rolls.length; i++) {
-        if (isMissed(rolls[i], bonus, weakestTarget)) {
-            return i;
-        }
-    }
-    return rolls.length;
-}
+import {countMaxHits} from "../select/count-max-hits";
+import {countMaxTargets} from "../select/count-max-targets";
+import {isMissed} from "../select/is-missed";
 
 // rolls sorted desc
 // targets sorted desc

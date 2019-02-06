@@ -2,8 +2,8 @@ export enum ELogLevel {
     error,
     warn,
     info,
-    debug,
     profile,
+    debug,
     verbose,
 }
 
@@ -11,8 +11,8 @@ const logLevelTitles: { [key in ELogLevel]: string } = {
     [ELogLevel.error]: "ERROR",
     [ELogLevel.warn]: "WARN!",
     [ELogLevel.info]: "INFO!",
-    [ELogLevel.debug]: "DEBUG",
     [ELogLevel.profile]: "PROFL",
+    [ELogLevel.debug]: "DEBUG",
     [ELogLevel.verbose]: "VERBS",
 };
 
@@ -58,9 +58,10 @@ export function logDuration(uuid: string, section?: string) {
     }
 
     if (!sections[section]) {
-        sections[section] = 0;
+        sections[section] = {duration: 0, count: 0};
     }
-    sections[section] += duration;
+    sections[section].duration += duration;
+    sections[section].count++;
 }
 
 export function showSummary() {
@@ -68,6 +69,7 @@ export function showSummary() {
     log(ELogLevel.profile, "Summary:");
 
     for (const key in sections) {
+        sections[key].avg = sections[key].duration / sections[key].count;
         log(ELogLevel.profile, `${key}:`, sections[key]);
     }
 
