@@ -9,18 +9,15 @@ jobs:
       script:
         - npm run build
         - npm run build-storybook
-    - stage: deploy
-      script: skip
       deploy:
         provider: pages
         skip_cleanup: true
+        on:
+          branch: master
         github-token: $GITHUB_TOKEN
         local-dir: ./docs
-
 
 stages:
   - test
   - name: build
-    if: branch = master
-  - name: deploy
     if: branch = master
