@@ -16,6 +16,7 @@ export interface IAttackSolverData {
     weapons: IWeapon[];
     bonus: number;
     targets: Battleship[];
+    targetsDef: number[];
 }
 
 const defaultOptions: IGeneSolverOptions = {
@@ -45,8 +46,7 @@ export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAtt
     public* generator(data: IAttackSolverData): IterableIterator<IWeaponShot[]> {
         this.data = data;
 
-        const {rolls, bonus, targets, weapons} = data;
-        const targetsDef = targets.map(({defence}) => defence);
+        const {rolls, bonus, targets, weapons, targetsDef} = data;
 
         // TODO: random generation on condition
         for (const dist of distributeRolls(rolls, bonus, targetsDef)) {

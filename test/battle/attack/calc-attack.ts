@@ -8,6 +8,7 @@ import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {ITurnInfo} from "../../../src/battle/sim/i-turn-info";
 import {RED_GUN, YELLOW_GUN} from "../../../src/battle/weapons-helper";
+import {shipWeights} from "../../../src/battle/attack/default-weights";
 
 const turnInfo: ITurnInfo = {
     turn: 1,
@@ -31,15 +32,19 @@ const weaponsRed: IWeapon[] = [RED_GUN];
 const weaponsYellowSingle: IWeapon[] = [YELLOW_GUN];
 const weaponsYellowDouble: IWeapon[] = [YELLOW_GUN, YELLOW_GUN];
 
+function defs(ships) {
+    return ships.map(({defence}) => defence);
+}
+
 describe("calc-attack", function () {
     it("miss all", function () {
-        const result = calcAttack(scene, turnInfo, [5], weaponsRed, 0, scene.ships);
+        const result = calcAttack(scene, turnInfo, [5], weaponsRed, 0, scene.ships, defs(scene.ships));
         expect(result).to.be.null;
     });
 
     describe("best possible kill", function () {
         it("kill deathmoon", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 5, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 5, scene.ships, defs(scene.ships));
             expect(result.ships[0].hp).to.be.lte(0);
 
             expect(result.ships[1].hp).to.be.equal(2);
@@ -49,7 +54,7 @@ describe("calc-attack", function () {
         });
 
         it("kill starbase", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 4, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 4, scene.ships, defs(scene.ships));
             expect(result.ships[1].hp).to.be.lte(0);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -59,7 +64,7 @@ describe("calc-attack", function () {
         });
 
         it("kill dred", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 3, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 3, scene.ships, defs(scene.ships));
             expect(result.ships[2].hp).to.be.lte(0);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -69,7 +74,7 @@ describe("calc-attack", function () {
         });
 
         it("kill cruiser", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 2, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 2, scene.ships, defs(scene.ships));
             expect(result.ships[3].hp).to.be.lte(0);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -79,7 +84,7 @@ describe("calc-attack", function () {
         });
 
         it("kill interceptor", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 1, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsRed, 1, scene.ships, defs(scene.ships));
             expect(result.ships[4].hp).to.be.lte(0);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -91,7 +96,7 @@ describe("calc-attack", function () {
 
     describe("best possible damage", function () {
         it("damage deathmoon", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 5, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 5, scene.ships, defs(scene.ships));
             expect(result.ships[0].hp).to.be.lte(1);
 
             expect(result.ships[1].hp).to.be.equal(2);
@@ -101,7 +106,7 @@ describe("calc-attack", function () {
         });
 
         it("damage starbase", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 4, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 4, scene.ships, defs(scene.ships));
             expect(result.ships[1].hp).to.be.lte(1);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -111,7 +116,7 @@ describe("calc-attack", function () {
         });
 
         it("damage dred", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 3, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 3, scene.ships, defs(scene.ships));
             expect(result.ships[2].hp).to.be.lte(1);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -121,7 +126,7 @@ describe("calc-attack", function () {
         });
 
         it("damage cruiser", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 2, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 2, scene.ships, defs(scene.ships));
             expect(result.ships[3].hp).to.be.lte(1);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -131,7 +136,7 @@ describe("calc-attack", function () {
         });
 
         it("damage interceptor", function () {
-            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 1, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5], weaponsYellowSingle, 1, scene.ships, defs(scene.ships));
             expect(result.ships[4].hp).to.be.lte(1);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -143,7 +148,7 @@ describe("calc-attack", function () {
 
     describe("best possible kill, 2 shots", function () {
         it("kill deathmoon", function () {
-            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 5, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 5, scene.ships, defs(scene.ships));
             expect(result.ships[0].hp).to.be.lte(0);
 
             expect(result.ships[1].hp).to.be.equal(2);
@@ -153,7 +158,7 @@ describe("calc-attack", function () {
         });
 
         it("kill starbase", function () {
-            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 4, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 4, scene.ships, defs(scene.ships));
             expect(result.ships[1].hp).to.be.lte(0);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -163,7 +168,7 @@ describe("calc-attack", function () {
         });
 
         it("kill dred", function () {
-            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 3, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 3, scene.ships, defs(scene.ships));
             expect(result.ships[2].hp).to.be.lte(0);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -173,7 +178,7 @@ describe("calc-attack", function () {
         });
 
         it("kill cruiser", function () {
-            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 2, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 2, scene.ships, defs(scene.ships));
             expect(result.ships[3].hp).to.be.lte(0);
 
             expect(result.ships[0].hp).to.be.equal(2);
@@ -183,7 +188,7 @@ describe("calc-attack", function () {
         });
 
         it("kill interceptor", function () {
-            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 1, scene.ships);
+            const result = calcAttack(scene, turnInfo, [5, 5], weaponsYellowDouble, 1, scene.ships, defs(scene.ships));
             expect(result.ships[4].hp).to.be.lte(0);
 
             expect(result.ships[0].hp).to.be.equal(2);

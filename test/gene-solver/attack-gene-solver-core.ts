@@ -27,6 +27,7 @@ describe("attack-gene-solver-core", function () {
             rolls: [6, 5, 5, 5, 5],
             weapons: [RED_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN],
             targets,
+            targetsDef: targets.map(({defence}) => defence),
         });
 
         const shots = result.map((shot) => targets.indexOf(shot.target));
@@ -52,6 +53,7 @@ describe("attack-gene-solver-core", function () {
             rolls: [6, 5, 5, 5, 5],
             weapons: [RED_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN],
             targets,
+            targetsDef: targets.map(({defence}) => defence),
         });
 
         const shots = result.map((shot) => targets.indexOf(shot.target));
@@ -78,6 +80,7 @@ describe("attack-gene-solver-core", function () {
             rolls: [6, 6, 6, 6, 6, 6],
             weapons: [YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN],
             targets,
+            targetsDef: targets.map(({defence}) => defence),
         });
 
         const shots = result.map((shot) => targets.indexOf(shot.target));

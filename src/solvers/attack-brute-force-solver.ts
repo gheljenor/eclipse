@@ -6,11 +6,9 @@ export class AttackBruteForceSolver {
     constructor(private tactics: IBattleTactics) {
     }
 
-    public calculate({battleScene, turnInfo, rolls, weapons, bonus, targets}) {
+    public calculate({battleScene, turnInfo, rolls, weapons, bonus, targets, targetsDef}) {
         let maxScore: number = 0;
         let bestShots: IWeaponShot[] = null;
-
-        const targetsDef = targets.map(({defence}) => defence);
 
         for (const dist of distributeRolls(rolls, bonus, targetsDef)) {
             if (dist.length === 0) {

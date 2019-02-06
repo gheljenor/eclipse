@@ -30,6 +30,7 @@ export function calcAttack(
     weapons: IWeapon[],
     bonus: number,
     targets: Battleship[],
+    targetsDef: number[],
 ): IBattleScene | null {
     const attackId = battleSceneHash(battleScene)
         + ":" + (turnInfo.turn > 0 ? "g" : "m")
@@ -39,15 +40,13 @@ export function calcAttack(
 
     logDuration("SimulateAttack:" + attackId, "SimulateAttack");
 
-    const targetsDef = targets.map(({defence}) => defence);
-
     const hits = countMaxHits(rolls, bonus, targetsDef[targetsDef.length - 1]);
     const maxTargets = countMaxTargets(rolls[0], bonus, targetsDef);
 
     const maxDistributions = Math.pow(maxTargets, hits);
 
     const solver = solvers[solverType][maxDistributions > bruteThres ? "gene" : "brute"];
-    const shots = solver.calculate({battleScene, turnInfo, rolls, weapons, bonus, targets});
+    const shots = solver.calculate({battleScene, turnInfo, rolls, weapons, bonus, targets, targetsDef});
 
     if (!shots || !shots.length) {
         logDuration("SimulateAttack:" + attackId, "SimulateAttack");
