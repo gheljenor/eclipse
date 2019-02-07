@@ -7,7 +7,7 @@ type CorrectionMap = Map<IBattleSceneTransition, number>;
 export function removeRing(graph: IBattleSceneTransition[], possibleRing: IBattleSceneTransition) {
     const {wayUp, wayDown} = prepareWays(graph);
 
-    const rings = findWaysUp(wayUp, possibleRing.from, possibleRing.to);
+    const rings = findWays(wayUp, possibleRing.to, possibleRing.from);
 
     if (!rings) {
         delete possibleRing.posibleRing;
@@ -50,26 +50,41 @@ export function removeRing(graph: IBattleSceneTransition[], possibleRing: IBattl
     }
 }
 
-function findWaysUp(wayUp: TGraphWay, from: IBattleScene, to: IBattleScene): IBattleSceneTransition[][] | null {
-    if (!wayUp.has(from)) {
-        return null;
-    }
+function findWays(wayUp: TGraphWay, start: IBattleScene, end: IBattleScene): IBattleSceneTransition[][] | null {
+    const cache = new WeakMap();
 
-    const result = [];
-
-    for (const transition of wayUp.get(from)) {
-        if (transition.from === to) {
-            result.push([transition]);
-            continue;
+    function findWaysUp(current: IBattleScene): IBattleSceneTransition[][] | null {
+        if (!wayUp.has(current)) {
+            return null;
         }
 
-        const ways = findWaysUp(wayUp, transition.from, to);
-
-        if (ways) {
-            ways.forEach((way) => way.push(transition));
-            result.push(...ways);
+        if (cache.has(current)) {
+            const fromCache = cache.get(current);
+            return fromCache && fromCache.map((c) => c.slice());
         }
+
+        const result = [];
+
+        for (const transition of wayUp.get(current)) {
+            if (transition.from === start) {
+                result.push([transition]);
+                continue;
+            }
+
+            const ways = findWaysUp(transition.from);
+
+            if (ways) {
+                ways.forEach((w) => w.push(transition));
+                result.push(...ways);
+            }
+        }
+
+        const way = result.length ? result : null;
+
+        cache.set(current, way);
+
+        return way;
     }
 
-    return result.length ? result : null;
+    return findWaysUp(end);
 }
