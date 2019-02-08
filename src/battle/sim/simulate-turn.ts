@@ -21,7 +21,8 @@ export function simulateTurn(
         phases = initiativePhases(battleScene);
     }
 
-    logDuration("SimulateTurn:" + turn + ":" + battleSceneHash(battleScene), "SimulateTurn");
+    const turnId = turn + ":" + battleSceneHash(battleScene);
+    logDuration("SimulateTurn:" + turnId, "SimulateTurn");
 
     let scenes: IBattleScene[] = [battleScene];
     const graph: IBattleSceneTransition[][] = [];
@@ -52,22 +53,22 @@ export function simulateTurn(
         }
 
         // tslint:disable-next-line:max-line-length
-        logDuration("SimulateTurn:Simplify:" + turn + ":" + battleSceneHash(battleScene) + ":" + phase, "SimulateTurn:Simplify");
+        logDuration("SimulateTurn:Simplify:" + turnId + ":" + phase, "SimulateTurn:Simplify");
 
         const simplified = simplifyGraph(phaseTransitions);
 
         // tslint:disable-next-line:max-line-length
-        logDuration("SimulateTurn:Simplify:" + turn + ":" + battleSceneHash(battleScene) + ":" + phase, "SimulateTurn:Simplify");
+        logDuration("SimulateTurn:Simplify:" + turnId + ":" + phase, "SimulateTurn:Simplify");
 
         scenes = simplified.scenes;
         graph.push(simplified.transitions);
     }
 
-    logDuration("SimulateTurn:Collapse:" + turn + ":" + battleSceneHash(battleScene), "SimulateTurn:Collapse");
+    logDuration("SimulateTurn:Collapse:" + turnId, "SimulateTurn:Collapse");
     const result = collapseGraph(graph, battleScene, turn !== 0);
-    logDuration("SimulateTurn:Collapse:" + turn + ":" + battleSceneHash(battleScene), "SimulateTurn:Collapse");
+    logDuration("SimulateTurn:Collapse:" + turnId, "SimulateTurn:Collapse");
 
-    logDuration("SimulateTurn:" + turn + ":" + battleSceneHash(battleScene), "SimulateTurn");
+    logDuration("SimulateTurn:" + turnId, "SimulateTurn");
     return result;
 }
 
