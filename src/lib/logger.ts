@@ -34,6 +34,10 @@ const sections = {};
 const durationsEnded = {};
 
 export function logDuration(uuid: string, section?: string) {
+    if (logLevel < ELogLevel.profile) {
+        return;
+    }
+
     const ts = Date.now();
 
     if (!durations[uuid]) {
@@ -65,14 +69,19 @@ export function logDuration(uuid: string, section?: string) {
 }
 
 export function showSummary() {
+    if (logLevel < ELogLevel.profile) {
+        return;
+    }
+
     log(ELogLevel.profile, "");
     log(ELogLevel.profile, "Summary:");
 
-    for (const key in sections) {
+    Object.keys(sections).sort().forEach((key) => {
         sections[key].avg = sections[key].duration / sections[key].count;
         log(ELogLevel.profile, `${key}:`, sections[key]);
-    }
+    });
 
     Object.keys(sections).forEach((key) => delete sections[key]);
     Object.keys(durations).forEach((key) => delete durations[key]);
+    Object.keys(durationsEnded).forEach((key) => delete durationsEnded[key]);
 }

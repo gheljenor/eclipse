@@ -32,9 +32,12 @@ export function simulatePhase(
         return fromCache(phaseId, phaseCache, battleScene);
     }
 
+    logDuration("SimulatePhase:" + phaseId, "SimulatePhase");
+
     const prepared = prepareData(battleScene, turnInfo, attackers);
 
     if (!prepared) {
+        logDuration("SimulatePhase:" + phaseId, "SimulatePhase");
         return storeCache(phaseId, phaseCache, [{
             from: battleScene,
             to: cloneBattlescene(battleScene),
@@ -42,9 +45,7 @@ export function simulatePhase(
         }]);
     }
 
-    logDuration("SimulatePhase:" + phaseId, "SimulatePhase");
-
-    const {targets, targetsDef, bonus, groups, groupSizes, totalCount} = prepared;
+    const {targets, targetsDef, bonus, groups, groupSizes, totalCount, hasRift} = prepared;
     const result: IBattleSceneTransition[] = [];
 
     let rollsCount = 0;
@@ -56,22 +57,27 @@ export function simulatePhase(
         const count = permutationsCountGrouped(rollsGrouped);
 
         let selfDamage = 0;
+        let rollWeapons;
 
-        const rollWeapons = map.map((group, idx): IWeapon => {
-            const weapon = groups[group][0];
+        if (hasRift) {
+            rollWeapons = map.map((group, idx): IWeapon => {
+                const weapon = groups[group][0];
 
-            if (weapon.damage === EWeaponDamageType.pink) {
-                const rift = riftDamage[rolls[idx]];
-                rolls[idx] = rift.roll;
-                selfDamage += (rift.selfDamage || 0);
-                return {
-                    type: EWeaponType.gun,
-                    damage: rift.damage,
-                };
-            } else {
-                return weapon;
-            }
-        });
+                if (weapon.damage === EWeaponDamageType.pink) {
+                    const rift = riftDamage[rolls[idx]];
+                    rolls[idx] = rift.roll;
+                    selfDamage += (rift.selfDamage || 0);
+                    return {
+                        type: EWeaponType.gun,
+                        damage: rift.damage,
+                    };
+                } else {
+                    return weapon;
+                }
+            });
+        } else {
+            rollWeapons = map.map((group): IWeapon => groups[group][0]);
+        }
 
         const rollsHash = rollsHitHash(targetsDef, bonus, rolls, selfDamage);
 
@@ -136,12 +142,14 @@ function prepareData(
 
     const bonus = attackers[0].attack;
 
+    const hasRift = weapons.some((weapon) => weapon.damage === EWeaponDamageType.pink);
+
     const groups = weaponGroups(weapons);
     const groupSizes = groups.map((group) => group.length);
 
     const totalCount = rollsCountGrouped(groupSizes, 6, false);
 
-    return {targets, targetsDef, bonus, groups, groupSizes, totalCount};
+    return {targets, targetsDef, bonus, groups, groupSizes, totalCount, hasRift};
 }
 
 function storeCache(id: string, phaseCache: IPhaseCache, result: IBattleSceneTransition[]) {
