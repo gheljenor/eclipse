@@ -149,32 +149,46 @@ describe("simulate-battle", function () {
     });
 
     describe.skip("bechmark", function () {
+        function makeScene(size) {
+            const scene = [];
+            for (let i = 0; i < size; i++) {
+                scene.push(
+                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                    new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                );
+            }
+
+            return {ships: scene, defender: "a"};
+        }
+
         it("6 vs 6", function () {
+            this.timeout(2000);
             const ts = Date.now();
 
-            const scene: IBattleScene = {
-                ships: [
-                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-
-                    new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                    new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                ],
-                defender: "a",
-            };
-
-            simulateBattle(scene);
+            simulateBattle(makeScene(6));
 
             const duration = Date.now() - ts;
-            expect(duration).to.be.lte(500);
+            expect(duration).to.be.lte(1000);
+        });
+
+        it("8 vs 8", function () {
+            this.timeout(4000);
+            const ts = Date.now();
+
+            simulateBattle(makeScene(8));
+
+            const duration = Date.now() - ts;
+            expect(duration).to.be.lte(2000);
+        });
+
+        it("10 vs 10", function () {
+            this.timeout(20000);
+            const ts = Date.now();
+
+            simulateBattle(makeScene(10));
+
+            const duration = Date.now() - ts;
+            expect(duration).to.be.lte(10000);
         });
     });
 });

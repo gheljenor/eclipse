@@ -28,6 +28,7 @@ export function calcAttack(
     weapons: IWeapon[],
     bonus: number,
     targets: Battleship[],
+    targetsDef: number[],
 ): IBattleScene | null {
     const attackId = battleSceneHash(battleScene)
         + ":" + (turnInfo.turn > 0 ? "g" : "m")
@@ -36,8 +37,6 @@ export function calcAttack(
         + ":" + battleSceneHash({ships: targets, defender: ""});
 
     logDuration("SimulateAttack:" + attackId, "SimulateAttack");
-
-    const targetsDef = targets.map(({defence}) => defence);
 
     const tactics: IBattleTactics = avaliableTactics.ancient;
 

@@ -1,3 +1,5 @@
+import {logDuration} from "../../lib/logger";
+import {battleSceneHash} from "../select/battlescene-hash";
 import {prepareWays} from "../select/prepare-ways";
 import {IBattleScene, IBattleSceneTransition} from "../sim/i-battle-scene";
 import {TGraphWay} from "../sim/t-graph-way";
@@ -5,12 +7,16 @@ import {TGraphWay} from "../sim/t-graph-way";
 type CorrectionMap = Map<IBattleSceneTransition, number>;
 
 export function removeRing(graph: IBattleSceneTransition[], possibleRing: IBattleSceneTransition) {
+    const id = graph.length + ":" + battleSceneHash(possibleRing.from) + ":" + battleSceneHash(possibleRing.to);
+
+    logDuration(`RemoveRing:${id}`, "RemoveRing");
     const {wayUp, wayDown} = prepareWays(graph);
 
     const rings = findWays(wayUp, possibleRing.to, possibleRing.from);
 
     if (!rings) {
         delete possibleRing.posibleRing;
+        logDuration(`RemoveRing:${id}`, "RemoveRing");
         return;
     }
 
@@ -48,6 +54,8 @@ export function removeRing(graph: IBattleSceneTransition[], possibleRing: IBattl
             transition.weight /= total;
         }
     }
+
+    logDuration(`RemoveRing:${id}`, "RemoveRing");
 }
 
 function findWays(wayUp: TGraphWay, start: IBattleScene, end: IBattleScene): IBattleSceneTransition[][] | null {
@@ -72,7 +80,6 @@ function findWays(wayUp: TGraphWay, start: IBattleScene, end: IBattleScene): IBa
             }
 
             const ways = findWaysUp(transition.from);
-
             if (ways) {
                 ways.forEach((w) => w.push(transition));
                 result.push(...ways);
