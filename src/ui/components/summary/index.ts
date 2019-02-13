@@ -1,9 +1,9 @@
 import {connect} from "react-redux";
 
-import {IState} from "../../reducers/i-state";
+import {State} from "../../reducers/state";
 import Summary from "./component";
 
-function mapStateToProps(state: IState) {
+function mapStateToProps(state: State) {
     return state.summary;
 }
 

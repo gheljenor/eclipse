@@ -1,20 +1,19 @@
 import * as React from "react";
 
-import {IOutcome} from "../../lib/prepare-summary";
+import {Outcome} from "../../lib/prepare-summary";
 import {shipTypeTitles} from "../ship/component";
 
 const styles = require("./index.pcss");
 
-export interface ISummaryState {
+export type SummaryState = {
     results: { [player: string]: number };
-    outcomes: { [player: string]: IOutcome[] };
-}
+    outcomes: { [player: string]: Outcome[] };
+};
 
-interface ISummaryProps extends React.Props<Summary>, ISummaryState {
-}
+type SummaryProps = React.Props<Summary> & SummaryState;
 
-export default class Summary extends React.Component<ISummaryProps> {
-    private static renderDetails(outcome: IOutcome) {
+export default class Summary extends React.Component<SummaryProps> {
+    private static renderDetails(outcome: Outcome) {
         const {probability, ships} = outcome;
 
         return (

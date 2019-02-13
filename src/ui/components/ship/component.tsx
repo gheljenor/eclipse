@@ -24,7 +24,7 @@ const shipsCount: { [key in EBattleShipType]: number } = {
     [EBattleShipType.starbase]: 4,
 };
 
-export interface IShipState {
+export type ShipState = {
     count: number;
     type: EBattleShipType;
     hp: number;
@@ -32,12 +32,12 @@ export interface IShipState {
     defence: number;
     attack: number;
     heal: number;
-}
+};
 
-export interface IShipProps extends React.Props<Ship>, IShipState {
-    actionUpdate: (value: Partial<IShipState>) => void;
+export type ShipProps = React.Props<Ship> & ShipState & {
+    actionUpdate: (value: Partial<ShipState>) => void;
     shipId: string;
-}
+};
 
 const DEFAULT_COUNT = 1;
 const DEFAULT_TYPE = EBattleShipType.interceptor;
@@ -47,7 +47,7 @@ const DEFAULT_DEFENCE = 0;
 const DEFAULT_ATTACK = 0;
 const DEFAULT_HEAL = 0;
 
-export default class Ship extends React.Component<IShipProps, null> {
+export default class Ship extends React.Component<ShipProps, null> {
     public render() {
         return (
             <div className={styles.wrapper}>
@@ -88,18 +88,18 @@ export default class Ship extends React.Component<IShipProps, null> {
         );
     }
 
-    private prop<Field extends keyof IShipState>(field: Field) {
+    private prop<Field extends keyof ShipState>(field: Field) {
         return {
             value: this.props[field],
             onChange: this.handleChange(field),
         };
     }
 
-    private handleChange = <Field extends keyof IShipState>(field: Field) => (value: IShipState[Field]) => {
+    private handleChange = <Field extends keyof ShipState>(field: Field) => (value: ShipState[Field]) => {
         this.props.actionUpdate({[field]: value});
     };
 
-    public static get defaultState(): IShipState {
+    public static get defaultState(): ShipState {
         return {
             count: DEFAULT_COUNT,
             type: DEFAULT_TYPE,

@@ -3,14 +3,14 @@ import * as React from "react";
 
 const styles = require("./index.pcss");
 
-interface IInputNumberProps extends React.Props<InputNumber> {
+type InputNumberProps = React.Props<InputNumber> & {
     value: number;
     min?: number;
     max?: number;
     onChange: (value: number) => void;
-}
+};
 
-export default class InputNumber extends React.Component<IInputNumberProps, null> {
+export default class InputNumber extends React.Component<InputNumberProps, null> {
     public render() {
         if (this.value !== this.props.value) {
             this.change(this.value);

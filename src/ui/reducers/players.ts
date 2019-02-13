@@ -1,18 +1,18 @@
-import {ACTION_PLAYER_UPDATE} from "../components/player/actions";
-import {ACTION_SHIP_ADD, ACTION_SHIP_REMOVE} from "../components/ship-list/actions";
+import {ACTION_PLAYER_UPDATE, actionPlayerUpdate} from "../components/player/actions";
+import {ACTION_SHIP_ADD, ACTION_SHIP_REMOVE, actionShipAdd, actionShipRemove} from "../components/ship-list/actions";
 
-interface IPlayerState {
+type IPlayerState = {
     name: string;
     ships: string[];
-}
+};
 
-export interface IPlayersState {
+export type PlayersState = {
     first: IPlayerState;
     second: IPlayerState;
     defender: "first" | "second";
-}
+};
 
-const defaultPlayers: IPlayersState = {
+const defaultPlayers: PlayersState = {
     first: {name: "Player", ships: []},
     second: {name: "Enemy", ships: []},
     defender: "second",
@@ -20,7 +20,11 @@ const defaultPlayers: IPlayersState = {
 
 const otherPlayer = {first: "second", second: "first"};
 
-export function players(state: IPlayersState = defaultPlayers, action) {
+type Actions = ReturnType<typeof actionPlayerUpdate>
+    | ReturnType<typeof actionShipAdd>
+    | ReturnType<typeof actionShipRemove>;
+
+export function players(state: PlayersState = defaultPlayers, action: Actions): PlayersState {
     switch (action.type) {
         case ACTION_SHIP_ADD:
             return {
@@ -49,8 +53,8 @@ export function players(state: IPlayersState = defaultPlayers, action) {
             if (action.props.name) {
                 state = {
                     ...state,
-                    [action.props.playerId]: {
-                        ...state[action.props.playerId],
+                    [action.playerId]: {
+                        ...state[action.playerId],
                         name: action.props.name,
                     },
                 };

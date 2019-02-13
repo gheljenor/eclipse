@@ -3,15 +3,14 @@ import * as React from "react";
 
 const styles = require("./index.pcss");
 
-interface IInputSelectProps<List, ListKey extends keyof List>
-    extends React.Props<InputSelect<List, ListKey>> {
+type InputSelectProps<List, ListKey extends keyof List> = React.Props<InputSelect<List, ListKey>> & {
     options: List;
     value: ListKey;
     onChange: (value: ListKey) => void;
-}
+};
 
 export default class InputSelect<List, ListKey extends keyof List>
-    extends React.Component<IInputSelectProps<List, ListKey>, null> {
+    extends React.Component<InputSelectProps<List, ListKey>, null> {
 
     public render() {
         const {value} = this.props;

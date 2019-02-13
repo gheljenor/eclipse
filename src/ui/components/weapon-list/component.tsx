@@ -4,13 +4,13 @@ import {InputWeaponContainer} from "../input-weapon";
 
 const styles = require("./index.pcss");
 
-interface IWeaponListProps extends React.Props<WeaponList> {
+type WeaponListProps = React.Props<WeaponList> & {
     weapons: string[];
     actionAdd: () => void;
     actionRemove: (id: string) => void;
-}
+};
 
-export default class WeaponList extends React.Component<IWeaponListProps, null> {
+export default class WeaponList extends React.Component<WeaponListProps, null> {
     public render() {
         return (
             <ul className={styles.wrapper}>

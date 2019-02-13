@@ -1,10 +1,10 @@
 import {connect} from "react-redux";
 
-import {IState} from "../reducers/i-state";
+import {State} from "../reducers/state";
 import {actionAppAutoSim, actionAppSimulate} from "./actions";
 import App from "./component";
 
-function mapStateToProps(state: IState) {
+function mapStateToProps(state: State) {
     return state.app;
 }
 

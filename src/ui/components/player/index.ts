@@ -1,14 +1,14 @@
 import {connect} from "react-redux";
 
-import {IState} from "../../reducers/i-state";
+import {State} from "../../reducers/state";
 import {actionPlayerUpdate} from "./actions";
 import Player from "./component";
 
-interface IPlayerContainerProps {
+type PlayerContainerProps = {
     playerId: "first" | "second";
-}
+};
 
-function mapStateToProps(state: IState, ownProps: IPlayerContainerProps) {
+function mapStateToProps(state: State, ownProps: PlayerContainerProps) {
     const player = state.players[ownProps.playerId];
     return {
         ...player,
@@ -17,7 +17,7 @@ function mapStateToProps(state: IState, ownProps: IPlayerContainerProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps: IPlayerContainerProps) {
+function mapDispatchToProps(dispatch, ownProps: PlayerContainerProps) {
     return {
         actionUpdate: (props) => dispatch(actionPlayerUpdate(ownProps.playerId, props)),
     };

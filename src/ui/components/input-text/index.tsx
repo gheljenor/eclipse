@@ -3,12 +3,12 @@ import * as React from "react";
 
 const styles = require("./index.pcss");
 
-interface IInputTextProps {
+type InputTextProps = {
     value: string;
     onChange: (value: string) => void;
-}
+};
 
-export default class InputText extends React.Component<IInputTextProps> {
+export default class InputText extends React.Component<InputTextProps> {
     public render() {
         return (
             <div className={styles.wrapper}>

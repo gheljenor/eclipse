@@ -2,14 +2,14 @@ import * as React from "react";
 
 const styles = require("./index.pcss");
 
-interface IInputCheckboxProps {
+type InputCheckboxProps = {
     value: boolean;
     onChange: (value: boolean) => void;
-}
+};
 
 let counter = 0;
 
-export default class InputCheckbox extends React.Component<IInputCheckboxProps> {
+export default class InputCheckbox extends React.Component<InputCheckboxProps> {
     private readonly id: string;
 
     constructor(props) {

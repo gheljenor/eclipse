@@ -6,17 +6,17 @@ import {ShipListContainer} from "../ship-list";
 
 const styles = require("./index.pcss");
 
-export interface IPlayerState {
+export type PlayerState = {
     defender: boolean;
     name: string;
-}
+};
 
-interface IPlayerProps extends React.Props<Player>, IPlayerState {
+type PlayerProps = React.Props<Player> & PlayerState & {
     playerId: string;
-    actionUpdate: (value: Partial<IPlayerState>) => void;
-}
+    actionUpdate: (value: Partial<PlayerState>) => void;
+};
 
-export default class Player extends React.Component<IPlayerProps, null> {
+export default class Player extends React.Component<PlayerProps, null> {
     public render() {
         return (
             <div className={styles.wrapper}>
@@ -37,14 +37,14 @@ export default class Player extends React.Component<IPlayerProps, null> {
         );
     }
 
-    private prop<Field extends keyof IPlayerState>(field: Field) {
+    private prop<Field extends keyof PlayerState>(field: Field) {
         return {
             value: this.props[field],
             onChange: this.handleChange(field),
         };
     }
 
-    private handleChange = <Field extends keyof IPlayerState>(field: Field) => (value: IPlayerState[Field]) => {
+    private handleChange = <Field extends keyof PlayerState>(field: Field) => (value: PlayerState[Field]) => {
         this.props.actionUpdate({[field]: value});
     };
 }

@@ -1,16 +1,16 @@
 import {connect} from "react-redux";
-import {IState} from "../../reducers/i-state";
+import {State} from "../../reducers/state";
 
 import {actionShipUpdate} from "./actions";
 import Ship from "./component";
 
-interface IShipContainerProps {
+type IShipContainerProps = {
     shipId: string;
-}
+};
 
-const mapStateToProps = (state: IState, ownProps: IShipContainerProps) => {
+const mapStateToProps = (state: State, ownProps: IShipContainerProps) => {
     return {
-        ...state.ships.find(({id}) => id === ownProps.shipId).value,
+        ...state.ships[ownProps.shipId],
         shipId: ownProps.shipId,
     };
 };

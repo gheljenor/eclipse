@@ -1,19 +1,19 @@
 import {Battleship, EBattleShipType} from "../../battle/battleship";
 import {IBattleSummary} from "../../battle/select/battle-summary";
 import {memo} from "../../lib/memo";
-import {ISummaryState} from "../components/summary/component";
+import {SummaryState} from "../components/summary/component";
 
-interface IOutcomeDetails {
+type OutcomeDetails = {
     type: EBattleShipType;
     count: number;
-}
+};
 
-export interface IOutcome {
+export type Outcome = {
     probability: number;
-    ships: IOutcomeDetails[];
-}
+    ships: OutcomeDetails[];
+};
 
-export function prepareSummary(summary: IBattleSummary): ISummaryState {
+export function prepareSummary(summary: IBattleSummary): SummaryState {
     const {results} = summary;
     const outcomes = {
         first: prepareDetails(summary, "first"),
@@ -27,7 +27,7 @@ function prepareDetails(summary, player) {
         .filter(([scene]) => scene.winner === player)
         .map(prepareOutcome);
 
-    const result: { [key: string]: IOutcome } = {};
+    const result: { [key: string]: Outcome } = {};
 
     outcomes.forEach((outcome) => {
         const hash = outcomeHash(outcome);
@@ -52,14 +52,14 @@ function prepareOutcome([scene, probability]) {
         shipsByType[ship.type]++;
     });
 
-    const result: IOutcomeDetails[] = Object.entries(shipsByType)
+    const result: OutcomeDetails[] = Object.entries(shipsByType)
         .map(([type, count]: [string, number]) => ({type: parseInt(type, 10), count}))
         .sort((a, b) => b.type - a.type);
 
     return {probability, ships: result};
 }
 
-const outcomeHash = memo(function (outcome: IOutcome) {
+const outcomeHash = memo(function (outcome: Outcome) {
     return outcome.ships
         .map(({type, count}) => type + ":" + count)
         .join(",");

@@ -4,13 +4,13 @@ import {ShipContainer} from "../ship";
 
 const styles = require("./index.pcss");
 
-interface IShipListProps extends React.Props<ShipList> {
+type ShipListProps = React.Props<ShipList> & {
     ships: string[];
     actionAdd: () => void;
     actionRemove: (weaponId: string) => void;
-}
+};
 
-export default class ShipList extends React.Component<IShipListProps, null> {
+export default class ShipList extends React.Component<ShipListProps, null> {
     public render() {
         return (
             <ul className={styles.wrapper}>

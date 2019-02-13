@@ -1,9 +1,11 @@
-import {ACTION_APP_SIMULATE} from "../app/actions";
-import {ISummaryState} from "../components/summary/component";
+import {ACTION_APP_SIMULATE, actionAppSimulate} from "../app/actions";
+import {SummaryState} from "../components/summary/component";
 import {simulate} from "../lib/simulate";
-import {IState} from "./i-state";
+import {State} from "./state";
 
-export function summaryGlobal(state: IState, action) {
+type Actions = ReturnType<typeof actionAppSimulate>;
+
+export function summaryGlobal(state: State, action: Actions): State {
     switch (action.type) {
         case ACTION_APP_SIMULATE:
             const ts = Date.now();
@@ -24,6 +26,6 @@ export function summaryGlobal(state: IState, action) {
     return state;
 }
 
-export function summary(state: ISummaryState = {outcomes: {}, results: {}}) {
+export function summary(state: SummaryState = {outcomes: {}, results: {}}): SummaryState {
     return state;
 }

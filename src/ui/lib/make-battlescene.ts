@@ -1,8 +1,8 @@
 import {Battleship} from "../../battle/battleship";
 import {IBattleScene} from "../../battle/sim/i-battle-scene";
-import {IState} from "../reducers/i-state";
+import {State} from "../reducers/state";
 
-export function makeBattlescene(state: IState): IBattleScene {
+export function makeBattlescene(state: State): IBattleScene {
     const players = ["first", "second"];
 
     const scene: IBattleScene = {
@@ -14,7 +14,7 @@ export function makeBattlescene(state: IState): IBattleScene {
         const player = state.players[playerName];
 
         player.ships.forEach(function (shipId) {
-            const shipBlueprint = state.ships.find(({id}) => id === shipId).value;
+            const shipBlueprint = state.ships[shipId];
 
             const ship = new Battleship(
                 shipBlueprint.type,
@@ -28,7 +28,7 @@ export function makeBattlescene(state: IState): IBattleScene {
             );
 
             shipBlueprint.weapons.forEach((weaponId) => {
-                const weaponGroup = state.weapons.find(({id}) => id === weaponId).value;
+                const weaponGroup = state.weapons[weaponId];
 
                 const {count, ...weapon} = weaponGroup;
                 for (let i = 0; i < count; i++) {

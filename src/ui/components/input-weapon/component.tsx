@@ -7,15 +7,15 @@ import InputSelect from "../input-select";
 
 const styles = require("./index.pcss");
 
-type IWeaponType = { [key in EWeaponType]: string };
-type IWeaponDamageType = { [key in EWeaponDamageType]: string };
+type WeaponType = { [key in EWeaponType]: string };
+type WeaponDamageType = { [key in EWeaponDamageType]: string };
 
-const weaponClassTitles: IWeaponType = {
+const weaponClassTitles: WeaponType = {
     [EWeaponType.gun]: "Gun",
     [EWeaponType.missile]: "Missile",
 };
 
-const weaponTypeTitles: IWeaponDamageType = {
+const weaponTypeTitles: WeaponDamageType = {
     [EWeaponDamageType.yellow]: "Yellow",
     [EWeaponDamageType.orange]: "Orange",
     [EWeaponDamageType.blue]: "Blue",
@@ -23,19 +23,19 @@ const weaponTypeTitles: IWeaponDamageType = {
     [EWeaponDamageType.pink]: "Pink",
 };
 
-export interface IInputWeaponState extends IWeapon {
+export type InputWeaponState = IWeapon & {
     count: number;
-}
+};
 
-interface IInputWeaponProps extends React.Props<InputWeapon>, IInputWeaponState {
-    onChange: (value: IInputWeaponState) => void;
-}
+type InputWeaponProps = React.Props<InputWeapon> & InputWeaponState & {
+    onChange: (value: InputWeaponState) => void;
+};
 
 const DEFAULT_TYPE = EWeaponType.gun;
 const DEFAULT_DAMAGE_TYPE = EWeaponDamageType.yellow;
 const DEFAULT_COUNT = 1;
 
-export default class InputWeapon extends React.Component<IInputWeaponProps, null> {
+export default class InputWeapon extends React.Component<InputWeaponProps, null> {
     public render() {
         return (
             <div className={styles.wrapper}>
@@ -46,7 +46,7 @@ export default class InputWeapon extends React.Component<IInputWeaponProps, null
         );
     }
 
-    public static get defaultState(): IInputWeaponState {
+    public static get defaultState(): InputWeaponState {
         return {
             damage: DEFAULT_DAMAGE_TYPE,
             type: DEFAULT_TYPE,
@@ -54,15 +54,15 @@ export default class InputWeapon extends React.Component<IInputWeaponProps, null
         };
     }
 
-    private prop<Field extends keyof IInputWeaponState>(field: Field) {
+    private prop<Field extends keyof InputWeaponState>(field: Field) {
         return {
             value: this.props[field],
             onChange: this.handleChange(field),
         };
     }
 
-    private handleChange = <Field extends keyof IInputWeaponState>(field: Field) =>
-        (value: IInputWeaponState[Field]) => {
+    private handleChange = <Field extends keyof InputWeaponState>(field: Field) =>
+        (value: InputWeaponState[Field]) => {
             this.props.onChange({...this.props, [field]: value});
         };
 }

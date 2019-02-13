@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {IState} from "../../reducers/i-state";
+import {State} from "../../reducers/state";
 import {actionWeaponAdd} from "../weapon-list/actions";
 
 import {actionShipAdd, actionShipRemove} from "./actions";
@@ -7,15 +7,15 @@ import ShipList from "./component";
 
 const shipCounters = {};
 
-interface IShipListContainerProps {
+type ShipListContainerProps = {
     playerId: string;
-}
+};
 
-function mapStateToProps(state: IState, ownProps: IShipListContainerProps) {
+function mapStateToProps(state: State, ownProps: ShipListContainerProps) {
     return {ships: state.players[ownProps.playerId].ships};
 }
 
-function mapDispatchToProps(dispatch, ownProps: IShipListContainerProps) {
+function mapDispatchToProps(dispatch, ownProps: ShipListContainerProps) {
     if (!shipCounters[ownProps.playerId]) {
         shipCounters[ownProps.playerId] = 0;
     }

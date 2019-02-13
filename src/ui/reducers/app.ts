@@ -1,18 +1,20 @@
-import {ACTION_APP_AUTOSIM} from "../app/actions";
+import {ACTION_APP_AUTOSIM, actionAppAutoSim} from "../app/actions";
 
-export interface IAppState {
+export type AppState = {
     autosim: boolean;
     summaryState: "empty" | "pending" | "ready";
     duration: boolean | number;
-}
+};
 
-const defaultState: IAppState = {
+const defaultState: AppState = {
     autosim: false,
     summaryState: "empty",
     duration: false,
 };
 
-export function app(state: IAppState = defaultState, action) {
+type Actions = ReturnType<typeof actionAppAutoSim>;
+
+export function app(state: AppState = defaultState, action: Actions): AppState {
     switch (action.type) {
         case ACTION_APP_AUTOSIM:
             return {...state, autosim: action.value};

@@ -6,18 +6,18 @@ import {SummaryContainer} from "../components/summary";
 
 const styles = require("./index.pcss");
 
-interface IAppState {
+type AppState = {
     autosim: boolean;
     summaryState: string;
     duration: number;
-}
+};
 
-interface IAppProps extends React.Props<App>, IAppState {
+type AppProps = React.Props<App> & AppState & {
     actionSimulate: () => void;
     actionAutosim: () => void;
-}
+};
 
-export default class App extends React.Component<IAppProps> {
+export default class App extends React.Component<AppProps> {
     public render() {
         const summaryState = this.props.summaryState;
 
