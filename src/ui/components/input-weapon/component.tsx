@@ -63,6 +63,11 @@ export default class InputWeapon extends React.Component<InputWeaponProps, null>
 
     private handleChange = <Field extends keyof InputWeaponState>(field: Field) =>
         (value: InputWeaponState[Field]) => {
-            this.props.onChange({...this.props, [field]: value});
+            this.props.onChange({
+                damage: this.props.damage,
+                type: this.props.type,
+                count: this.props.count,
+                [field]: value,
+            });
         };
 }

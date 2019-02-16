@@ -6,20 +6,15 @@
 // When you add this file, we won't add the default configurations which is similar
 // to "React Create App". This only has babel loader to load JavaScript.
 
-const extend = require("../webpack.dev");
+const config = require("../webpack.dev");
 
 module.exports = base => {
     base.module.rules = [
         ...base.module.rules,
-        ...extend.module.rules
+        ...config.module.rules
     ];
 
-    base.resolve.extensions = extend.resolve.extensions;
-
-    // base.devServer = {
-    //     inline: true,
-    //     hot: true
-    // };
+    base.resolve.extensions = config.resolve.extensions;
 
     return base;
 };
