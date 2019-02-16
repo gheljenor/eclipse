@@ -8,39 +8,50 @@ import {
     actionWeaponAdd,
     actionWeaponRemove,
 } from "../components/weapon-list/actions";
+import {StateUpdateError} from "../lib/state-update-error";
 
 export type WeaponsState = {
     [id: string]: InputWeaponState;
 };
 
-type Actions = ReturnType<typeof actionWeaponAdd>
-    | ReturnType<typeof actionWeaponRemove>
-    | ReturnType<typeof actionShipRemove>
-    | ReturnType<typeof actionWeaponUpdate>;
-
-export function weapons(state: WeaponsState = {}, action: Actions): WeaponsState {
-    switch (action.type) {
-        case ACTION_WEAPON_ADD:
-            return {...state, [action.weaponId]: InputWeapon.defaultState};
-
-        case ACTION_WEAPON_REMOVE: {
-            const nextState = {...state};
-            delete nextState[action.weaponId];
-            return nextState;
+const actions = {
+    [ACTION_WEAPON_ADD]: (state: WeaponsState, action: ReturnType<typeof actionWeaponAdd>): WeaponsState => {
+        if (state[action.weaponId]) {
+            throw new StateUpdateError(StateUpdateError.ERROR_WEAPON_COLLISION, action);
         }
 
-        case ACTION_WEAPON_UPDATE:
-            return {...state, [action.weaponId]: action.value};
-
-        case ACTION_SHIP_REMOVE: {
-            const nextState = {...state};
-            Object.keys(state).forEach((id) => {
-                if (id.startsWith(action.shipId + ":")) {
-                    delete nextState[id];
-                }
-            });
-            return nextState;
+        return {...state, [action.weaponId]: InputWeapon.defaultState};
+    },
+    [ACTION_WEAPON_REMOVE]: (state: WeaponsState, action: ReturnType<typeof actionWeaponRemove>): WeaponsState => {
+        if (!state[action.weaponId]) {
+            throw new StateUpdateError(StateUpdateError.ERROR_WEAPON_NOT_FOUND, action);
         }
+
+        const nextState = {...state};
+        delete nextState[action.weaponId];
+        return nextState;
+    },
+    [ACTION_WEAPON_UPDATE]: (state: WeaponsState, action: ReturnType<typeof actionWeaponUpdate>): WeaponsState => {
+        if (!state[action.weaponId]) {
+            throw new StateUpdateError(StateUpdateError.ERROR_WEAPON_NOT_FOUND, action);
+        }
+
+        return {...state, [action.weaponId]: action.value};
+    },
+    [ACTION_SHIP_REMOVE]: (state: WeaponsState, action: ReturnType<typeof actionShipRemove>): WeaponsState => {
+        const nextState = {...state};
+        Object.keys(state).forEach((id) => {
+            if (id.startsWith(action.shipId + ":")) {
+                delete nextState[id];
+            }
+        });
+        return nextState;
+    },
+};
+
+export function weapons(state: WeaponsState = {}, action): WeaponsState {
+    if (actions[action.type]) {
+        return actions[action.type](state, action);
     }
 
     return state;

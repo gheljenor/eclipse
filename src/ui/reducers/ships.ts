@@ -8,6 +8,7 @@ import {
     actionWeaponAdd,
     actionWeaponRemove,
 } from "../components/weapon-list/actions";
+import {StateUpdateError} from "../lib/state-update-error";
 
 type ShipValueState = ShipState & {
     weapons: string[];
@@ -17,56 +18,74 @@ export type ShipsState = {
     [id: string]: ShipValueState;
 };
 
-type Actions = ReturnType<typeof actionWeaponAdd>
-    | ReturnType<typeof actionWeaponRemove>
-    | ReturnType<typeof actionShipAdd>
-    | ReturnType<typeof actionShipRemove>
-    | ReturnType<typeof actionShipUpdate>;
-
-export function ships(state: ShipsState = {}, action: Actions): ShipsState {
-    switch (action.type) {
-        case ACTION_WEAPON_ADD: {
-            const weapons = [...state[action.shipId].weapons, action.weaponId];
-            return {
-                ...state,
-                [action.shipId]: {
-                    ...state[action.shipId],
-                    weapons,
-                },
-            };
+const actions = {
+    [ACTION_WEAPON_ADD](state: ShipsState, action: ReturnType<typeof actionWeaponAdd>): ShipsState {
+        if (!state[action.shipId]) {
+            throw new StateUpdateError(StateUpdateError.ERROR_SHIP_NOT_FOUND, action);
         }
 
-        case ACTION_WEAPON_REMOVE: {
-            const weapons = state[action.shipId].weapons.filter((id) => id !== action.weaponId);
-            return {
-                ...state,
-                [action.shipId]: {
-                    ...state[action.shipId],
-                    weapons,
-                },
-            };
+        const weapons = [...state[action.shipId].weapons, action.weaponId];
+
+        return {
+            ...state,
+            [action.shipId]: {
+                ...state[action.shipId],
+                weapons,
+            },
+        };
+    },
+    [ACTION_WEAPON_REMOVE](state: ShipsState, action: ReturnType<typeof actionWeaponRemove>): ShipsState {
+        if (!state[action.shipId]) {
+            throw new StateUpdateError(StateUpdateError.ERROR_SHIP_NOT_FOUND, action);
         }
 
-        case ACTION_SHIP_UPDATE:
-            return {
-                ...state,
-                [action.shipId]: {
-                    ...state[action.shipId],
-                    ...action.props,
-                },
-            };
+        const weapons = state[action.shipId].weapons.filter((id) => id !== action.weaponId);
 
-        case ACTION_SHIP_ADD:
-            return {
-                ...state,
-                [action.shipId]: {...Ship.defaultState, weapons: []},
-            };
-
-        case ACTION_SHIP_REMOVE: {
-            const nextState = {...state};
-            delete nextState[action.shipId];
-            return nextState;
+        return {
+            ...state,
+            [action.shipId]: {
+                ...state[action.shipId],
+                weapons,
+            },
+        };
+    },
+    [ACTION_SHIP_UPDATE](state: ShipsState, action: ReturnType<typeof actionShipUpdate>): ShipsState {
+        if (!state[action.shipId]) {
+            throw new StateUpdateError(StateUpdateError.ERROR_SHIP_NOT_FOUND, action);
         }
+
+        return {
+            ...state,
+            [action.shipId]: {
+                ...state[action.shipId],
+                ...action.props,
+            },
+        };
+    },
+    [ACTION_SHIP_ADD](state: ShipsState, action: ReturnType<typeof actionShipAdd>): ShipsState {
+        if (state[action.shipId]) {
+            throw new StateUpdateError(StateUpdateError.ERROR_SHIP_COLLISION, action);
+        }
+
+        return {
+            ...state,
+            [action.shipId]: {...Ship.defaultState, weapons: []},
+        };
+    },
+    [ACTION_SHIP_REMOVE](state: ShipsState, action: ReturnType<typeof actionShipRemove>): ShipsState {
+        if (!state[action.shipId]) {
+            throw new StateUpdateError(StateUpdateError.ERROR_SHIP_NOT_FOUND, action);
+        }
+
+        const nextState = {...state};
+        delete nextState[action.shipId];
+        return nextState;
+    },
+};
+
+export function ships(state: ShipsState = {}, action): ShipsState {
+    if (actions[action.type]) {
+        return actions[action.type](state, action);
     }
 
     return state;
