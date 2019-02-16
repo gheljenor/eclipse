@@ -1,6 +1,5 @@
 import {connect} from "react-redux";
 import {State} from "../../reducers/state";
-import {actionWeaponAdd} from "../weapon-list/actions";
 
 import {actionShipAdd, actionShipRemove} from "./actions";
 import ShipList from "./component";
@@ -21,11 +20,7 @@ function mapDispatchToProps(dispatch, ownProps: ShipListContainerProps) {
     }
 
     return {
-        actionAdd: () => {
-            const shipAdd = actionShipAdd(ownProps.playerId);
-            dispatch(shipAdd);
-            dispatch(actionWeaponAdd(shipAdd.shipId));
-        },
+        actionAdd: () => dispatch(actionShipAdd(ownProps.playerId)),
         actionRemove: (shipId) => dispatch(actionShipRemove(ownProps.playerId, shipId)),
     };
 }

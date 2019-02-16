@@ -36,7 +36,7 @@ export type ShipState = {
 
 export type ShipProps = React.Props<Ship> & ShipState & {
     actionUpdate: (value: Partial<ShipState>) => void;
-    shipId: string;
+    shipId: number;
 };
 
 const DEFAULT_COUNT = 1;

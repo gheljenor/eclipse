@@ -3,23 +3,19 @@ import * as React from "react";
 import InputCheckbox from "../components/input-checkbox";
 import Setup from "../components/setup";
 import {SummaryContainer} from "../components/summary";
+import {SummaryStatus} from "../components/summary/component";
+import {AppState} from "../reducers/app";
 
 const styles = require("./index.pcss");
 
-type AppState = {
-    autosim: boolean;
-    summaryState: string;
-    duration: number;
-};
-
-type AppProps = React.Props<App> & AppState & {
+type AppProps = React.Props<App> & AppState & SummaryStatus & {
     actionSimulate: () => void;
     actionAutosim: () => void;
 };
 
 export default class App extends React.Component<AppProps> {
     public render() {
-        const summaryState = this.props.summaryState;
+        const summaryState = this.props.state;
 
         const summaryStyle = summaryState === "ready" ? styles.summaryReady
             : summaryState === "empty" ? styles.summaryEmpty

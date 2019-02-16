@@ -21,11 +21,11 @@ const defaultShip = {
 describe("ui-ship-actions", function () {
     describe("ACTION_SHIP_UPDATE", function () {
         it("success", function () {
-            const store = createStore(reducers, {ships: {"first:0": defaultShip}});
+            const store = createStore(reducers, {ships: {counter: 0, list: {0: defaultShip}}});
 
-            store.dispatch(actionShipUpdate("first:0", {attack: 2, defence: 3}));
+            store.dispatch(actionShipUpdate(0, {attack: 2, defence: 3}));
 
-            expect(store.getState().ships["first:0"]).to.be.eql({
+            expect(store.getState().ships.list[0]).to.be.eql({
                 type: EBattleShipType.interceptor,
                 count: 1,
                 hp: 1,
@@ -36,7 +36,7 @@ describe("ui-ship-actions", function () {
                 weapons: [],
             });
 
-            store.dispatch(actionShipUpdate("first:0", {
+            store.dispatch(actionShipUpdate(0, {
                 type: EBattleShipType.cruiser,
                 count: 2,
                 hp: 3,
@@ -46,7 +46,7 @@ describe("ui-ship-actions", function () {
                 heal: 7,
             }));
 
-            expect(store.getState().ships["first:0"]).to.be.eql({
+            expect(store.getState().ships.list[0]).to.be.eql({
                 type: EBattleShipType.cruiser,
                 count: 2,
                 hp: 3,
@@ -62,7 +62,7 @@ describe("ui-ship-actions", function () {
             const store = createStore(reducers);
             const state = store.getState();
 
-            expect(() => store.dispatch(actionShipUpdate("first:0", {})))
+            expect(() => store.dispatch(actionShipUpdate(0, {})))
                 .to.throw(StateUpdateError, StateUpdateError.ERROR_SHIP_NOT_FOUND);
 
             expect(store.getState()).to.be.eql(state);

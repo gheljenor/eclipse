@@ -5,7 +5,11 @@ import {actionAppAutoSim, actionAppSimulate} from "./actions";
 import App from "./component";
 
 function mapStateToProps(state: State) {
-    return state.app;
+    return {
+        ...state.app,
+        state: state.summary.state,
+        duration: state.summary.duration,
+    };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,7 +1,7 @@
 import {Battleship, EBattleShipType} from "../../battle/battleship";
 import {IBattleSummary} from "../../battle/select/battle-summary";
 import {memo} from "../../lib/memo";
-import {SummaryState} from "../components/summary/component";
+import {SummaryResult} from "../components/summary/component";
 
 type OutcomeDetails = {
     type: EBattleShipType;
@@ -13,7 +13,7 @@ export type Outcome = {
     ships: OutcomeDetails[];
 };
 
-export function prepareSummary(summary: IBattleSummary): SummaryState {
+export function prepareSummary(summary: IBattleSummary): SummaryResult {
     const {results} = summary;
     const outcomes = {
         first: prepareDetails(summary, "first"),

@@ -16,7 +16,6 @@ const defaultShip = {
     defence: 0,
     initiative: 0,
     heal: 0,
-    weapons: [],
 };
 
 const defaultWeapon = {
@@ -34,17 +33,28 @@ describe("ui-ship-list-actions", function () {
 
             const firstState = store.getState();
 
-            expect(firstState.ships).to.be.eql({"first:0": defaultShip});
+            expect(firstState.ships).to.be.eql({
+                counter: 0,
+                list: {
+                    0: {...defaultShip, weapons: [0]},
+                },
+            });
 
             store.dispatch(actionShipAdd("second"));
 
             const secondState = store.getState();
 
-            expect(secondState.ships).to.be.eql({"first:0": defaultShip, "second:0": defaultShip});
+            expect(secondState.ships).to.be.eql({
+                counter: 1,
+                list: {
+                    0: {...defaultShip, weapons: [0]},
+                    1: {...defaultShip, weapons: [1]},
+                },
+            });
 
             expect(secondState.players).to.be.eql({
-                first: {name: "Player", ships: ["first:0"]},
-                second: {name: "Enemy", ships: ["second:0"]},
+                first: {name: "Player", ships: [0]},
+                second: {name: "Enemy", ships: [1]},
                 defender: "second",
             });
         });
@@ -58,47 +68,38 @@ describe("ui-ship-list-actions", function () {
 
             expect(store.getState()).to.be.eql(state);
         });
-
-        it("ship exists", function () {
-            const store = createStore(reducers, {ships: {"first:0": defaultShip}});
-            const state = store.getState();
-
-            expect(() => store.dispatch({type: ACTION_SHIP_ADD, playerId: "first", shipId: "first:0"}))
-                .to.throw(StateUpdateError, StateUpdateError.ERROR_SHIP_COLLISION);
-
-            expect(store.getState()).to.be.eql(state);
-        });
     });
 
     describe("ACTION_SHIP_REMOVE", function () {
         it("success", function () {
             const store = createStore(reducers, {
                 players: {
-                    first: {name: "Player", ships: ["first:0"]},
-                    second: {name: "Enemy", ships: ["second:0"]},
+                    first: {name: "Player", ships: [0]},
+                    second: {name: "Enemy", ships: [1]},
                     defender: "second",
                 },
                 ships: {
-                    "first:0": {
-                        ...defaultShip,
-                        weapons: ["first:0:1"],
+                    counter: 1,
+                    list: {
+                        0: {...defaultShip, weapons: [0]},
+                        1: {...defaultShip, weapons: [1]},
                     },
-                    "second:0": defaultShip,
                 },
-                weapons: {"first:0:0": defaultWeapon},
+                weapons: {counter: 0, list: {0: defaultWeapon, 1: defaultWeapon}},
             });
 
-            store.dispatch(actionShipRemove("first", "first:0"));
+            store.dispatch(actionShipRemove("first", 0));
 
             expect(store.getState().players).to.be.eql({
                 first: {name: "Player", ships: []},
-                second: {name: "Enemy", ships: ["second:0"]},
+                second: {name: "Enemy", ships: [1]},
                 defender: "second",
             });
 
-            expect(store.getState().ships).to.be.eql({"second:0": defaultShip});
+            expect(store.getState().ships.list).to.be.eql({1: {...defaultShip, weapons: [1]}});
+            expect(store.getState().weapons.list).to.be.eql({1: defaultWeapon});
 
-            store.dispatch(actionShipRemove("second", "second:0"));
+            store.dispatch(actionShipRemove("second", 1));
 
             expect(store.getState().players).to.be.eql({
                 first: {name: "Player", ships: []},
@@ -106,15 +107,15 @@ describe("ui-ship-list-actions", function () {
                 defender: "second",
             });
 
-            expect(store.getState().ships).to.be.eql({});
-            expect(store.getState().weapons).to.be.eql({});
+            expect(store.getState().ships.list).to.be.eql({});
+            expect(store.getState().weapons.list).to.be.eql({});
         });
 
         it("no such player", function () {
-            const store = createStore(reducers, {ships: {"first:0": defaultShip}});
+            const store = createStore(reducers, {ships: {counter: 0, list: {0: defaultShip}}});
             const state = store.getState();
 
-            expect(() => store.dispatch(actionShipRemove("third", "first:0")))
+            expect(() => store.dispatch(actionShipRemove("third", 0)))
                 .to.throw(StateUpdateError, StateUpdateError.ERROR_PLAYER_NOT_FOUND);
 
             expect(store.getState()).to.be.eql(state);
@@ -124,7 +125,7 @@ describe("ui-ship-list-actions", function () {
             const store = createStore(reducers);
             const state = store.getState();
 
-            expect(() => store.dispatch(actionShipRemove("first", "first:0")))
+            expect(() => store.dispatch(actionShipRemove("first", 100)))
                 .to.throw(StateUpdateError, StateUpdateError.ERROR_SHIP_NOT_FOUND);
 
             expect(store.getState()).to.be.eql(state);

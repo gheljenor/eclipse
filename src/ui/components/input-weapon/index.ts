@@ -5,11 +5,11 @@ import {actionWeaponUpdate} from "./actions";
 import InputWeapon from "./component";
 
 type InputWeaponContainerProps = {
-    weaponId: string;
+    weaponId: number;
 };
 
 const mapStateToProps = (state: State, ownProps: InputWeaponContainerProps) => {
-    return state.weapons[ownProps.weaponId];
+    return state.weapons.list[ownProps.weaponId];
 };
 
 const mapDispatchToProps = (dispatch, ownProps: InputWeaponContainerProps) => {

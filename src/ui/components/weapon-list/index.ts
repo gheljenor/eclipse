@@ -5,11 +5,11 @@ import {actionWeaponAdd, actionWeaponRemove} from "./actions";
 import WeaponList from "./component";
 
 type WeaponListContainerProps = {
-    shipId: string;
+    shipId: number;
 };
 
 function mapStateToProps(state: State, ownProps: WeaponListContainerProps) {
-    return {weapons: state.ships[ownProps.shipId].weapons};
+    return {weapons: state.ships.list[ownProps.shipId].weapons};
 }
 
 function mapDispatchToProps(dispatch, ownProps: WeaponListContainerProps) {

@@ -3,32 +3,35 @@ import {SummaryState} from "../components/summary/component";
 import {simulate} from "../lib/simulate";
 import {State} from "./state";
 
+const defaultState: SummaryState = {
+    outcomes: {},
+    results: {},
+    duration: 0,
+    state: "empty",
+};
+
 const actions = {
-    [ACTION_APP_SIMULATE]: (state: State, action: ReturnType<typeof actionAppSimulate>): State => {
+    [ACTION_APP_SIMULATE]: (
+        state: SummaryState,
+        action: ReturnType<typeof actionAppSimulate>,
+        globalState: State,
+    ): SummaryState => {
         const ts = Date.now();
-        const results = simulate(state);
+        const results = simulate(globalState);
         const duration = Date.now() - ts;
 
         return {
-            ...state,
-            summary: results,
-            app: {
-                ...state.app,
-                summaryState: "ready",
-                duration,
-            },
+            ...results,
+            state: "ready",
+            duration,
         };
     },
 };
 
-export function summaryGlobal(state: State, action): State {
+export function summary(state: SummaryState = defaultState, action, globalState: State): SummaryState {
     if (actions[action.type]) {
-        return actions[action.type](state, action);
+        return actions[action.type](state, action, globalState);
     }
 
-    return state;
-}
-
-export function summary(state: SummaryState = {outcomes: {}, results: {}}): SummaryState {
     return state;
 }

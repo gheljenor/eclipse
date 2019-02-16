@@ -12,21 +12,23 @@ describe("ui-input-weapon-actions", function () {
         it("success", function () {
             const store = createStore(reducers, {
                 weapons: {
-                    "first:0:0": {
-                        type: EWeaponType.gun,
-                        damage: EWeaponDamageType.yellow,
-                        count: 1,
+                    list: {
+                        0: {
+                            type: EWeaponType.gun,
+                            damage: EWeaponDamageType.yellow,
+                            count: 1,
+                        },
                     },
                 },
             });
 
-            store.dispatch(actionWeaponUpdate("first:0:0", {
+            store.dispatch(actionWeaponUpdate(0, {
                 type: EWeaponType.missile,
                 damage: EWeaponDamageType.orange,
                 count: 2,
             }));
 
-            expect(store.getState().weapons["first:0:0"]).to.be.eql({
+            expect(store.getState().weapons.list[0]).to.be.eql({
                 type: EWeaponType.missile,
                 damage: EWeaponDamageType.orange,
                 count: 2,
@@ -36,7 +38,7 @@ describe("ui-input-weapon-actions", function () {
         it("no such weapon", function () {
             const store = createStore(reducers);
 
-            expect(() => store.dispatch(actionWeaponUpdate("first:0:0", {
+            expect(() => store.dispatch(actionWeaponUpdate(0, {
                 type: EWeaponType.missile,
                 damage: EWeaponDamageType.orange,
                 count: 2,

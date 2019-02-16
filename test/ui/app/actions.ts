@@ -11,25 +11,31 @@ describe("ui-app-actions", function () {
     it("ACTION_APP_SIMULATE", function () {
         const store = createStore(reducers, {
             players: {
-                first: {name: "Player", ships: ["first:0"]},
-                second: {name: "Enemy", ships: ["second:0"]},
+                first: {name: "Player", ships: [0]},
+                second: {name: "Enemy", ships: [1]},
                 defender: "second",
             },
             ships: {
-                "first:0": {
-                    type: EBattleShipType.interceptor,
-                    count: 1, hp: 1, attack: 0, defence: 0, heal: 0, initiative: 0,
-                    weapons: ["first:0:0"],
-                },
-                "second:0": {
-                    type: EBattleShipType.interceptor,
-                    count: 1, hp: 1, attack: 0, defence: 0, heal: 0, initiative: 0,
-                    weapons: ["second:0:0"],
+                counter: 1,
+                list: {
+                    0: {
+                        type: EBattleShipType.interceptor,
+                        count: 1, hp: 1, attack: 0, defence: 0, heal: 0, initiative: 0,
+                        weapons: [0],
+                    },
+                    1: {
+                        type: EBattleShipType.interceptor,
+                        count: 1, hp: 1, attack: 0, defence: 0, heal: 0, initiative: 0,
+                        weapons: [1],
+                    },
                 },
             },
             weapons: {
-                "first:0:0": {damage: EWeaponDamageType.yellow, type: EWeaponType.gun, count: 1},
-                "second:0:0": {damage: EWeaponDamageType.yellow, type: EWeaponType.gun, count: 1},
+                counter: 1,
+                list: {
+                    0: {damage: EWeaponDamageType.yellow, type: EWeaponType.gun, count: 1},
+                    1: {damage: EWeaponDamageType.yellow, type: EWeaponType.gun, count: 1},
+                },
             },
         });
 
@@ -55,10 +61,11 @@ describe("ui-app-actions", function () {
                     ships: [{count: 1, type: EBattleShipType.interceptor}],
                 }],
             },
+            state: "ready",
+            duration: newState.summary.duration,
         });
 
-        expect(newState.app.summaryState).to.be.eql("ready");
-        expect(newState.app.duration).to.be.gt(0);
+        expect(newState.summary.duration).to.be.gte(0);
     });
 
     it("ACTION_APP_AUTOSIM", function () {

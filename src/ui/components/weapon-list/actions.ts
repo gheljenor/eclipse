@@ -1,20 +1,25 @@
+import InputWeapon from "../input-weapon/component";
+import {InputWeaponState} from "../input-weapon/component";
+
 export const ACTION_WEAPON_ADD = Symbol("ACTION_WEAPON_ADD");
 export const ACTION_WEAPON_REMOVE = Symbol("ACTION_WEAPON_REMOVE");
 
-const weaponCounters = {};
-
-type WeaponAction<Type> = {
-    type: Type;
-    shipId: string;
-    weaponId: string;
+type WeaponActionAdd = {
+    type: typeof ACTION_WEAPON_ADD;
+    shipId: number;
+    value: InputWeaponState
 };
 
-export function actionWeaponAdd(shipId: string): WeaponAction<typeof ACTION_WEAPON_ADD> {
-    weaponCounters[shipId] = weaponCounters[shipId] || 0;
-    const weaponId: string = shipId + ":" + weaponCounters[shipId]++;
-    return {type: ACTION_WEAPON_ADD, shipId, weaponId};
+type WeaponActionRemove = {
+    type: typeof ACTION_WEAPON_REMOVE;
+    shipId: number;
+    weaponId: number;
+};
+
+export function actionWeaponAdd(shipId: number, value: InputWeaponState = InputWeapon.defaultState): WeaponActionAdd {
+    return {type: ACTION_WEAPON_ADD, shipId, value};
 }
 
-export function actionWeaponRemove(shipId: string, weaponId: string): WeaponAction<typeof ACTION_WEAPON_REMOVE> {
+export function actionWeaponRemove(shipId: number, weaponId: number): WeaponActionRemove {
     return {type: ACTION_WEAPON_REMOVE, shipId, weaponId};
 }

@@ -5,9 +5,9 @@ import {ShipContainer} from "../ship";
 const styles = require("./index.pcss");
 
 type ShipListProps = React.Props<ShipList> & {
-    ships: string[];
+    ships: number[];
     actionAdd: () => void;
-    actionRemove: (weaponId: string) => void;
+    actionRemove: (weaponId: number) => void;
 };
 
 export default class ShipList extends React.Component<ShipListProps, null> {

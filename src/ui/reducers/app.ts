@@ -2,14 +2,10 @@ import {ACTION_APP_AUTOSIM, actionAppAutoSim} from "../app/actions";
 
 export type AppState = {
     autosim: boolean;
-    summaryState: "empty" | "pending" | "ready";
-    duration: boolean | number;
 };
 
 const defaultState: AppState = {
     autosim: false,
-    summaryState: "empty",
-    duration: false,
 };
 
 const actions = {

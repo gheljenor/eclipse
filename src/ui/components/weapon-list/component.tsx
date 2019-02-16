@@ -5,9 +5,9 @@ import {InputWeaponContainer} from "../input-weapon";
 const styles = require("./index.pcss");
 
 type WeaponListProps = React.Props<WeaponList> & {
-    weapons: string[];
+    weapons: number[];
     actionAdd: () => void;
-    actionRemove: (id: string) => void;
+    actionRemove: (id: number) => void;
 };
 
 export default class WeaponList extends React.Component<WeaponListProps, null> {

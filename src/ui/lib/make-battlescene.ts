@@ -14,7 +14,7 @@ export function makeBattlescene(state: State): IBattleScene {
         const player = state.players[playerName];
 
         player.ships.forEach(function (shipId) {
-            const shipBlueprint = state.ships[shipId];
+            const shipBlueprint = state.ships.list[shipId];
 
             const ship = new Battleship(
                 shipBlueprint.type,
@@ -28,7 +28,7 @@ export function makeBattlescene(state: State): IBattleScene {
             );
 
             shipBlueprint.weapons.forEach((weaponId) => {
-                const weaponGroup = state.weapons[weaponId];
+                const weaponGroup = state.weapons.list[weaponId];
 
                 const {count, ...weapon} = weaponGroup;
                 for (let i = 0; i < count; i++) {

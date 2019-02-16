@@ -1,21 +1,15 @@
-import {combineReducers} from "redux";
-import {combineLinear} from "../lib/combine-linear";
+import {combineReducersExtended} from "../lib/combine-reducers-extended";
 
 import {app} from "./app";
 import {players} from "./players";
 import {ships} from "./ships";
-import {summary, summaryGlobal} from "./summary";
+import {summary} from "./summary";
 import {weapons} from "./weapons";
 
-const baseReducers = combineReducers({
+export const reducers = combineReducersExtended({
     app,
     players,
     ships,
     weapons,
     summary,
 });
-
-export const reducers = combineLinear([
-    baseReducers,
-    summaryGlobal,
-]);

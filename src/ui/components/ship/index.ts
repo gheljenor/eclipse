@@ -5,12 +5,12 @@ import {actionShipUpdate} from "./actions";
 import Ship from "./component";
 
 type IShipContainerProps = {
-    shipId: string;
+    shipId: number;
 };
 
 const mapStateToProps = (state: State, ownProps: IShipContainerProps) => {
     return {
-        ...state.ships[ownProps.shipId],
+        ...state.ships.list[ownProps.shipId],
         shipId: ownProps.shipId,
     };
 };

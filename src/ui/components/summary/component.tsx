@@ -5,10 +5,17 @@ import {shipTypeTitles} from "../ship/component";
 
 const styles = require("./index.pcss");
 
-export type SummaryState = {
+export type SummaryStatus = {
+    state: "empty" | "pending" | "ready";
+    duration: number;
+};
+
+export type SummaryResult = {
     results: { [player: string]: number };
     outcomes: { [player: string]: Outcome[] };
 };
+
+export type SummaryState = SummaryStatus & SummaryResult;
 
 type SummaryProps = React.Props<Summary> & SummaryState;
 

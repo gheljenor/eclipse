@@ -1,10 +1,12 @@
 import {ACTION_PLAYER_UPDATE, actionPlayerUpdate} from "../components/player/actions";
 import {ACTION_SHIP_ADD, ACTION_SHIP_REMOVE, actionShipAdd, actionShipRemove} from "../components/ship-list/actions";
+
 import {StateUpdateError} from "../lib/state-update-error";
+import {State} from "./state";
 
 type IPlayerState = {
     name: string;
-    ships: string[];
+    ships: number[];
 };
 
 export type PlayersState = {
@@ -22,16 +24,22 @@ const defaultPlayers: PlayersState = {
 const otherPlayer = {first: "second", second: "first"};
 
 const actions = {
-    [ACTION_SHIP_ADD]: (state: PlayersState, action: ReturnType<typeof actionShipAdd>): PlayersState => {
+    [ACTION_SHIP_ADD]: (
+        state: PlayersState,
+        action: ReturnType<typeof actionShipAdd>,
+        globalState: State,
+    ): PlayersState => {
         if (!state[action.playerId]) {
             throw new StateUpdateError(StateUpdateError.ERROR_PLAYER_NOT_FOUND, action);
         }
+
+        const shipId = globalState.ships.counter + 1;
 
         return {
             ...state,
             [action.playerId]: {
                 ...state[action.playerId],
-                ships: [...state[action.playerId].ships, action.shipId],
+                ships: [...state[action.playerId].ships, shipId],
             },
         };
     },
@@ -72,9 +80,9 @@ const actions = {
     },
 };
 
-export function players(state: PlayersState = defaultPlayers, action): PlayersState {
+export function players(state: PlayersState = defaultPlayers, action, globalState: State): PlayersState {
     if (actions[action.type]) {
-        return actions[action.type](state, action);
+        return actions[action.type](state, action, globalState);
     }
 
     return state;
