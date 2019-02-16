@@ -1,6 +1,7 @@
 .nyc/
 node_modules/
 coverage/
+docs/
 
 src/**/*.js
 test/**/*.js
