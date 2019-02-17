@@ -5,6 +5,7 @@
     "module": "commonjs",
     "sourceMap": true,
     "downlevelIteration": true,
+    "esModuleInterop": true,
     "jsx": "react",
     "allowJs": true,
     "lib": [

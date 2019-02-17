@@ -9,6 +9,8 @@ Will simulate battle, and give unbiased battle result statistics.
  * [x] write summary extractor
  * [x] create simple ui
  * [x] generate gh-pages
+ * [x] simulate on worker
+ * [ ] async simulation, can be interrupted
  * [ ] not exponential attack function [see](src/battle/attack/calc-attack.ts)
  * [ ] tests tests tests
  * [ ] better readme file

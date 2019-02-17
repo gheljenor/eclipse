@@ -1,6 +1,8 @@
-import {ACTION_APP_SIMULATE, actionAppSimulate} from "../app/actions";
+import {
+    ACTION_APP_SIMULATE, ACTION_APP_SIMULATE_FAILED, ACTION_APP_SIMULATE_READY,
+    actionAppSimulate, actionAppSimulateFailed, actionAppSimulateReady,
+} from "../app/actions";
 import {SummaryState} from "../components/summary/component";
-import {simulate} from "../lib/simulate";
 import {State} from "./state";
 
 const defaultState: SummaryState = {
@@ -11,20 +13,17 @@ const defaultState: SummaryState = {
 };
 
 const actions = {
-    [ACTION_APP_SIMULATE]: (
+    [ACTION_APP_SIMULATE](state: SummaryState, action: ReturnType<typeof actionAppSimulate>): SummaryState {
+        return {...state, state: "pending"};
+    },
+    [ACTION_APP_SIMULATE_READY](state: SummaryState, action: ReturnType<typeof actionAppSimulateReady>): SummaryState {
+        return {...action.value, state: "ready"};
+    },
+    [ACTION_APP_SIMULATE_FAILED](
         state: SummaryState,
-        action: ReturnType<typeof actionAppSimulate>,
-        globalState: State,
-    ): SummaryState => {
-        const ts = Date.now();
-        const results = simulate(globalState);
-        const duration = Date.now() - ts;
-
-        return {
-            ...results,
-            state: "ready",
-            duration,
-        };
+        action: ReturnType<typeof actionAppSimulateFailed>,
+    ): SummaryState {
+        return {...state, state: "empty"};
     },
 };
 

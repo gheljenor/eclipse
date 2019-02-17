@@ -6,13 +6,7 @@ config.mode = "development";
 
 config.devtool = "cheap-module-eval-source-map";
 
-config.entry.push("webpack-hot-middleware/client");
-
-config.output = {
-    path: __dirname + "/dev",
-    publicPath: "/",
-    filename: "index.js"
-};
+config.output.publicPath = "/";
 
 config.devServer = {
     contentBase: "./dev",

@@ -14,24 +14,21 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
+                test: /\.worker.js$/,
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: "cache-loader",
-                        options: {cacheDirectory: Path.resolve(cacheDir, "typescript")}
+                        loader: "worker-loader",
+                        options: {name: "[hash].[name].js"},
                     },
-                    "happypack/loader?id=typescript"
                 ],
             }, {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: ["happypack/loader?id=typescript"],
+            }, {
                 test: /\.js$/,
-                use: [
-                    {
-                        loader: "cache-loader",
-                        options: {cacheDirectory: Path.resolve(cacheDir, "js")}
-                    },
-                    "happypack/loader?id=js"
-                ],
+                use: ["happypack/loader?id=js"],
                 exclude: /node_modules/,
                 enforce: "pre",
             }, {
@@ -47,12 +44,12 @@ module.exports = {
             }, {
                 test: /\.p?css$/,
                 use: [
+                    "style-loader",
+                    "happypack/loader?id=postcss",
                     {
                         loader: "cache-loader",
                         options: {cacheDirectory: Path.resolve(cacheDir, "postcss")}
                     },
-                    "style-loader",
-                    "happypack/loader?id=postcss",
                 ],
             },
         ],
@@ -64,13 +61,18 @@ module.exports = {
         path: __dirname + "/docs",
         publicPath: "/eclipse/",
         filename: "index.[hash].js",
+        globalObject: "(typeof self !== 'undefined' ? self : this)"
     },
     plugins: [
         new HappyPack({
             id: "js",
             threadPool: happyThreadPool,
             loaders: [
-                "source-map-loader"
+                "source-map-loader",
+                {
+                    loader: "cache-loader",
+                    options: {cacheDirectory: Path.resolve(cacheDir, "js")}
+                },
             ]
         }),
         new HappyPack({
@@ -80,6 +82,9 @@ module.exports = {
                 {
                     loader: "ts-loader",
                     options: {happyPackMode: true},
+                }, {
+                    loader: "cache-loader",
+                    options: {cacheDirectory: Path.resolve(cacheDir, "typescript")}
                 },
             ],
         }),

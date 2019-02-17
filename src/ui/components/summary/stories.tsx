@@ -19,6 +19,7 @@ const example1: SummaryResult = {
             {probability: 0.3, ships: [{type: EBattleShipType.interceptor, count: 1}]},
         ],
     },
+    duration: 1,
 };
 
 storiesOf("Summary", module)
