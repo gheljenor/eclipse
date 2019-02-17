@@ -6,7 +6,9 @@
   ],
   "jsRules": {},
   "rules": {
+    "interface-over-type-literal": false,
     "object-literal-sort-keys": false,
+    "jsx-no-multiline-js": false,
     "member-ordering": [
       true, {
         "order": [
@@ -43,7 +45,8 @@
     "jsx-curly-spacing": true,
     "no-var-requires": false,
     "semicolon": [true, "always", "ignore-bound-class-methods"],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"]
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
+    "jsx-no-lambda": false
   },
   "rulesDirectory": []
 }

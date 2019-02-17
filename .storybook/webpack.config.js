@@ -6,20 +6,21 @@
 // When you add this file, we won't add the default configurations which is similar
 // to "React Create App". This only has babel loader to load JavaScript.
 
-const extend = require("../webpack.dev");
+const config = require("../webpack.dev");
+const HappyPack = require("happypack");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = base => {
     base.module.rules = [
         ...base.module.rules,
-        ...extend.module.rules
+        ...config.module.rules
     ];
 
-    base.resolve.extensions = extend.resolve.extensions;
+    base.resolve.extensions = config.resolve.extensions;
 
-    // base.devServer = {
-    //     inline: true,
-    //     hot: true
-    // };
+    base.plugins.push(...config.plugins.filter((plugin) =>
+        plugin instanceof HappyPack || plugin instanceof ForkTsCheckerWebpackPlugin
+    ));
 
     return base;
 };
