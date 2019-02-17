@@ -19,10 +19,9 @@ module.exports = {
                 use: [
                     {
                         loader: "worker-loader",
-                        options: {name: "[hash].[name].js"}
-
-                    }
-                ]
+                        options: {name: "[hash].[name].js"},
+                    },
+                ],
             }, {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
