@@ -7,6 +7,8 @@
 // to "React Create App". This only has babel loader to load JavaScript.
 
 const config = require("../webpack.dev");
+const HappyPack = require("happypack");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = base => {
     base.module.rules = [
@@ -15,6 +17,10 @@ module.exports = base => {
     ];
 
     base.resolve.extensions = config.resolve.extensions;
+
+    base.plugins.push(...config.plugins.filter((plugin) =>
+        plugin instanceof HappyPack || plugin instanceof ForkTsCheckerWebpackPlugin
+    ));
 
     return base;
 };
