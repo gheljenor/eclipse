@@ -21,7 +21,7 @@
   "exclude": [
     "test/",
     "stories/",
-    "src/ui/",
+    "src/ui/**/*.tsx",
     "docs/",
     "coverage/",
     "*.js",
@@ -38,7 +38,7 @@
   "temp-dir": ".nyc/temp",
   "report-dir": "coverage",
   "cache": true,
-  "sourceMap": true,
-  "instrument": true,
+  "sourceMap": false,
+  "instrument": false,
   "all": true
 }
