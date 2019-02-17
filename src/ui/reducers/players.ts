@@ -24,11 +24,11 @@ const defaultPlayers: PlayersState = {
 const otherPlayer = {first: "second", second: "first"};
 
 const actions = {
-    [ACTION_SHIP_ADD]: (
+    [ACTION_SHIP_ADD](
         state: PlayersState,
         action: ReturnType<typeof actionShipAdd>,
         globalState: State,
-    ): PlayersState => {
+    ): PlayersState {
         if (!state[action.playerId]) {
             throw new StateUpdateError(StateUpdateError.ERROR_PLAYER_NOT_FOUND, action);
         }
@@ -43,7 +43,7 @@ const actions = {
             },
         };
     },
-    [ACTION_SHIP_REMOVE]: (state: PlayersState, action: ReturnType<typeof actionShipRemove>): PlayersState => {
+    [ACTION_SHIP_REMOVE](state: PlayersState, action: ReturnType<typeof actionShipRemove>): PlayersState {
         if (!state[action.playerId]) {
             throw new StateUpdateError(StateUpdateError.ERROR_PLAYER_NOT_FOUND, action);
         }
@@ -56,7 +56,7 @@ const actions = {
             },
         };
     },
-    [ACTION_PLAYER_UPDATE]: (state: PlayersState, action: ReturnType<typeof actionPlayerUpdate>): PlayersState => {
+    [ACTION_PLAYER_UPDATE](state: PlayersState, action: ReturnType<typeof actionPlayerUpdate>): PlayersState {
         if (!state[action.playerId]) {
             throw new StateUpdateError(StateUpdateError.ERROR_PLAYER_NOT_FOUND, action);
         }

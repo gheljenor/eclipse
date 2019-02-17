@@ -9,7 +9,7 @@ const defaultState: AppState = {
 };
 
 const actions = {
-    [ACTION_APP_AUTOSIM]: (state: AppState, action: ReturnType<typeof actionAppAutoSim>): AppState => {
+    [ACTION_APP_AUTOSIM](state: AppState, action: ReturnType<typeof actionAppAutoSim>): AppState {
         return {...state, autosim: action.value};
     },
 };

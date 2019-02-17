@@ -11,6 +11,7 @@ const styles = require("./index.pcss");
 type AppProps = React.Props<App> & AppState & SummaryStatus & {
     actionSimulate: () => void;
     actionAutosim: () => void;
+    duration: number;
 };
 
 export default class App extends React.Component<AppProps> {
@@ -46,7 +47,11 @@ export default class App extends React.Component<AppProps> {
     }
 
     private renderDuration() {
-        if (!this.props.duration) {
+        if (this.props.state === "pending") {
+            return <div className={styles.duration}>Simulating</div>;
+        }
+
+        if (this.props.state === "empty") {
             return;
         }
 
