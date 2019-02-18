@@ -12,7 +12,10 @@ const solver = new GeneSolver(solverCore);
 
 describe("attack-gene-solver-core", function () {
     it("4x1, 1x4", function () {
+        this.retries(2);
+
         const targets = [
+            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
@@ -33,12 +36,15 @@ describe("attack-gene-solver-core", function () {
         const shots = result.map((shot) => targets.indexOf(shot.target));
         const yellow = shots.slice(1);
 
-        expect(yellow.sort()).to.be.eql([0, 1, 2, 3]);
-        expect(shots[0]).to.be.eql(4);
+        expect(yellow).to.include.members([1, 2, 3, 4]);
+        expect(shots[0]).to.be.eql(5);
     });
 
     it("4x1+1, 1x4", function () {
+        this.retries(2);
+
         const targets = [
+            new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
@@ -57,14 +63,17 @@ describe("attack-gene-solver-core", function () {
         });
 
         const shots = result.map((shot) => targets.indexOf(shot.target));
-        const yellow = shots.slice(1);
-
-        expect(yellow).to.be.eql([4, 4, 4, 4]);
-        expect(shots[0]).to.be.lt(4);
+        expect(shots).to.be.eql([4, 5, 5, 5, 5]);
     });
 
     it("6x1", function () {
+        this.retries(2);
+
         const targets = [
+            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
+            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
+            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
+            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
             new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
@@ -85,6 +94,6 @@ describe("attack-gene-solver-core", function () {
 
         const shots = result.map((shot) => targets.indexOf(shot.target));
 
-        expect(shots.sort()).to.be.eql([0, 1, 2, 3, 4, 5]);
+        expect(shots).to.have.members([4, 5, 6, 7, 8, 9]);
     });
 });

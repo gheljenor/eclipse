@@ -50,11 +50,14 @@ export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAtt
     });
 
     public appraise = memoHashed((shots: IWeaponShot[]): number => {
+        const targets = this.data.targets;
         const missed = shots.some((shot) => isMissed(shot.roll, this.data.bonus, shot.target.defence));
         if (missed) {
             return null;
         }
-        return this.tactics(this.data.battleScene, this.data.turnInfo, shots);
+        return this.tactics(this.data.battleScene, this.data.turnInfo, shots)
+            + shots.reduce((a, shot) => a + 0.01 * targets.indexOf(shot.target) * shot.weapon.damage, 0);
+
     }, this.hash);
 
     private data: IAttackSolverData;
