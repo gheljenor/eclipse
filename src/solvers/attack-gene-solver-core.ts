@@ -21,8 +21,8 @@ export interface IAttackSolverData {
 
 const defaultOptions: IGeneSolverOptions = {
     firstGeneration: 5,
-    initial: 5,
-    iterations: 5,
+    secondGeneration: 5,
+    maxIterations: 5,
 
     freshBlood: 5,
 
@@ -89,6 +89,12 @@ export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAtt
             return null;
         }
         return this.tactics(this.data.battleScene, this.data.turnInfo, shots);
+    }
+
+    public hash(shots: IWeaponShot[]): string {
+        return shots
+            .map((shot) => `${shot.roll}:${shot.weapon.damage}:${shot.target.type}:${shot.target.hp}`)
+            .join(",");
     }
 
     public options(data): IGeneSolverOptions {

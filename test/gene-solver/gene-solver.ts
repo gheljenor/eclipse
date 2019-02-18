@@ -2,7 +2,7 @@ import {expect} from "chai";
 import {describe, it} from "mocha";
 
 import {randomInt} from "../../src/math/random-int";
-import {GeneSolver} from "../../src/solvers/gene-solver";
+import {GeneSolver, IGeneSolverOptions} from "../../src/solvers/gene-solver";
 
 describe("solvers-solver", function () {
     it("sort", function () {
@@ -67,11 +67,15 @@ describe("solvers-solver", function () {
             return score;
         }
 
-        function options() {
+        function hash(array: number[]): string {
+            return array.join(",");
+        }
+
+        function options(): IGeneSolverOptions {
             return {
                 firstGeneration: 5,
-                initial: 5,
-                iterations: 5,
+                secondGeneration: 5,
+                maxIterations: 5,
 
                 freshBlood: 5,
 
@@ -87,7 +91,7 @@ describe("solvers-solver", function () {
             };
         }
 
-        const geneSolver = new GeneSolver({generator, appraise, breed, mutate, options});
+        const geneSolver = new GeneSolver({generator, appraise, breed, mutate, hash, options});
 
         const test = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         let success = 0;
@@ -102,6 +106,6 @@ describe("solvers-solver", function () {
             }
         }
 
-        expect(success).to.be.gte(80);
+        expect(success).to.be.gte(90);
     });
 });

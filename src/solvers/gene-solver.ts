@@ -1,3 +1,4 @@
+import {uniqueOp} from "../lib/unique-op";
 import {randomInt} from "../math/random-int";
 
 export interface IGeneSolverCore<Solution, Data> {
@@ -5,13 +6,14 @@ export interface IGeneSolverCore<Solution, Data> {
     breed: (a: Solution, b: Solution) => Solution;
     mutate: (solution: Solution) => Solution;
     appraise: (solution: Solution) => number | null;
+    hash: (a: Solution) => string;
     options: (data: Data) => IGeneSolverOptions;
 }
 
 export interface IGeneSolverOptions {
     firstGeneration: number;
-    iterations: number;
-    initial: number;
+    secondGeneration: number;
+    maxIterations: number;
 
     freshBlood: number;
 
@@ -30,7 +32,7 @@ export class GeneSolver<Solution, Data> {
     private generation: Solution[];
     private generatorInstance: IterableIterator<Solution>;
 
-    private options;
+    private options: IGeneSolverOptions;
     private breedRandom: number;
 
     constructor(
@@ -47,8 +49,8 @@ export class GeneSolver<Solution, Data> {
 
         const best: Solution[] = [];
 
-        for (let i = 0; i < this.options.firstGeneration; i++) {
-            const candidates = this.spawnCandidates(this.options.initial);
+        for (let i = 0; i < this.options.secondGeneration; i++) {
+            const candidates = this.spawnCandidates(this.options.firstGeneration);
 
             if (candidates.length) {
                 best.push(this.generateOneBest(candidates));
@@ -86,12 +88,29 @@ export class GeneSolver<Solution, Data> {
     private generateOneBest(candidates: Solution[]): Solution {
         this.generation = candidates;
 
-        for (let i = 0; i < this.options.iterations; i++) {
+        let lastBest: string = this.core.hash(this.generation[0]);
+        let sameResult: number = 0;
+
+        for (let i = 0; i < this.options.maxIterations; i++) {
             this.iteration();
 
             if (!this.generatorInstance) {
                 break;
             }
+
+            const hash = this.core.hash(this.generation[0]);
+
+            if (hash === lastBest) {
+                sameResult++;
+            } else {
+                sameResult = 0;
+            }
+
+            if (sameResult > 1) {
+                break;
+            }
+
+            lastBest = hash;
         }
 
         return this.generation[0];
@@ -104,8 +123,10 @@ export class GeneSolver<Solution, Data> {
         this.breeding(generationNext);
         this.mutating(generationNext);
 
+        const filterUnique = uniqueOp(this.core.hash);
+
         generationNext = generationNext
-            .filter((a) => this.core.appraise(a) != null)
+            .filter((a) => this.core.appraise(a) != null && filterUnique(a))
             .sort((a, b) => this.core.appraise(b) - this.core.appraise(a));
 
         this.generation = [
