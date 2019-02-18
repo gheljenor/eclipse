@@ -7,12 +7,15 @@ const styles = require("./index.pcss");
 
 export type SummaryStatus = {
     state: "empty" | "pending" | "ready";
-    duration: number;
 };
 
-export type SummaryResult = {
+export type SummaryDetails = {
     results: { [player: string]: number };
     outcomes: { [player: string]: Outcome[] };
+};
+
+export type SummaryResult = SummaryDetails & {
+    duration: number;
 };
 
 export type SummaryState = SummaryStatus & SummaryResult;

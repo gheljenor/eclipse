@@ -4,8 +4,3 @@ coverage/
 docs/
 .cache/
 .cache-dev/
-
-src/**/*.js
-test/**/*.js
-src/**/*.js.map
-test/**/*.js.map

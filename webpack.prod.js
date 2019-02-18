@@ -20,17 +20,17 @@ config.plugins.push(
     }),
     new BundleAnalyzerPlugin({
         analyzerMode: "static",
-        defaultSizes: "parsed",
         openAnalyzer: false,
         reportFilename: "stats/index.html",
         generateStatsFile: true,
-        statsFilename: "stats/stats.json"
+        statsFilename: "stats/stats.json",
+        statsOptions: {source: false}
     }),
 );
 
 config.module.rules.forEach((rule) => {
     if (!rule.test.test("index.pcss")) { return; }
-    rule.use[1] = MiniCssExtractPlugin.loader;
+    rule.use[0] = MiniCssExtractPlugin.loader;
 });
 
 module.exports = config;
