@@ -106,7 +106,7 @@ export class GeneSolver<Solution, Data> {
                 sameResult = 0;
             }
 
-            if (sameResult > 1) {
+            if (sameResult > 2) {
                 break;
             }
 
@@ -127,7 +127,15 @@ export class GeneSolver<Solution, Data> {
 
         generationNext = generationNext
             .filter((a) => this.core.appraise(a) != null && filterUnique(a))
-            .sort((a, b) => this.core.appraise(b) - this.core.appraise(a));
+            .sort((a, b) => {
+                const rate = this.core.appraise(b) - this.core.appraise(a);
+                if (rate !== 0) {
+                    return rate;
+                }
+                const ha = this.core.hash(a);
+                const hb = this.core.hash(b);
+                return hb > ha ? 1 : -1;
+            });
 
         this.generation = [
             ...generationNext.slice(0, this.options.best),

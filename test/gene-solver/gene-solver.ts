@@ -6,7 +6,7 @@ import {GeneSolver, IGeneSolverOptions} from "../../src/solvers/gene-solver";
 
 describe("solvers-solver", function () {
     it("sort", function () {
-        this.timeout(1000);
+        this.timeout(5000);
 
         function shuffle(array: any[]) {
             array = array.slice();
@@ -71,11 +71,13 @@ describe("solvers-solver", function () {
             return array.join(",");
         }
 
+        const test = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
         function options(): IGeneSolverOptions {
             return {
-                firstGeneration: 5,
-                secondGeneration: 5,
-                maxIterations: 5,
+                firstGeneration: 10,
+                secondGeneration: 2,
+                maxIterations: 10,
 
                 freshBlood: 5,
 
@@ -86,14 +88,13 @@ describe("solvers-solver", function () {
                 mutations: 20,
 
                 best: 5,
-                worst: 1,
-                random: 4,
+                worst: 0,
+                random: 0,
             };
         }
 
         const geneSolver = new GeneSolver({generator, appraise, breed, mutate, hash, options});
 
-        const test = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         let success = 0;
 
         for (let i = 0; i < 100; i++) {
@@ -106,6 +107,6 @@ describe("solvers-solver", function () {
             }
         }
 
-        expect(success).to.be.gte(90);
+        expect(success).to.be.gte(98);
     });
 });

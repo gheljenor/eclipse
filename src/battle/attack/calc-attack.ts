@@ -43,10 +43,21 @@ export function calcAttack(
     const hits = countMaxHits(rolls, bonus, targetsDef[targetsDef.length - 1]);
     const maxTargets = countMaxTargets(rolls[0], bonus, targetsDef);
 
+    const hitRolls = rolls.slice(0, hits);
+    const hitWeapons = weapons.slice(0, hits);
+
     const maxDistributions = Math.pow(maxTargets, hits);
 
     const solver = solvers[solverType][maxDistributions > bruteThres ? "gene" : "brute"];
-    const shots = solver.calculate({battleScene, turnInfo, rolls, weapons, bonus, targets, targetsDef});
+    const shots = solver.calculate({
+        battleScene,
+        turnInfo,
+        rolls: hitRolls,
+        weapons: hitWeapons,
+        bonus,
+        targets,
+        targetsDef,
+    });
 
     if (!shots || !shots.length) {
         logDuration("SimulateAttack:" + attackId, "SimulateAttack");
