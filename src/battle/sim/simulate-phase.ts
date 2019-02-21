@@ -161,7 +161,7 @@ function fromCache(id: string, phaseCache: IPhaseCache, battleScene: IBattleScen
     log(ELogLevel.debug, "SimulatePhase", "from cache", id);
 
     return phaseCache[id].map((transition: IBattleSceneTransition) => {
-        return Object.assign({}, transition, {from: battleScene});
+        return {...transition, from: battleScene, to: cloneBattlescene(transition.to)};
     });
 }
 

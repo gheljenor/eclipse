@@ -61,6 +61,7 @@ export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAtt
     }, this.hash);
 
     private data: IAttackSolverData;
+    private targetsCount: number[];
 
     constructor(private tactics: IBattleTactics) {
     }
@@ -77,13 +78,10 @@ export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAtt
     }
 
     public mutate(shots: IWeaponShot[]): IWeaponShot[] {
-        const targets = this.data.targets;
         const result = shots.slice();
-
         const idx = randomInt(shots.length - 1);
-        const targetIdx = randomInt(targets.length - 1);
 
-        result[idx] = Object.assign({}, shots[idx], {target: targets[targetIdx]});
+        result[idx] = Object.assign({}, shots[idx], {target: this.randomTarget(idx)});
 
         return result;
     }
@@ -94,10 +92,20 @@ export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAtt
 
     public generator(data: IAttackSolverData): IterableIterator<IWeaponShot[]> {
         this.data = data;
+        const {rolls, bonus, targetsDef} = this.data;
+        this.targetsCount = rolls.map((roll) => countMaxTargets(roll, bonus, targetsDef));
+
         return combineGenerators(
             this.generateDists(),
             this.generateRandom(),
         );
+    }
+
+    private randomTarget(rollId): Battleship {
+        const id = this.data.targets.length - this.targetsCount[rollId]
+            + randomInt(this.targetsCount[rollId] - 1);
+
+        return this.data.targets[id];
     }
 
     private* generateDists(): IterableIterator<IWeaponShot[]> {
@@ -115,14 +123,11 @@ export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAtt
     }
 
     private* generateRandom(): IterableIterator<IWeaponShot[]> {
-        const {rolls, bonus, targets, weapons, targetsDef} = this.data;
-        const count = targets.length;
-
-        const targetsCount = rolls.map((roll) => countMaxTargets(roll, bonus, targetsDef));
+        const {rolls, weapons} = this.data;
 
         while (true) {
             const shots: IWeaponShot[] = rolls.map((roll, idx) => ({
-                target: targets[count - targetsCount[idx] + randomInt(targetsCount[idx] - 1)],
+                target: this.randomTarget(idx),
                 weapon: weapons[idx],
                 roll,
             }));

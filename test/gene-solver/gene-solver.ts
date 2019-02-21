@@ -76,7 +76,7 @@ describe("solvers-solver", function () {
         function options(): IGeneSolverOptions {
             return {
                 firstGeneration: 10,
-                secondGeneration: 2,
+                secondGeneration: 3,
                 maxIterations: 10,
 
                 freshBlood: 5,

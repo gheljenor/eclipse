@@ -190,5 +190,46 @@ describe("simulate-battle", function () {
             const duration = Date.now() - ts;
             expect(duration).to.be.lte(10000);
         });
+
+        it("complex", function () {
+            this.timeout(50000);
+            const ts = Date.now();
+
+            const scene: IBattleScene = {
+                ships: [
+                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory()
+                        .addYellowMissile().weapons, 1, 4),
+                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory()
+                        .addYellowMissile().weapons, 1, 4),
+                    new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory()
+                        .addYellowMissile().weapons, 1, 4),
+
+                    new Battleship(EBattleShipType.cruiser, "p", WeaponsHelper.factory()
+                        .addOrangeGun().weapons, 3, 2, 1, 2),
+                    new Battleship(EBattleShipType.cruiser, "p", WeaponsHelper.factory()
+                        .addOrangeGun().weapons, 3, 2, 1, 2),
+
+                    new Battleship(EBattleShipType.dreadnought, "p", WeaponsHelper.factory()
+                        .addRedGun().weapons, 5, 1, 0, 3),
+
+                    // ---
+
+                    new Battleship(EBattleShipType.cruiser, "a", WeaponsHelper.factory()
+                        .addOrangeGun().addOrangeGun().weapons, 4, 1, 2, 1),
+                    new Battleship(EBattleShipType.cruiser, "a", WeaponsHelper.factory()
+                        .addOrangeGun().addOrangeGun().weapons, 4, 1, 2, 1),
+                    new Battleship(EBattleShipType.cruiser, "a", WeaponsHelper.factory()
+                        .addOrangeGun().addOrangeGun().weapons, 4, 1, 2, 1),
+                    new Battleship(EBattleShipType.cruiser, "a", WeaponsHelper.factory()
+                        .addOrangeGun().addOrangeGun().weapons, 4, 1, 2, 1),
+                ],
+                defender: "a",
+            };
+
+            simulateBattle(scene);
+
+            const duration = Date.now() - ts;
+            expect(duration).to.be.lte(40000);
+        });
     });
 });

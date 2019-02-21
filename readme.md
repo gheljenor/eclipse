@@ -11,6 +11,7 @@ Will simulate battle, and give unbiased battle result statistics.
  * [x] generate gh-pages
  * [x] not exponential attack function [see](src/battle/attack/calc-attack.ts)
  * [x] simulate on worker
+ * [ ] QMC fast biased simulation (for preview)
  * [ ] async simulation, can be interrupted
  * [ ] tests tests tests
  * [ ] better readme file
