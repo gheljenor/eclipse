@@ -80,6 +80,7 @@ function findWays(wayUp: TGraphWay, start: IBattleScene, end: IBattleScene): IBa
             }
 
             const ways = findWaysUp(transition.from);
+
             if (ways) {
                 ways.forEach((w) => w.push(transition));
                 result.push(...ways);

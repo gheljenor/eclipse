@@ -1,119 +1,19 @@
-import {Battleship} from "../battleship";
-import {EWeaponDamageType, EWeaponType} from "../i-weapon";
-import {getWeapons} from "../select/get-weapons";
-import {cloneBattlescene} from "../sim/clone-battlescene";
 import {IBattleScene} from "../sim/i-battle-scene";
-import {BASE_SCORE, KILL_WEIGHT, shipWeights} from "./default-weights";
-import {distributeRolls} from "./distribute-rolls";
+import {ITurnInfo} from "../sim/i-turn-info";
+import {YELLOW_GUN} from "../weapons-helper";
+import {calcAttack} from "./calc-attack";
 
-export function riftSelfDamage(battlescene: IBattleScene, damage: number, attacker: string): IBattleScene {
-    const result = cloneBattlescene(battlescene);
-    result.ships = result.ships.concat([]);
-
-    const riftShips: Map<Battleship, number> = new Map();
-
-    for (const ship of battlescene.ships) {
-        if (ship.owner !== attacker) {
-            continue;
-        }
-        const weapons = getWeapons([ship], EWeaponType.gun);
-        let count = 0;
-
-        for (const weapon of weapons) {
-            if (weapon.damage === EWeaponDamageType.pink) {
-                count++;
-            }
-        }
-
-        if (count) {
-            riftShips.set(ship, count);
-        }
-    }
-
+export function riftSelfDamage(battlescene: IBattleScene, damage: number, turnInfo: ITurnInfo): IBattleScene {
     const rolls = [];
+    const rollWeapons = [];
+
     for (let i = 0; i < damage; i++) {
         rolls.push(6);
+        rollWeapons.push(YELLOW_GUN);
     }
 
-    const ships = Array.from(riftShips.keys());
-    const damagedShips: Map<Battleship, Battleship> = new Map();
+    const targets = battlescene.ships.filter((ship) => ship.hp && ship.owner === turnInfo.player);
+    const targetsDef = targets.map((ship) => ship.defence);
 
-    let bestScore: number = 0;
-    let bestDist: number[];
-
-    for (const dist of distributeRolls(rolls, 0, ships.map(() => 0))) {
-        const score = getScore(dist, ships, riftShips);
-
-        if (score === 0) {
-            continue;
-        }
-
-        if (bestScore === 0 || bestScore > score) {
-            bestScore = score;
-            bestDist = dist;
-        }
-    }
-
-    for (const idx of bestDist) {
-        const ship = ships[idx];
-        if (!damagedShips.has(ship)) {
-            damagedShips.set(ship, ship.clone());
-        }
-        damagedShips.get(ship).hp--;
-    }
-
-    for (const [original, damaged] of damagedShips) {
-        damaged.hp = Math.max(0, damaged.hp);
-        result.ships.splice(result.ships.indexOf(original), 1, damaged);
-    }
-
-    return result;
-}
-
-function getScore(dist: number[], ships: Battleship[], riftShips: Map<Battleship, number>): number {
-    const damages: Map<Battleship, number> = new Map();
-    const killed: Set<Battleship> = new Set();
-    const fullDamaged: Set<Battleship> = new Set();
-
-    for (const idx of dist) {
-        const ship = ships[idx];
-
-        if (!damages.has(ship)) {
-            damages.set(ship, 0);
-        }
-
-        const damage = damages.get(ship) + 1;
-        const maxDamage = riftShips.get(ship);
-
-        if (damage > maxDamage) {
-            return 0;
-        }
-
-        damages.set(ship, damage);
-
-        if (damage >= ship.hp) {
-            killed.add(ship);
-        }
-
-        if (damage === maxDamage) {
-            fullDamaged.add(ship);
-        }
-    }
-
-    const overdamageAllowed = killed.size === ships.length || fullDamaged.size === ships.length;
-    let score = 0;
-
-    for (const [ship, damage] of damages) {
-        if (ship.hp < damage && !overdamageAllowed) {
-            return 0;
-        }
-
-        const isKilled = ship.hp <= damage;
-        const baseWeight = shipWeights.get(ship.type);
-        const realDamage = Math.min(ship.hp, damage);
-
-        score += Math.pow(BASE_SCORE, baseWeight + (isKilled ? KILL_WEIGHT : 0)) * (isKilled ? 1 : realDamage);
-    }
-
-    return score;
+    return calcAttack(battlescene, turnInfo, rolls, rollWeapons, 0, targets, targetsDef, "rift");
 }

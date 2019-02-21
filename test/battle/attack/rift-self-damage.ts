@@ -4,7 +4,15 @@ import {riftSelfDamage} from "../../../src/battle/attack/rift-self-damage";
 import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
+import {ITurnInfo} from "../../../src/battle/sim/i-turn-info";
 import {WeaponsHelper} from "../../../src/battle/weapons-helper";
+
+const turnInfo: ITurnInfo = {
+    player: "player",
+    initiative: 1,
+    defender: false,
+    turn: 1,
+};
 
 describe("rift-self-damage", function () {
     it("1 ship, 1 hp, 1 weapon-group, 1 damage", function () {
@@ -16,8 +24,8 @@ describe("rift-self-damage", function () {
             defender: "player",
         };
 
-        const result = riftSelfDamage(scene, 1, "player");
-        expect(battleSceneHash(result)).to.be.equal("player00,player12");
+        const result = riftSelfDamage(scene, 1, turnInfo);
+        expect(battleSceneHash(result)).to.be.equal("player01,player11");
     });
 
     it("1 ship, 1 hp, 2 weapon-group, 1 damage", function () {
@@ -29,8 +37,8 @@ describe("rift-self-damage", function () {
             defender: "player",
         };
 
-        const result = riftSelfDamage(scene, 1, "player");
-        expect(battleSceneHash(result)).to.be.equal("player00,player12");
+        const result = riftSelfDamage(scene, 1, turnInfo);
+        expect(battleSceneHash(result)).to.be.equal("player01,player11");
     });
 
     it("1 ship, 1 hp, 2 weapon-group, 2 damage", function () {
@@ -42,8 +50,8 @@ describe("rift-self-damage", function () {
             defender: "player",
         };
 
-        const result = riftSelfDamage(scene, 2, "player");
-        expect(battleSceneHash(result)).to.be.equal("player00,player12");
+        const result = riftSelfDamage(scene, 2, turnInfo);
+        expect(battleSceneHash(result)).to.be.equal("player00,player11");
     });
 
     it("2 ship, 1 hp, 2 weapon-group, 2 damage", function () {
@@ -56,8 +64,8 @@ describe("rift-self-damage", function () {
             defender: "player",
         };
 
-        const result = riftSelfDamage(scene, 2, "player");
-        expect(battleSceneHash(result)).to.be.equal("player00,player00,player12");
+        const result = riftSelfDamage(scene, 2, turnInfo);
+        expect(battleSceneHash(result)).to.be.equal("player00,player01,player11");
     });
 
     it("2 ship, 1 hp, 2 weapon-group, 3 damage", function () {
@@ -70,8 +78,8 @@ describe("rift-self-damage", function () {
             defender: "player",
         };
 
-        const result = riftSelfDamage(scene, 3, "player");
-        expect(battleSceneHash(result)).to.be.equal("player00,player00,player12");
+        const result = riftSelfDamage(scene, 3, turnInfo);
+        expect(battleSceneHash(result)).to.be.equal("player00,player00,player11");
     });
 
     it("2 ship, 1 hp, 2 weapon-group, 4 damage", function () {
@@ -84,7 +92,7 @@ describe("rift-self-damage", function () {
             defender: "player",
         };
 
-        const result = riftSelfDamage(scene, 4, "player");
-        expect(battleSceneHash(result)).to.be.equal("player00,player00,player12");
+        const result = riftSelfDamage(scene, 4, turnInfo);
+        expect(battleSceneHash(result)).to.be.equal("player00,player00,player10");
     });
 });

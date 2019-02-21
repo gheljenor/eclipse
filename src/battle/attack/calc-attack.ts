@@ -1,25 +1,30 @@
-import {ELogLevel, log, logDuration} from "../../lib/logger";
+import {logDuration} from "../../lib/logger";
+import {AttackBruteForceSolver} from "../../solvers/attack-brute-force-solver";
+import {AttackGeneSolverCore} from "../../solvers/attack-gene-solver-core";
+import {GeneSolver} from "../../solvers/gene-solver";
 import {Battleship} from "../battleship";
 import {IWeapon} from "../i-weapon";
 import {battleSceneHash} from "../select/battlescene-hash";
+import {countMaxHits} from "../select/count-max-hits";
+import {countMaxTargets} from "../select/count-max-targets";
 import {cloneBattlescene} from "../sim/clone-battlescene";
 import {IBattleScene} from "../sim/i-battle-scene";
 import {ITurnInfo} from "../sim/i-turn-info";
 import {ancientTactics} from "./ancient-tactics";
-import {distributeRolls} from "./distribute-rolls";
-import {IBattleTactics} from "./i-battle-tactics";
-import {IWeaponShot} from "./i-weapon-shot";
+import {riftSelfDamageTactics} from "./rift-self-damage-tactics";
 
-const avaliableTactics = {
-    ancient: ancientTactics,
+const bruteThres = 3700;
+
+const solvers = {
+    ancient: {
+        gene: new GeneSolver(new AttackGeneSolverCore(ancientTactics)),
+        brute: new AttackBruteForceSolver(ancientTactics),
+    },
+    rift: {
+        gene: new GeneSolver(new AttackGeneSolverCore(riftSelfDamageTactics)),
+        brute: new AttackBruteForceSolver(riftSelfDamageTactics),
+    },
 };
-
-// Need to think about this function... It's very complex for now: O(rolls ^ targets)
-// With alliances it's possible to have rolls count about 360, and possible targets count about 54...
-// I have not found similar NP problem, so i hope to found some O(rolls * targets) solution...
-
-// UPD: It seems to be similar to Bin Packing Problem: https://en.wikipedia.org/wiki/Bin_packing_problem
-// But we must maximize some score, not bins count...
 
 export function calcAttack(
     battleScene: IBattleScene,
@@ -29,6 +34,7 @@ export function calcAttack(
     bonus: number,
     targets: Battleship[],
     targetsDef: number[],
+    solverType = "ancient",
 ): IBattleScene | null {
     const attackId = battleSceneHash(battleScene)
         + ":" + (turnInfo.turn > 0 ? "g" : "m")
@@ -38,41 +44,36 @@ export function calcAttack(
 
     logDuration("SimulateAttack:" + attackId, "SimulateAttack");
 
-    const tactics: IBattleTactics = avaliableTactics.ancient;
+    const hits = countMaxHits(rolls, bonus, targetsDef[targetsDef.length - 1]);
+    const maxTargets = countMaxTargets(rolls[0], bonus, targetsDef);
 
-    let maxScore: number = 0;
-    let bestShots: IWeaponShot[] = null;
+    const hitRolls = rolls.slice(0, hits);
+    const hitWeapons = weapons.slice(0, hits);
 
-    let distributions = 0;
-    for (const dist of distributeRolls(rolls, bonus, targetsDef)) {
-        if (dist.length === 0) {
-            logDuration("SimulateAttack:" + attackId, "SimulateAttack");
-            return null;
-        }
+    const maxDistributions = Math.pow(maxTargets, hits);
 
-        const shots: IWeaponShot[] = dist.map((targetIdx, weaponIdx) => ({
-            target: targets[targetIdx],
-            weapon: weapons[weaponIdx],
-        } as IWeaponShot));
+    const solver = solvers[solverType][maxDistributions > bruteThres ? "gene" : "brute"];
+    const shots = solver.calculate({
+        battleScene,
+        turnInfo,
+        rolls: hitRolls,
+        weapons: hitWeapons,
+        bonus,
+        targets,
+        targetsDef,
+    });
 
-        const score = tactics(battleScene, turnInfo, shots);
-
-        if (maxScore < score) {
-            maxScore = score;
-            bestShots = shots;
-        }
-
-        distributions++;
+    if (!shots || !shots.length) {
+        logDuration("SimulateAttack:" + attackId, "SimulateAttack");
+        return null;
     }
-
-    log(ELogLevel.debug, "SimulateAttack:" + attackId, "distributions", distributions);
 
     const result = cloneBattlescene(battleScene);
     result.ships = result.ships.concat([]);
 
     const damagedShips: Map<Battleship, Battleship> = new Map();
 
-    for (const shot of bestShots) {
+    for (const shot of shots) {
         if (!damagedShips.has(shot.target)) {
             damagedShips.set(shot.target, shot.target.clone());
         }

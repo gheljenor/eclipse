@@ -87,7 +87,7 @@ export function simulatePhase(
             continue;
         }
 
-        const baseScene = selfDamage ? riftSelfDamage(battleScene, selfDamage, turnInfo.player) : battleScene;
+        const baseScene = selfDamage ? riftSelfDamage(battleScene, selfDamage, turnInfo) : battleScene;
         let nextScene = calcAttack(baseScene, turnInfo, rolls, rollWeapons, bonus, targets, targetsDef);
 
         if (!nextScene) {
@@ -161,7 +161,7 @@ function fromCache(id: string, phaseCache: IPhaseCache, battleScene: IBattleScen
     log(ELogLevel.debug, "SimulatePhase", "from cache", id);
 
     return phaseCache[id].map((transition: IBattleSceneTransition) => {
-        return Object.assign({}, transition, {from: battleScene});
+        return {...transition, from: battleScene, to: cloneBattlescene(transition.to)};
     });
 }
 
