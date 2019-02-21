@@ -7,7 +7,7 @@ export class AttackBruteForceSolver {
     }
 
     public calculate({battleScene, turnInfo, rolls, weapons, bonus, targets, targetsDef}) {
-        let maxScore: number = 0;
+        let maxScore: number;
         let bestShots: IWeaponShot[] = null;
 
         for (const dist of distributeRolls(rolls, bonus, targetsDef)) {
@@ -22,7 +22,7 @@ export class AttackBruteForceSolver {
 
             const score = this.tactics(battleScene, turnInfo, shots);
 
-            if (maxScore < score) {
+            if (score != null && (maxScore == null || maxScore < score)) {
                 maxScore = score;
                 bestShots = shots;
             }

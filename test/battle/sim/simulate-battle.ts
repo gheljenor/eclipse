@@ -148,7 +148,7 @@ describe("simulate-battle", function () {
         });
     });
 
-    describe("bechmark", function () {
+    describe.skip("bechmark", function () {
         function makeScene(size) {
             const scene = [];
             for (let i = 0; i < size; i++) {

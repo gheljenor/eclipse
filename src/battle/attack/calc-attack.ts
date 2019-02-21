@@ -11,6 +11,7 @@ import {cloneBattlescene} from "../sim/clone-battlescene";
 import {IBattleScene} from "../sim/i-battle-scene";
 import {ITurnInfo} from "../sim/i-turn-info";
 import {ancientTactics} from "./ancient-tactics";
+import {riftSelfDamageTactics} from "./rift-self-damage-tactics";
 
 const bruteThres = 3700;
 
@@ -19,9 +20,11 @@ const solvers = {
         gene: new GeneSolver(new AttackGeneSolverCore(ancientTactics)),
         brute: new AttackBruteForceSolver(ancientTactics),
     },
+    rift: {
+        gene: new GeneSolver(new AttackGeneSolverCore(riftSelfDamageTactics)),
+        brute: new AttackBruteForceSolver(riftSelfDamageTactics),
+    },
 };
-
-const solverType = "ancient";
 
 export function calcAttack(
     battleScene: IBattleScene,
@@ -31,6 +34,7 @@ export function calcAttack(
     bonus: number,
     targets: Battleship[],
     targetsDef: number[],
+    solverType = "ancient",
 ): IBattleScene | null {
     const attackId = battleSceneHash(battleScene)
         + ":" + (turnInfo.turn > 0 ? "g" : "m")

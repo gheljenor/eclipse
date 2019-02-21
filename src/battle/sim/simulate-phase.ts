@@ -87,7 +87,7 @@ export function simulatePhase(
             continue;
         }
 
-        const baseScene = selfDamage ? riftSelfDamage(battleScene, selfDamage, turnInfo.player) : battleScene;
+        const baseScene = selfDamage ? riftSelfDamage(battleScene, selfDamage, turnInfo) : battleScene;
         let nextScene = calcAttack(baseScene, turnInfo, rolls, rollWeapons, bonus, targets, targetsDef);
 
         if (!nextScene) {

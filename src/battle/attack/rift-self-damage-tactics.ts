@@ -5,11 +5,14 @@ import {BASE_SCORE, KILL_WEIGHT, shipWeights} from "./default-weights";
 import {IBattleTactics} from "./i-battle-tactics";
 import {IWeaponShot} from "./i-weapon-shot";
 
-export const ancientTactics: IBattleTactics = function (
+export const riftSelfDamageTactics: IBattleTactics = function (
     battleScene: IBattleScene,
     turnInfo: ITurnInfo,
     shots: IWeaponShot[],
 ): number {
+    const owner = shots[0].target.owner;
+    const ownerShips = battleScene.ships.filter((ship) => ship.hp && ship.owner === owner);
+
     const damageLog: Map<Battleship, number> = new Map();
 
     shots.forEach((shot) => {
@@ -21,15 +24,26 @@ export const ancientTactics: IBattleTactics = function (
     });
 
     let score = 0;
+    let overdamage = false;
+    let killedCount = 0;
 
     for (const [ship, damage] of damageLog) {
-        const killed = ship.hp <= damage;
-        const baseWeight = shipWeights[ship.type];
+        overdamage = overdamage || ship.hp < damage;
 
+        const killed = ship.hp <= damage;
+        if (killed) {
+            killedCount++;
+        }
+
+        const baseWeight = shipWeights[ship.type];
         const damageScore = Math.min(ship.hp, damage);
 
         score += Math.pow(BASE_SCORE, baseWeight + (killed ? KILL_WEIGHT : 0)) * (killed ? 1 : damageScore);
     }
 
-    return score;
+    if (overdamage && killedCount < ownerShips.length) {
+        return null;
+    }
+
+    return -score;
 };
