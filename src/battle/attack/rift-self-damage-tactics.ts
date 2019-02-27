@@ -1,4 +1,4 @@
-import {Battleship} from "../battleship";
+import {BattleShip} from "../data/battle-ship";
 import {IBattleScene} from "../sim/i-battle-scene";
 import {ITurnInfo} from "../sim/i-turn-info";
 import {BASE_SCORE, KILL_WEIGHT, shipWeights} from "./default-weights";
@@ -13,7 +13,7 @@ export const riftSelfDamageTactics: IBattleTactics = function (
     const owner = shots[0].target.owner;
     const ownerShips = battleScene.ships.filter((ship) => ship.hp && ship.owner === owner);
 
-    const damageLog: Map<Battleship, number> = new Map();
+    const damageLog: Map<BattleShip, number> = new Map();
 
     shots.forEach((shot) => {
         if (!damageLog.has(shot.target)) {

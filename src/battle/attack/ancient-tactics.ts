@@ -1,4 +1,4 @@
-import {Battleship} from "../battleship";
+import {BattleShip} from "../data/battle-ship";
 import {IBattleScene} from "../sim/i-battle-scene";
 import {ITurnInfo} from "../sim/i-turn-info";
 import {BASE_SCORE, KILL_WEIGHT, shipWeights} from "./default-weights";
@@ -10,7 +10,7 @@ export const ancientTactics: IBattleTactics = function (
     turnInfo: ITurnInfo,
     shots: IWeaponShot[],
 ): number {
-    const damageLog: Map<Battleship, number> = new Map();
+    const damageLog: Map<BattleShip, number> = new Map();
 
     shots.forEach((shot) => {
         if (!damageLog.has(shot.target)) {

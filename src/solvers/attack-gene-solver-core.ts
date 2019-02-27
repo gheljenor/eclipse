@@ -1,8 +1,8 @@
 import {distributeRolls} from "../battle/attack/distribute-rolls";
 import {IBattleTactics} from "../battle/attack/i-battle-tactics";
 import {IWeaponShot} from "../battle/attack/i-weapon-shot";
-import {Battleship} from "../battle/battleship";
-import {IWeapon} from "../battle/i-weapon";
+import {BattleShip} from "../battle/data/battle-ship";
+import {Weapon} from "../battle/data/weapon";
 import {countMaxTargets} from "../battle/select/count-max-targets";
 import {isMissed} from "../battle/select/is-missed";
 import {IBattleScene} from "../battle/sim/i-battle-scene";
@@ -17,9 +17,9 @@ export interface IAttackSolverData {
     battleScene: IBattleScene;
     turnInfo: ITurnInfo;
     rolls: number[];
-    weapons: IWeapon[];
+    weapons: Weapon[];
     bonus: number;
-    targets: Battleship[];
+    targets: BattleShip[];
     targetsDef: number[];
 }
 
@@ -101,7 +101,7 @@ export class AttackGeneSolverCore implements IGeneSolverCore<IWeaponShot[], IAtt
         );
     }
 
-    private randomTarget(rollId): Battleship {
+    private randomTarget(rollId): BattleShip {
         const id = this.data.targets.length - this.targetsCount[rollId]
             + randomInt(this.targetsCount[rollId] - 1);
 

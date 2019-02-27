@@ -2,7 +2,7 @@ import {storiesOf} from "@storybook/react";
 import * as React from "react";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
-import {EBattleShipType} from "../../../battle/battleship";
+import {BattleShipType} from "../../../battle/data/battle-ship";
 import {reducers} from "../../reducers";
 import {logger} from "../../stories/logger";
 import {SummaryResult} from "./component";
@@ -12,11 +12,11 @@ const example1: SummaryResult = {
     results: {first: 0.7, second: 0.3},
     outcomes: {
         first: [
-            {probability: 0.5, ships: [{type: EBattleShipType.interceptor, count: 2}]},
-            {probability: 0.2, ships: [{type: EBattleShipType.interceptor, count: 1}]},
+            {probability: 0.5, ships: [{type: BattleShipType.interceptor, count: 2}]},
+            {probability: 0.2, ships: [{type: BattleShipType.interceptor, count: 1}]},
         ],
         second: [
-            {probability: 0.3, ships: [{type: EBattleShipType.interceptor, count: 1}]},
+            {probability: 0.3, ships: [{type: BattleShipType.interceptor, count: 1}]},
         ],
     },
     duration: 1,

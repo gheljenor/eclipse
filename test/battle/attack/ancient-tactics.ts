@@ -3,11 +3,11 @@ import {describe, it} from "mocha";
 
 import {ancientTactics} from "../../../src/battle/attack/ancient-tactics";
 import {IWeaponShot} from "../../../src/battle/attack/i-weapon-shot";
-import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
-import {EWeaponType} from "../../../src/battle/i-weapon";
+import {BattleShip, BattleShipType} from "../../../src/battle/data/battle-ship";
+import {redGun, WeaponType} from "../../../src/battle/data/weapon";
 import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {ITurnInfo} from "../../../src/battle/sim/i-turn-info";
-import {RED_GUN, YELLOW_GUN} from "../../../src/battle/weapons-helper";
+import {yellowGun} from "../../../src/battle/data/weapon";
 
 const scene: IBattleScene = {
     ships: [],
@@ -21,66 +21,66 @@ const turnInfo: ITurnInfo = {
     turn: 1,
 };
 
-function killShip(shipType: EBattleShipType): IWeaponShot {
+function killShip(shipType: BattleShipType): IWeaponShot {
     return {
-        weapon: RED_GUN,
-        target: new Battleship(shipType),
+        weapon: redGun,
+        target: new BattleShip(shipType),
     };
 }
 
-function damageShip(shipType: EBattleShipType, damage: number): IWeaponShot {
+function damageShip(shipType: BattleShipType, damage: number): IWeaponShot {
     return {
         weapon: {
-            type: EWeaponType.gun,
+            type: WeaponType.gun,
             damage,
         },
-        target: new Battleship(shipType, "player", [], damage + 1),
+        target: new BattleShip(shipType, "player", [], damage + 1),
     };
 }
 
-const killInterceptor: IWeaponShot[] = [killShip(EBattleShipType.interceptor)];
-const killCruiser: IWeaponShot[] = [killShip(EBattleShipType.cruiser)];
-const killDred: IWeaponShot[] = [killShip(EBattleShipType.dreadnought)];
-const killStarbase: IWeaponShot[] = [killShip(EBattleShipType.starbase)];
-const killDeathmoon: IWeaponShot[] = [killShip(EBattleShipType.deathmoon)];
+const killInterceptor: IWeaponShot[] = [killShip(BattleShipType.interceptor)];
+const killCruiser: IWeaponShot[] = [killShip(BattleShipType.cruiser)];
+const killDred: IWeaponShot[] = [killShip(BattleShipType.dreadnought)];
+const killStarbase: IWeaponShot[] = [killShip(BattleShipType.starbase)];
+const killDeathmoon: IWeaponShot[] = [killShip(BattleShipType.deathmoon)];
 
 const killInterceptorMax: IWeaponShot[] = [
-    killShip(EBattleShipType.interceptor),
-    killShip(EBattleShipType.interceptor),
-    killShip(EBattleShipType.interceptor),
-    killShip(EBattleShipType.interceptor),
+    killShip(BattleShipType.interceptor),
+    killShip(BattleShipType.interceptor),
+    killShip(BattleShipType.interceptor),
+    killShip(BattleShipType.interceptor),
 ];
 
 const killCruiserMax: IWeaponShot[] = [
-    killShip(EBattleShipType.cruiser),
-    killShip(EBattleShipType.cruiser),
-    killShip(EBattleShipType.cruiser),
-    killShip(EBattleShipType.cruiser),
+    killShip(BattleShipType.cruiser),
+    killShip(BattleShipType.cruiser),
+    killShip(BattleShipType.cruiser),
+    killShip(BattleShipType.cruiser),
 ];
 
 const killDredMax: IWeaponShot[] = [
-    killShip(EBattleShipType.dreadnought),
-    killShip(EBattleShipType.dreadnought),
+    killShip(BattleShipType.dreadnought),
+    killShip(BattleShipType.dreadnought),
 ];
 
 const killStarbaseMax: IWeaponShot[] = [
-    killShip(EBattleShipType.starbase),
-    killShip(EBattleShipType.starbase),
-    killShip(EBattleShipType.starbase),
-    killShip(EBattleShipType.starbase),
+    killShip(BattleShipType.starbase),
+    killShip(BattleShipType.starbase),
+    killShip(BattleShipType.starbase),
+    killShip(BattleShipType.starbase),
 ];
 
-const damageInterceptor1 = [damageShip(EBattleShipType.interceptor, 1)];
-const damageCruiser1 = [damageShip(EBattleShipType.cruiser, 1)];
-const damageDred1 = [damageShip(EBattleShipType.dreadnought, 1)];
-const damageStarBase1 = [damageShip(EBattleShipType.starbase, 1)];
-const damageDeathMoon1 = [damageShip(EBattleShipType.deathmoon, 1)];
+const damageInterceptor1 = [damageShip(BattleShipType.interceptor, 1)];
+const damageCruiser1 = [damageShip(BattleShipType.cruiser, 1)];
+const damageDred1 = [damageShip(BattleShipType.dreadnought, 1)];
+const damageStarBase1 = [damageShip(BattleShipType.starbase, 1)];
+const damageDeathMoon1 = [damageShip(BattleShipType.deathmoon, 1)];
 
-const damageInterceptor4 = [damageShip(EBattleShipType.interceptor, 4)];
-const damageCruiser4 = [damageShip(EBattleShipType.cruiser, 4)];
-const damageDred4 = [damageShip(EBattleShipType.dreadnought, 4)];
-const damageStarBase4 = [damageShip(EBattleShipType.starbase, 4)];
-const damageDeathMoon4 = [damageShip(EBattleShipType.deathmoon, 4)];
+const damageInterceptor4 = [damageShip(BattleShipType.interceptor, 4)];
+const damageCruiser4 = [damageShip(BattleShipType.cruiser, 4)];
+const damageDred4 = [damageShip(BattleShipType.dreadnought, 4)];
+const damageStarBase4 = [damageShip(BattleShipType.starbase, 4)];
+const damageDeathMoon4 = [damageShip(BattleShipType.deathmoon, 4)];
 
 describe("ancient-tactics", function () {
     it("kills 1 vs 1 higher", function () {
@@ -120,12 +120,12 @@ describe("ancient-tactics", function () {
     });
 
     it("damage by to shots", function () {
-        const ship: Battleship = new Battleship(EBattleShipType.interceptor, "player", [], 5);
+        const ship: BattleShip = new BattleShip(BattleShipType.interceptor, "player", [], 5);
         const shots: IWeaponShot[] = [{
-            weapon: YELLOW_GUN,
+            weapon: yellowGun,
             target: ship,
         }, {
-            weapon: YELLOW_GUN,
+            weapon: yellowGun,
             target: ship,
         }];
 
@@ -133,12 +133,12 @@ describe("ancient-tactics", function () {
     });
 
     it("kill by to shots", function () {
-        const ship: Battleship = new Battleship(EBattleShipType.interceptor, "player", [], 2);
+        const ship: BattleShip = new BattleShip(BattleShipType.interceptor, "player", [], 2);
         const shots: IWeaponShot[] = [{
-            weapon: YELLOW_GUN,
+            weapon: yellowGun,
             target: ship,
         }, {
-            weapon: YELLOW_GUN,
+            weapon: yellowGun,
             target: ship,
         }];
 

@@ -2,8 +2,8 @@ import {expect} from "chai";
 import {describe, it} from "mocha";
 
 import {createStore} from "redux";
-import {EBattleShipType} from "../../../../src/battle/battleship";
-import {EWeaponDamageType, EWeaponType} from "../../../../src/battle/i-weapon";
+import {BattleShipType} from "../../../../src/battle/data/battle-ship";
+import {WeaponDamageType, WeaponType} from "../../../../src/battle/data/weapon";
 import {
     ACTION_WEAPON_ADD,
     actionWeaponAdd,
@@ -13,7 +13,7 @@ import {StateUpdateError} from "../../../../src/ui/lib/state-update-error";
 import {reducers} from "../../../../src/ui/reducers";
 
 const defaultShip = {
-    type: EBattleShipType.interceptor,
+    type: BattleShipType.interceptor,
     count: 1,
     hp: 1,
     attack: 0,
@@ -24,8 +24,8 @@ const defaultShip = {
 };
 
 const defaultWeapon = {
-    type: EWeaponType.gun,
-    damage: EWeaponDamageType.yellow,
+    type: WeaponType.gun,
+    damage: WeaponDamageType.yellow,
     count: 1,
 };
 

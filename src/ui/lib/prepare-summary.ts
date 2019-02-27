@@ -1,10 +1,10 @@
-import {Battleship, EBattleShipType} from "../../battle/battleship";
+import {BattleShip, BattleShipType} from "../../battle/data/battle-ship";
 import {IBattleSummary} from "../../battle/select/battle-summary";
 import {memo} from "../../lib/memo";
 import {SummaryDetails} from "../components/summary/component";
 
 type OutcomeDetails = {
-    type: EBattleShipType;
+    type: BattleShipType;
     count: number;
 };
 
@@ -23,7 +23,7 @@ export function prepareSummary(summary: IBattleSummary): SummaryDetails {
 }
 
 function prepareDetails(summary, player) {
-    const outcomes = Array.from(summary.scenes)
+    const outcomes = Array.from(summary.nextScenes)
         .filter(([scene]) => scene.winner === player)
         .map(prepareOutcome);
 
@@ -43,7 +43,7 @@ function prepareDetails(summary, player) {
 
 function prepareOutcome([scene, probability]) {
     const player = scene.winner as string;
-    const ships: Battleship[] = scene.ships.filter((ship) => ship.hp > 0 && ship.owner === player);
+    const ships: BattleShip[] = scene.ships.filter((ship) => ship.hp > 0 && ship.owner === player);
 
     const shipsByType = {};
 

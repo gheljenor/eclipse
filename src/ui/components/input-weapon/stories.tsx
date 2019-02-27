@@ -7,7 +7,7 @@ import {storiesOf} from "@storybook/react";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
 
-import {EWeaponDamageType, EWeaponType} from "../../../battle/i-weapon";
+import {WeaponDamageType, WeaponType} from "../../../battle/data/weapon";
 import {reducers} from "../../reducers";
 import {logger} from "../../stories/logger";
 import {InputWeaponContainer} from "./index";
@@ -17,7 +17,7 @@ storiesOf("InputWeapon", module)
         const store = createStore(reducers, {
             weapons: {
                 counter: 0, list: {
-                    0: {type: EWeaponType.gun, damage: EWeaponDamageType.yellow, count: 1},
+                    0: {type: WeaponType.gun, damage: WeaponDamageType.yellow, count: 1},
                 },
             },
         }, logger());
@@ -32,7 +32,7 @@ storiesOf("InputWeapon", module)
         const store = createStore(reducers, {
             weapons: {
                 counter: 0, list: {
-                    0: {type: EWeaponType.missile, damage: EWeaponDamageType.red, count: 5},
+                    0: {type: WeaponType.missile, damage: WeaponDamageType.red, count: 5},
                 },
             },
         }, logger());

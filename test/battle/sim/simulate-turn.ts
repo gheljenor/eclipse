@@ -1,13 +1,13 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
 
-import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
+import {BattleShip, BattleShipType} from "../../../src/battle/data/battle-ship";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {IBattleGraphInfo} from "../../../src/battle/select/i-battle-graph-info";
 import {initiativePhases} from "../../../src/battle/select/initiative-phases";
 import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {simulateTurn} from "../../../src/battle/sim/simulate-turn";
-import {WeaponsHelper} from "../../../src/battle/weapons-helper";
+import {WeaponsHelper} from "../../../src/battle/data/weapons-helper";
 import {showTransition} from "../_tools/show-transition";
 
 describe("simulate-turn", function () {
@@ -15,9 +15,9 @@ describe("simulate-turn", function () {
         it("0 turn", function () {
             const scene: IBattleScene = {
                 ships: [
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addYellowGun().addYellowGun().weapons, 2, 2, 0, 1),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.cruiser, "ancient", WeaponsHelper.factory().addYellowGun().addYellowGun().weapons, 2, 2, 0, 1),
                 ],
                 defender: "ancient",
             };
@@ -42,9 +42,9 @@ describe("simulate-turn", function () {
         it("1 turn", function () {
             const scene: IBattleScene = {
                 ships: [
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addYellowGun().addYellowGun().weapons, 2, 2, 0, 1),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.cruiser, "ancient", WeaponsHelper.factory().addYellowGun().addYellowGun().weapons, 2, 2, 0, 1),
                 ],
                 defender: "ancient",
             };
@@ -69,9 +69,9 @@ describe("simulate-turn", function () {
         it("0 turn", function () {
             const scene: IBattleScene = {
                 ships: [
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeMissile().weapons, 2, 2, 0, 1),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeMissile().weapons, 2, 2, 0, 1),
                 ],
                 defender: "ancient",
             };
@@ -106,9 +106,9 @@ describe("simulate-turn", function () {
         it("1 turn", function () {
             const scene: IBattleScene = {
                 ships: [
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeMissile().weapons, 2, 2, 0, 1),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowMissile().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeMissile().weapons, 2, 2, 0, 1),
                 ],
                 defender: "ancient",
             };
@@ -124,9 +124,9 @@ describe("simulate-turn", function () {
         it("1 turn", function () {
             const scene: IBattleScene = {
                 ships: [
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1),
                 ],
                 defender: "ancient",
             };
@@ -153,9 +153,9 @@ describe("simulate-turn", function () {
         it("2 turn same as 1 turn", function () {
             const scene: IBattleScene = {
                 ships: [
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
-                    new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                    new BattleShip(BattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1),
                 ],
                 defender: "ancient",
             };
@@ -170,9 +170,9 @@ describe("simulate-turn", function () {
     it("healing", function () {
         const scene: IBattleScene = {
             ships: [
-                new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
-                new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
-                new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1, 1),
+                new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                new BattleShip(BattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1, 1),
             ],
             defender: "ancient",
         };
@@ -195,9 +195,9 @@ describe("simulate-turn", function () {
     it("precalc phases", function () {
         const scene: IBattleScene = {
             ships: [
-                new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 1, 0, 2),
-                new Battleship(EBattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
-                new Battleship(EBattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1),
+                new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 1, 0, 2),
+                new BattleShip(BattleShipType.interceptor, "player", WeaponsHelper.factory().addYellowGun().weapons, 1, 3, 0, 2),
+                new BattleShip(BattleShipType.cruiser, "ancient", WeaponsHelper.factory().addOrangeGun().weapons, 2, 2, 0, 1),
             ],
             defender: "ancient",
         };
@@ -213,10 +213,10 @@ describe("simulate-turn", function () {
     it("damaged", function () {
         const scene: IBattleScene = {
             ships: [
-                new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                new Battleship(EBattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 0, 3),
-                new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
-                new Battleship(EBattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 0, 3),
+                new BattleShip(BattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                new BattleShip(BattleShipType.interceptor, "p", WeaponsHelper.factory().addYellowGun().weapons, 0, 3),
+                new BattleShip(BattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 1, 3),
+                new BattleShip(BattleShipType.interceptor, "a", WeaponsHelper.factory().addYellowGun().weapons, 0, 3),
             ],
             defender: "a",
         };

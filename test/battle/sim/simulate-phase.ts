@@ -1,15 +1,15 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
 
-import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
+import {BattleShip, BattleShipType} from "../../../src/battle/data/battle-ship";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {simulatePhase} from "../../../src/battle/sim/simulate-phase";
-import {WeaponsHelper} from "../../../src/battle/weapons-helper";
+import {WeaponsHelper} from "../../../src/battle/data/weapons-helper";
 
 describe("simulate-phase", function () {
     it("gun attack", function () {
-        const attacker = new Battleship(
-            EBattleShipType.interceptor,
+        const attacker = new BattleShip(
+            BattleShipType.interceptor,
             "player",
             WeaponsHelper.factory().addYellowMissile().addYellowGun().weapons,
             1,
@@ -18,9 +18,9 @@ describe("simulate-phase", function () {
         const result = simulatePhase({
             ships: [
                 attacker,
-                new Battleship(EBattleShipType.interceptor, "npc", [], 1, 0, 2),
-                new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
-                new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
+                new BattleShip(BattleShipType.interceptor, "npc", [], 1, 0, 2),
+                new BattleShip(BattleShipType.cruiser, "npc", [], 2, 0, 0),
+                new BattleShip(BattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
             defender: "player",
         }, {
@@ -39,10 +39,10 @@ describe("simulate-phase", function () {
     });
 
     it("rift attack", function () {
-        const attacker = new Battleship(
-            EBattleShipType.interceptor,
+        const attacker = new BattleShip(
+            BattleShipType.interceptor,
             "player",
-            WeaponsHelper.factory().addRiftTurrel().weapons,
+            WeaponsHelper.factory().addRiftTurret().weapons,
             2,
             1, 0, 2,
         );
@@ -50,9 +50,9 @@ describe("simulate-phase", function () {
         const result = simulatePhase({
             ships: [
                 attacker,
-                new Battleship(EBattleShipType.interceptor, "npc", [], 1, 0, 2),
-                new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
-                new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
+                new BattleShip(BattleShipType.interceptor, "npc", [], 1, 0, 2),
+                new BattleShip(BattleShipType.cruiser, "npc", [], 2, 0, 0),
+                new BattleShip(BattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
             defender: "player",
         }, {
@@ -76,16 +76,16 @@ describe("simulate-phase", function () {
     });
 
     it("rift attack, and gun attack", function () {
-        const riftAttacker = new Battleship(
-            EBattleShipType.interceptor,
+        const riftAttacker = new BattleShip(
+            BattleShipType.interceptor,
             "player",
             WeaponsHelper.factory().addRiftCannon().weapons,
             2,
             2, 0, 2,
         );
 
-        const gunAttacker = new Battleship(
-            EBattleShipType.cruiser,
+        const gunAttacker = new BattleShip(
+            BattleShipType.cruiser,
             "player",
             WeaponsHelper.factory().addOrangeGun().weapons,
             2,
@@ -96,9 +96,9 @@ describe("simulate-phase", function () {
             ships: [
                 riftAttacker,
                 gunAttacker,
-                new Battleship(EBattleShipType.interceptor, "npc", [], 1, 0, 2),
-                new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
-                new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
+                new BattleShip(BattleShipType.interceptor, "npc", [], 1, 0, 2),
+                new BattleShip(BattleShipType.cruiser, "npc", [], 2, 0, 0),
+                new BattleShip(BattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
             defender: "player",
         }, {
@@ -128,8 +128,8 @@ describe("simulate-phase", function () {
     });
 
     it("missile attack", function () {
-        const attacker = new Battleship(
-            EBattleShipType.interceptor,
+        const attacker = new BattleShip(
+            BattleShipType.interceptor,
             "player",
             WeaponsHelper.factory().addYellowMissile().addYellowGun().weapons,
             1,
@@ -138,9 +138,9 @@ describe("simulate-phase", function () {
         const result = simulatePhase({
             ships: [
                 attacker,
-                new Battleship(EBattleShipType.interceptor, "npc", [], 1, 0, 2),
-                new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
-                new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
+                new BattleShip(BattleShipType.interceptor, "npc", [], 1, 0, 2),
+                new BattleShip(BattleShipType.cruiser, "npc", [], 2, 0, 0),
+                new BattleShip(BattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
             defender: "player",
         }, {
@@ -165,8 +165,8 @@ describe("simulate-phase", function () {
     });
 
     it("missile attack - no missiles", function () {
-        const attacker = new Battleship(
-            EBattleShipType.interceptor,
+        const attacker = new BattleShip(
+            BattleShipType.interceptor,
             "player",
             WeaponsHelper.factory().addYellowGun().weapons,
             1,
@@ -175,9 +175,9 @@ describe("simulate-phase", function () {
         const result = simulatePhase({
             ships: [
                 attacker,
-                new Battleship(EBattleShipType.interceptor, "npc", [], 1, 0, 2),
-                new Battleship(EBattleShipType.cruiser, "npc", [], 2, 0, 0),
-                new Battleship(EBattleShipType.dreadnought, "npc", [], 1, 0, 1),
+                new BattleShip(BattleShipType.interceptor, "npc", [], 1, 0, 2),
+                new BattleShip(BattleShipType.cruiser, "npc", [], 2, 0, 0),
+                new BattleShip(BattleShipType.dreadnought, "npc", [], 1, 0, 1),
             ],
             defender: "player",
         }, {

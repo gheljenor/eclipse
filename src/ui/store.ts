@@ -3,15 +3,15 @@ import {createEpicMiddleware} from "redux-observable";
 import {epics} from "./epics";
 import {logger} from "./redux-mw/logger";
 
-import {EBattleShipType} from "../battle/battleship";
-import {EWeaponDamageType, EWeaponType} from "../battle/i-weapon";
+import {BattleShipType} from "../battle/data/battle-ship";
+import {WeaponDamageType, WeaponType} from "../battle/data/weapon";
 import {InputWeaponState} from "./components/input-weapon/component";
 import {ShipState} from "./components/ship/component";
 import {reducers} from "./reducers";
 import {State} from "./reducers/state";
 
 const defaultShip: ShipState = {
-    type: EBattleShipType.interceptor,
+    type: BattleShipType.interceptor,
     count: 1,
     hp: 1,
     attack: 0,
@@ -21,8 +21,8 @@ const defaultShip: ShipState = {
 };
 
 const defaultWeapon: InputWeaponState = {
-    type: EWeaponType.gun,
-    damage: EWeaponDamageType.yellow,
+    type: WeaponType.gun,
+    damage: WeaponDamageType.yellow,
     count: 1,
 };
 

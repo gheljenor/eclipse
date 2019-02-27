@@ -3,10 +3,11 @@ import {describe, it} from "mocha";
 
 import {ancientTactics} from "../../src/battle/attack/ancient-tactics";
 import {IWeaponShot} from "../../src/battle/attack/i-weapon-shot";
-import {Battleship, EBattleShipType} from "../../src/battle/battleship";
-import {BLUE_GUN, ORANGE_GUN, RED_GUN, YELLOW_GUN} from "../../src/battle/weapons-helper";
+import {BattleShip, BattleShipType} from "../../src/battle/data/battle-ship";
+import {yellowGun} from "../../src/battle/data/weapon";
 import {AttackGeneSolverCore} from "../../src/solvers/attack-gene-solver-core";
 import {GeneSolver} from "../../src/solvers/gene-solver";
+import {blueGun, orangeGun, redGun} from "../../src/battle/data/weapon";
 
 const solverCore = new AttackGeneSolverCore(ancientTactics);
 const solver = new GeneSolver(solverCore);
@@ -16,12 +17,12 @@ describe("attack-gene-solver-core", function () {
         this.retries(2);
 
         const targets = [
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.dreadnought, "enemy", [], 4),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.dreadnought, "enemy", [], 4),
         ];
 
         const result = solver.calculate({
@@ -29,7 +30,7 @@ describe("attack-gene-solver-core", function () {
             turnInfo: {turn: 1, player: "player", defender: true, initiative: 0},
             bonus: 1,
             rolls: [6, 5, 5, 5, 5],
-            weapons: [RED_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN],
+            weapons: [redGun, yellowGun, yellowGun, yellowGun, yellowGun],
             targets,
             targetsDef: targets.map(({defence}) => defence),
         });
@@ -45,12 +46,12 @@ describe("attack-gene-solver-core", function () {
         this.retries(2);
 
         const targets = [
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1, 0, 1),
-            new Battleship(EBattleShipType.dreadnought, "enemy", [], 4),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1, 0, 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1, 0, 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1, 0, 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1, 0, 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1, 0, 1),
+            new BattleShip(BattleShipType.dreadnought, "enemy", [], 4),
         ];
 
         const result = solver.calculate({
@@ -58,7 +59,7 @@ describe("attack-gene-solver-core", function () {
             turnInfo: {turn: 1, player: "player", defender: true, initiative: 0},
             bonus: 1,
             rolls: [6, 5, 5, 5, 5],
-            weapons: [RED_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN],
+            weapons: [redGun, yellowGun, yellowGun, yellowGun, yellowGun],
             targets,
             targetsDef: targets.map(({defence}) => defence),
         });
@@ -71,16 +72,16 @@ describe("attack-gene-solver-core", function () {
         this.retries(2);
 
         const targets = [
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
         ];
 
         const result = solver.calculate({
@@ -88,7 +89,7 @@ describe("attack-gene-solver-core", function () {
             turnInfo: {turn: 1, player: "player", defender: true, initiative: 0},
             bonus: 1,
             rolls: [6, 6, 6, 6, 6, 6],
-            weapons: [YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN, YELLOW_GUN],
+            weapons: [yellowGun, yellowGun, yellowGun, yellowGun, yellowGun, yellowGun],
             targets,
             targetsDef: targets.map(({defence}) => defence),
         });
@@ -100,11 +101,11 @@ describe("attack-gene-solver-core", function () {
 
     it("some complex scene", function () {
         const targets = [
-            new Battleship(EBattleShipType.cruiser, "enemy", [], 2, 0, 2),
-            new Battleship(EBattleShipType.dreadnought, "enemy", [], 4, 0, 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
-            new Battleship(EBattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.cruiser, "enemy", [], 2, 0, 2),
+            new BattleShip(BattleShipType.dreadnought, "enemy", [], 4, 0, 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
+            new BattleShip(BattleShipType.interceptor, "enemy", [], 1),
         ];
 
         const result = solver.calculate({
@@ -112,7 +113,7 @@ describe("attack-gene-solver-core", function () {
             turnInfo: {turn: 1, player: "player", defender: true, initiative: 0},
             bonus: 1,
             rolls: [6, 6, 6, 6, 6, 6],
-            weapons: [YELLOW_GUN, YELLOW_GUN, ORANGE_GUN, ORANGE_GUN, BLUE_GUN, RED_GUN],
+            weapons: [yellowGun, yellowGun, orangeGun, orangeGun, blueGun, redGun],
             targets,
             targetsDef: targets.map(({defence}) => defence),
         });

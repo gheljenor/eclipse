@@ -1,29 +1,29 @@
 import * as React from "react";
 
-import {EWeaponDamageType, EWeaponType, IWeapon} from "../../../battle/i-weapon";
+import {WeaponDamageType, WeaponType, Weapon} from "../../../battle/data/weapon";
 
 import InputNumber from "../input-number";
 import InputSelect from "../input-select";
 
 const styles = require("./index.pcss");
 
-type WeaponType = { [key in EWeaponType]: string };
-type WeaponDamageType = { [key in EWeaponDamageType]: string };
+type WeaponType = { [key in WeaponType]: string };
+type WeaponDamageType = { [key in WeaponDamageType]: string };
 
 const weaponClassTitles: WeaponType = {
-    [EWeaponType.gun]: "Gun",
-    [EWeaponType.missile]: "Missile",
+    [WeaponType.gun]: "Gun",
+    [WeaponType.missile]: "Missile",
 };
 
 const weaponTypeTitles: WeaponDamageType = {
-    [EWeaponDamageType.yellow]: "Yellow",
-    [EWeaponDamageType.orange]: "Orange",
-    [EWeaponDamageType.blue]: "Blue",
-    [EWeaponDamageType.red]: "Red",
-    [EWeaponDamageType.pink]: "Pink",
+    [WeaponDamageType.yellow]: "Yellow",
+    [WeaponDamageType.orange]: "Orange",
+    [WeaponDamageType.blue]: "Blue",
+    [WeaponDamageType.red]: "Red",
+    [WeaponDamageType.rift]: "Pink",
 };
 
-export type InputWeaponState = IWeapon & {
+export type InputWeaponState = Weapon & {
     count: number;
 };
 
@@ -31,8 +31,8 @@ type InputWeaponProps = React.Props<InputWeapon> & InputWeaponState & {
     onChange: (value: InputWeaponState) => void;
 };
 
-const DEFAULT_TYPE = EWeaponType.gun;
-const DEFAULT_DAMAGE_TYPE = EWeaponDamageType.yellow;
+const DEFAULT_TYPE = WeaponType.gun;
+const DEFAULT_DAMAGE_TYPE = WeaponDamageType.yellow;
 const DEFAULT_COUNT = 1;
 
 export default class InputWeapon extends React.Component<InputWeaponProps, null> {

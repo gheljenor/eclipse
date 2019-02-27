@@ -3,12 +3,12 @@ import {describe, it} from "mocha";
 
 import {calcAttack} from "../../../src/battle/attack/calc-attack";
 import {shipWeights} from "../../../src/battle/attack/default-weights";
-import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
-import {IWeapon} from "../../../src/battle/i-weapon";
+import {BattleShip, BattleShipType} from "../../../src/battle/data/battle-ship";
+import {redGun, Weapon} from "../../../src/battle/data/weapon";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 import {ITurnInfo} from "../../../src/battle/sim/i-turn-info";
-import {RED_GUN, YELLOW_GUN} from "../../../src/battle/weapons-helper";
+import {yellowGun} from "../../../src/battle/data/weapon";
 
 const turnInfo: ITurnInfo = {
     turn: 1,
@@ -19,18 +19,18 @@ const turnInfo: ITurnInfo = {
 
 const scene: IBattleScene = {
     ships: [
-        new Battleship(EBattleShipType.deathmoon, "player", [], 2, 0, 4),
-        new Battleship(EBattleShipType.starbase, "player", [], 2, 0, 3),
-        new Battleship(EBattleShipType.dreadnought, "player", [], 2, 0, 2),
-        new Battleship(EBattleShipType.cruiser, "player", [], 2, 0, 1),
-        new Battleship(EBattleShipType.interceptor, "player", [], 2, 0, 0),
+        new BattleShip(BattleShipType.deathmoon, "player", [], 2, 0, 4),
+        new BattleShip(BattleShipType.starbase, "player", [], 2, 0, 3),
+        new BattleShip(BattleShipType.dreadnought, "player", [], 2, 0, 2),
+        new BattleShip(BattleShipType.cruiser, "player", [], 2, 0, 1),
+        new BattleShip(BattleShipType.interceptor, "player", [], 2, 0, 0),
     ],
     defender: "player",
 };
 
-const weaponsRed: IWeapon[] = [RED_GUN];
-const weaponsYellowSingle: IWeapon[] = [YELLOW_GUN];
-const weaponsYellowDouble: IWeapon[] = [YELLOW_GUN, YELLOW_GUN];
+const weaponsRed: Weapon[] = [redGun];
+const weaponsYellowSingle: Weapon[] = [yellowGun];
+const weaponsYellowDouble: Weapon[] = [yellowGun, yellowGun];
 
 function defs(ships) {
     return ships.map(({defence}) => defence);

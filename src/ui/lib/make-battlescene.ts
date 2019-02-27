@@ -1,4 +1,4 @@
-import {Battleship} from "../../battle/battleship";
+import {BattleShip} from "../../battle/data/battle-ship";
 import {IBattleScene} from "../../battle/sim/i-battle-scene";
 import {State} from "../reducers/state";
 
@@ -16,7 +16,7 @@ export function makeBattlescene(state: State): IBattleScene {
         player.ships.forEach(function (shipId) {
             const shipBlueprint = state.ships.list[shipId];
 
-            const ship = new Battleship(
+            const ship = new BattleShip(
                 shipBlueprint.type,
                 playerName,
                 [],

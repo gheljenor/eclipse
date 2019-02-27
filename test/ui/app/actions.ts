@@ -2,7 +2,7 @@ import {expect} from "chai";
 import {describe, it} from "mocha";
 
 import {createStore} from "redux";
-import {EBattleShipType} from "../../../src/battle/battleship";
+import {BattleShipType} from "../../../src/battle/data/battle-ship";
 import {
     actionAppAutoSim,
     actionAppSimulate,
@@ -16,11 +16,11 @@ const summary = {
     outcomes: {
         first: [{
             probability: 0.45454545454545453,
-            ships: [{count: 1, type: EBattleShipType.interceptor}],
+            ships: [{count: 1, type: BattleShipType.interceptor}],
         }],
         second: [{
             probability: 0.5454545454545455,
-            ships: [{count: 1, type: EBattleShipType.interceptor}],
+            ships: [{count: 1, type: BattleShipType.interceptor}],
         }],
     },
     duration: 10,

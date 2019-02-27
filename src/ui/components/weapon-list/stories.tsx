@@ -7,7 +7,7 @@ import {storiesOf} from "@storybook/react";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
 
-import {EWeaponDamageType, EWeaponType} from "../../../battle/i-weapon";
+import {WeaponDamageType, WeaponType} from "../../../battle/data/weapon";
 import {reducers} from "../../reducers";
 import {logger} from "../../stories/logger";
 import {WeaponListContainer} from "./index";
@@ -18,7 +18,7 @@ storiesOf("WeaponList", module)
             ships: {counter: 0, list: {0: {weapons: [0]}}},
             weapons: {
                 counter: 0, list: {
-                    0: {type: EWeaponType.gun, damage: EWeaponDamageType.yellow, count: 1},
+                    0: {type: WeaponType.gun, damage: WeaponDamageType.yellow, count: 1},
                 },
             },
         }, logger());
@@ -34,9 +34,9 @@ storiesOf("WeaponList", module)
             ships: {counter: 0, list: {0: {weapons: [0, 1, 2]}}},
             weapons: {
                 counter: 2, list: {
-                    0: {type: EWeaponType.gun, damage: EWeaponDamageType.yellow, count: 1},
-                    1: {type: EWeaponType.missile, damage: EWeaponDamageType.orange, count: 2},
-                    2: {type: EWeaponType.gun, damage: EWeaponDamageType.blue, count: 1},
+                    0: {type: WeaponType.gun, damage: WeaponDamageType.yellow, count: 1},
+                    1: {type: WeaponType.missile, damage: WeaponDamageType.orange, count: 2},
+                    2: {type: WeaponType.gun, damage: WeaponDamageType.blue, count: 1},
                 },
             },
         }, logger());

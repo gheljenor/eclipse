@@ -1,8 +1,8 @@
-import {Battleship} from "../battleship";
-import {IWeapon} from "../i-weapon";
+import {BattleShip} from "../data/battle-ship";
+import {Weapon} from "../data/weapon";
 
 export interface IWeaponShot {
-    weapon: IWeapon;
-    target: Battleship;
+    weapon: Weapon;
+    target: BattleShip;
     roll?: number;
 }

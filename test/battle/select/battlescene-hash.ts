@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
 
-import {Battleship, EBattleShipType} from "../../../src/battle/battleship";
+import {BattleShip, BattleShipType} from "../../../src/battle/data/battle-ship";
 import {battleSceneHash} from "../../../src/battle/select/battlescene-hash";
 import {IBattleScene} from "../../../src/battle/sim/i-battle-scene";
 
@@ -9,16 +9,16 @@ describe("battlescene-hash", function () {
     it("hash it right", function () {
         const scene: IBattleScene = {
             ships: [
-                new Battleship(EBattleShipType.interceptor, "first", [], 2),
-                new Battleship(EBattleShipType.interceptor, "first", [], 1),
-                new Battleship(EBattleShipType.dreadnought, "second", [], 4),
-                new Battleship(EBattleShipType.dreadnought, "second", [], 4),
-                new Battleship(EBattleShipType.cruiser, "first", [], 3),
-                new Battleship(EBattleShipType.cruiser, "first", [], 3),
-                new Battleship(EBattleShipType.cruiser, "first", [], 2),
-                new Battleship(EBattleShipType.deathmoon, "second", [], 2),
-                new Battleship(EBattleShipType.deathmoon, "first", [], 2),
-                new Battleship(EBattleShipType.starbase, "first", [], 0),
+                new BattleShip(BattleShipType.interceptor, "first", [], 2),
+                new BattleShip(BattleShipType.interceptor, "first", [], 1),
+                new BattleShip(BattleShipType.dreadnought, "second", [], 4),
+                new BattleShip(BattleShipType.dreadnought, "second", [], 4),
+                new BattleShip(BattleShipType.cruiser, "first", [], 3),
+                new BattleShip(BattleShipType.cruiser, "first", [], 3),
+                new BattleShip(BattleShipType.cruiser, "first", [], 2),
+                new BattleShip(BattleShipType.deathmoon, "second", [], 2),
+                new BattleShip(BattleShipType.deathmoon, "first", [], 2),
+                new BattleShip(BattleShipType.starbase, "first", [], 0),
             ],
             defender: "first",
         };

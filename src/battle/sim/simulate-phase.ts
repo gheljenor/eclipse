@@ -4,8 +4,8 @@ import {permutationsCountGrouped} from "../../math/permutations-count-grouped";
 import {rollsCountGrouped} from "../../math/rolls-count-grouped";
 import {calcAttack} from "../attack/calc-attack";
 import {riftSelfDamage} from "../attack/rift-self-damage";
-import {Battleship} from "../battleship";
-import {EWeaponDamageType, EWeaponType, IWeapon, riftDamage} from "../i-weapon";
+import {BattleShip} from "../data/battle-ship";
+import {WeaponDamageType, WeaponType, Weapon, riftDamage} from "../data/weapon";
 import {battleSceneHash} from "../select/battlescene-hash";
 import {countMaxTargets} from "../select/count-max-targets";
 import {getWeapons} from "../select/get-weapons";
@@ -20,7 +20,7 @@ import {ITurnInfo} from "./i-turn-info";
 export function simulatePhase(
     battleScene: IBattleScene,
     turnInfo: ITurnInfo,
-    attackers: Battleship[],
+    attackers: BattleShip[],
     phaseCache: IPhaseCache = {},
 ): IBattleSceneTransition[] {
     const phaseId = (turnInfo.turn > 0 ? "g" : "m") + ":" + battleSceneHash(battleScene) + ":" + battleSceneHash({
@@ -60,15 +60,15 @@ export function simulatePhase(
         let rollWeapons;
 
         if (hasRift) {
-            rollWeapons = map.map((group, idx): IWeapon => {
+            rollWeapons = map.map((group, idx): Weapon => {
                 const weapon = groups[group][0];
 
-                if (weapon.damage === EWeaponDamageType.pink) {
+                if (weapon.damage === WeaponDamageType.rift) {
                     const rift = riftDamage[rolls[idx]];
                     rolls[idx] = rift.roll;
                     selfDamage += (rift.selfDamage || 0);
                     return {
-                        type: EWeaponType.gun,
+                        type: WeaponType.gun,
                         damage: rift.damage,
                     };
                 } else {
@@ -76,7 +76,7 @@ export function simulatePhase(
                 }
             });
         } else {
-            rollWeapons = map.map((group): IWeapon => groups[group][0]);
+            rollWeapons = map.map((group): Weapon => groups[group][0]);
         }
 
         const rollsHash = rollsHitHash(targetsDef, bonus, rolls, selfDamage);
@@ -125,16 +125,16 @@ export function simulatePhase(
 function prepareData(
     battleScene: IBattleScene,
     turnInfo: ITurnInfo,
-    attackers: Battleship[],
+    attackers: BattleShip[],
 ) {
-    const weapons = getWeapons(attackers, turnInfo.turn === 0 ? EWeaponType.missile : EWeaponType.gun)
+    const weapons = getWeapons(attackers, turnInfo.turn === 0 ? WeaponType.missile : WeaponType.gun)
         .sort((a, b) => b.damage - a.damage);
 
     if (!weapons.length) {
         return;
     }
 
-    const targets: Battleship[] = shipsByOwner(battleScene.ships, attackers[0].owner, true)
+    const targets: BattleShip[] = shipsByOwner(battleScene.ships, attackers[0].owner, true)
         .filter((ship) => ship.hp > 0)
         .sort((a, b) => b.defence - a.defence);
 
@@ -142,7 +142,7 @@ function prepareData(
 
     const bonus = attackers[0].attack;
 
-    const hasRift = weapons.some((weapon) => weapon.damage === EWeaponDamageType.pink);
+    const hasRift = weapons.some((weapon) => weapon.damage === WeaponDamageType.rift);
 
     const groups = weaponGroups(weapons);
     const groupSizes = groups.map((group) => group.length);

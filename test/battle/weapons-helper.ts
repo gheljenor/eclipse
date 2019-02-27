@@ -8,7 +8,7 @@ import {
     RED_MISSILE,
     WeaponsHelper, YELLOW_GUN,
     YELLOW_MISSILE,
-} from "../../src/battle/weapons-helper";
+} from "./data/weapons-helper";
 
 const tests = {
     addYellowGun: [YELLOW_GUN],

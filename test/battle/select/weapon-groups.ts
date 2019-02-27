@@ -2,7 +2,7 @@ import {expect} from "chai";
 import {describe, it} from "mocha";
 
 import {weaponGroups} from "../../../src/battle/select/weapon-groups";
-import {WeaponsHelper} from "../../../src/battle/weapons-helper";
+import {WeaponsHelper} from "../../../src/battle/data/weapons-helper";
 
 describe("weapon-group-groups", function () {
     it("1 group", function () {

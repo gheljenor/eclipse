@@ -4,29 +4,29 @@ import InputNumber from "../input-number";
 import InputSelect from "../input-select";
 import {WeaponListContainer} from "../weapon-list";
 
-import {EBattleShipType} from "../../../battle/battleship";
+import {BattleShipType} from "../../../battle/data/battle-ship";
 
 const styles = require("./index.pcss");
 
-export const shipTypeTitles: { [key in EBattleShipType]: string } = {
-    [EBattleShipType.interceptor]: "Interceptor",
-    [EBattleShipType.cruiser]: "Cruiser",
-    [EBattleShipType.dreadnought]: "Dreadnought",
-    [EBattleShipType.deathmoon]: "Deathmoon",
-    [EBattleShipType.starbase]: "Starbase",
+export const shipTypeTitles: { [key in BattleShipType]: string } = {
+    [BattleShipType.interceptor]: "Interceptor",
+    [BattleShipType.cruiser]: "Cruiser",
+    [BattleShipType.dreadnought]: "Dreadnought",
+    [BattleShipType.deathmoon]: "Deathmoon",
+    [BattleShipType.starbase]: "Starbase",
 };
 
-const shipsCount: { [key in EBattleShipType]: number } = {
-    [EBattleShipType.interceptor]: 8,
-    [EBattleShipType.cruiser]: 4,
-    [EBattleShipType.dreadnought]: 2,
-    [EBattleShipType.deathmoon]: 4,
-    [EBattleShipType.starbase]: 4,
+const shipsCount: { [key in BattleShipType]: number } = {
+    [BattleShipType.interceptor]: 8,
+    [BattleShipType.cruiser]: 4,
+    [BattleShipType.dreadnought]: 2,
+    [BattleShipType.deathmoon]: 4,
+    [BattleShipType.starbase]: 4,
 };
 
 export type ShipState = {
     count: number;
-    type: EBattleShipType;
+    type: BattleShipType;
     hp: number;
     initiative: number;
     defence: number;
@@ -40,7 +40,7 @@ export type ShipProps = React.Props<Ship> & ShipState & {
 };
 
 const DEFAULT_COUNT = 1;
-const DEFAULT_TYPE = EBattleShipType.interceptor;
+const DEFAULT_TYPE = BattleShipType.interceptor;
 const DEFAULT_HP = 1;
 const DEFAULT_INITIATIVE = 0;
 const DEFAULT_DEFENCE = 0;

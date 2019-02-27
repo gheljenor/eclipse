@@ -2,7 +2,7 @@ import {expect} from "chai";
 import {describe, it} from "mocha";
 
 import {createStore} from "redux";
-import {EWeaponDamageType, EWeaponType} from "../../../../src/battle/i-weapon";
+import {WeaponDamageType, WeaponType} from "../../../../src/battle/data/weapon";
 import {actionWeaponUpdate} from "../../../../src/ui/components/input-weapon/actions";
 import {StateUpdateError} from "../../../../src/ui/lib/state-update-error";
 import {reducers} from "../../../../src/ui/reducers";
@@ -14,8 +14,8 @@ describe("ui-input-weapon-actions", function () {
                 weapons: {
                     list: {
                         0: {
-                            type: EWeaponType.gun,
-                            damage: EWeaponDamageType.yellow,
+                            type: WeaponType.gun,
+                            damage: WeaponDamageType.yellow,
                             count: 1,
                         },
                     },
@@ -23,14 +23,14 @@ describe("ui-input-weapon-actions", function () {
             });
 
             store.dispatch(actionWeaponUpdate(0, {
-                type: EWeaponType.missile,
-                damage: EWeaponDamageType.orange,
+                type: WeaponType.missile,
+                damage: WeaponDamageType.orange,
                 count: 2,
             }));
 
             expect(store.getState().weapons.list[0]).to.be.eql({
-                type: EWeaponType.missile,
-                damage: EWeaponDamageType.orange,
+                type: WeaponType.missile,
+                damage: WeaponDamageType.orange,
                 count: 2,
             });
         });
@@ -39,8 +39,8 @@ describe("ui-input-weapon-actions", function () {
             const store = createStore(reducers);
 
             expect(() => store.dispatch(actionWeaponUpdate(0, {
-                type: EWeaponType.missile,
-                damage: EWeaponDamageType.orange,
+                type: WeaponType.missile,
+                damage: WeaponDamageType.orange,
                 count: 2,
             }))).to.throw(StateUpdateError, StateUpdateError.ERROR_WEAPON_NOT_FOUND);
         });

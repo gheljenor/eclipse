@@ -2,8 +2,8 @@ import {logDuration} from "../../lib/logger";
 import {AttackBruteForceSolver} from "../../solvers/attack-brute-force-solver";
 import {AttackGeneSolverCore} from "../../solvers/attack-gene-solver-core";
 import {GeneSolver} from "../../solvers/gene-solver";
-import {Battleship} from "../battleship";
-import {IWeapon} from "../i-weapon";
+import {BattleShip} from "../data/battle-ship";
+import {Weapon} from "../data/weapon";
 import {battleSceneHash} from "../select/battlescene-hash";
 import {countMaxHits} from "../select/count-max-hits";
 import {countMaxTargets} from "../select/count-max-targets";
@@ -30,9 +30,9 @@ export function calcAttack(
     battleScene: IBattleScene,
     turnInfo: ITurnInfo,
     rolls: number[],
-    weapons: IWeapon[],
+    weapons: Weapon[],
     bonus: number,
-    targets: Battleship[],
+    targets: BattleShip[],
     targetsDef: number[],
     solverType = "ancient",
 ): IBattleScene | null {
@@ -71,7 +71,7 @@ export function calcAttack(
     const result = cloneBattlescene(battleScene);
     result.ships = result.ships.concat([]);
 
-    const damagedShips: Map<Battleship, Battleship> = new Map();
+    const damagedShips: Map<BattleShip, BattleShip> = new Map();
 
     for (const shot of shots) {
         if (!damagedShips.has(shot.target)) {
@@ -91,6 +91,6 @@ export function calcAttack(
     return result;
 }
 
-function weaponRollsCache(rolls: number[], weapons: IWeapon[]): string {
+function weaponRollsCache(rolls: number[], weapons: Weapon[]): string {
     return rolls.map((roll, idx) => roll + "x" + weapons[idx].damage).join(",");
 }

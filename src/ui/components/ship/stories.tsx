@@ -6,9 +6,9 @@ import {State, Store} from "@sambego/storybook-state";
 import {storiesOf} from "@storybook/react";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
-import {EBattleShipType} from "../../../battle/battleship";
+import {BattleShipType} from "../../../battle/data/battle-ship";
 
-import {EWeaponDamageType, EWeaponType} from "../../../battle/i-weapon";
+import {WeaponDamageType, WeaponType} from "../../../battle/data/weapon";
 import {reducers} from "../../reducers";
 import {logger} from "../../stories/logger";
 import {ShipContainer} from "./index";
@@ -19,7 +19,7 @@ storiesOf("Ship", module)
             ships: {
                 counter: 0, list: {
                     0: {
-                        type: EBattleShipType.interceptor,
+                        type: BattleShipType.interceptor,
                         count: 1,
                         hp: 1,
                         attack: 0,
@@ -32,7 +32,7 @@ storiesOf("Ship", module)
             },
             weapons: {
                 counter: 0, list: {
-                    0: {type: EWeaponType.gun, damage: EWeaponDamageType.yellow, count: 1},
+                    0: {type: WeaponType.gun, damage: WeaponDamageType.yellow, count: 1},
                 },
             },
         }, logger());
@@ -48,7 +48,7 @@ storiesOf("Ship", module)
             ships: {
                 counter: 0, list: {
                     0: {
-                        type: EBattleShipType.cruiser,
+                        type: BattleShipType.cruiser,
                         count: 1,
                         hp: 2,
                         attack: 1,
@@ -61,7 +61,7 @@ storiesOf("Ship", module)
             },
             weapons: {
                 counter: 0, list: {
-                    0: {type: EWeaponType.gun, damage: EWeaponDamageType.yellow, count: 2},
+                    0: {type: WeaponType.gun, damage: WeaponDamageType.yellow, count: 2},
                 },
             },
         }, logger());

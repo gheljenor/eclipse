@@ -2,13 +2,13 @@ import {expect} from "chai";
 import {describe, it} from "mocha";
 
 import {createStore} from "redux";
-import {EBattleShipType} from "../../../../src/battle/battleship";
+import {BattleShipType} from "../../../../src/battle/data/battle-ship";
 import {actionShipUpdate} from "../../../../src/ui/components/ship/actions";
 import {StateUpdateError} from "../../../../src/ui/lib/state-update-error";
 import {reducers} from "../../../../src/ui/reducers";
 
 const defaultShip = {
-    type: EBattleShipType.interceptor,
+    type: BattleShipType.interceptor,
     count: 1,
     hp: 1,
     attack: 0,
@@ -26,7 +26,7 @@ describe("ui-ship-actions", function () {
             store.dispatch(actionShipUpdate(0, {attack: 2, defence: 3}));
 
             expect(store.getState().ships.list[0]).to.be.eql({
-                type: EBattleShipType.interceptor,
+                type: BattleShipType.interceptor,
                 count: 1,
                 hp: 1,
                 attack: 2,
@@ -37,7 +37,7 @@ describe("ui-ship-actions", function () {
             });
 
             store.dispatch(actionShipUpdate(0, {
-                type: EBattleShipType.cruiser,
+                type: BattleShipType.cruiser,
                 count: 2,
                 hp: 3,
                 attack: 4,
@@ -47,7 +47,7 @@ describe("ui-ship-actions", function () {
             }));
 
             expect(store.getState().ships.list[0]).to.be.eql({
-                type: EBattleShipType.cruiser,
+                type: BattleShipType.cruiser,
                 count: 2,
                 hp: 3,
                 attack: 4,

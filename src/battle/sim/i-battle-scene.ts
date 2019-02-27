@@ -1,7 +1,7 @@
-import {Battleship} from "../battleship";
+import {BattleShip} from "../data/battle-ship";
 
 export interface IBattleScene {
-    ships: Battleship[];
+    ships: BattleShip[];
     defender: string;
     winner?: string | null | true;
 }
